@@ -220,13 +220,13 @@ footer{background:#111009;padding:36px var(--page-pad);border-top:1px solid rgba
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-left">
-      <div class="hero-eyebrow">+2.500 marcas registradas · 20 anos de experiência</div>
+      <div class="hero-eyebrow">+2.500 marcas registradas · 30 anos de experiência</div>
       <h1>Registre sua marca no INPI<br>antes que <em>outra empresa<br>chegue primeiro.</em></h1>
       <p class="hero-sub">Conduzimos o processo completo de registro de marca no INPI: pesquisa de viabilidade, protocolo e acompanhamento por 12 meses. Tudo online, com contrato claro e sem custo surpresa.</p>
       <ul class="hero-checks">
         <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Pesquisa de viabilidade gratuita inclusa</li>
         <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Protocolo no INPI em até 7 dias úteis</li>
-        <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Taxas do INPI já inclusas no valor</li>
+        <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Taxas do pedido de registro no INPI já inclusas no valor</li>
         <li><span class="check"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Garantia: novo pedido sem custo se negado</li>
       </ul>
       <div class="hero-ctas">
@@ -246,14 +246,14 @@ footer{background:#111009;padding:36px var(--page-pad);border-top:1px solid rgba
       </form>
       <p class="form-trust">Sem spam. Seus dados são usados apenas para contato.</p>
       <div class="form-divider"></div>
-      <a href="https://wa.me/5548984283696" target="_blank" class="form-whatsapp">💬 Prefere falar no WhatsApp</a>
+      <a href="https://wa.me/5548984283696" target="_blank" class="form-whatsapp">💬 Prefiro falar no WhatsApp</a>
     </div>
   </div>
 </section>
 <div class="trust-bar">
   <div class="trust-inner">
     <div class="trust-item"><span class="trust-num">+2.500</span><span class="trust-label">Marcas registradas</span></div>
-    <div class="trust-item"><span class="trust-num">20 anos</span><span class="trust-label">de experiência no INPI</span></div>
+    <div class="trust-item"><span class="trust-num">30 anos</span><span class="trust-label">de experiência no INPI</span></div>
     <div class="trust-item"><span class="trust-num">99,8%</span><span class="trust-label">Taxa de aprovação*</span></div>
     <div class="trust-item"><span class="trust-num">7 dias</span><span class="trust-label">Para protocolar</span></div>
   </div>
@@ -502,6 +502,66 @@ footer{background:#111009;padding:36px var(--page-pad);border-top:1px solid rgba
     });
   });
 </script>
+
+  <!-- WhatsApp Flutuante -->
+<style>
+.wa-float {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  z-index: 999;
+  display: flex; align-items: center; gap: 12px;
+}
+
+.wa-bubble {
+  background: white;
+  border-radius: 100px;
+  padding: 10px 18px;
+  font-size: 13px; font-weight: 500;
+  color: var(--warm-black);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  opacity: 0;
+  transform: translateX(10px);
+  animation: waBubble 0.4s 1.5s ease forwards;
+  white-space: nowrap;
+  font-family: var(--sans);
+}
+
+.wa-btn {
+  width: 58px; height: 58px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 24px rgba(37,211,102,0.40);
+  text-decoration: none;
+  animation: waPulse 2s 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.wa-btn svg {
+  width: 28px; height: 28px; fill: white;
+}
+
+@keyframes waPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 4px 24px rgba(37,211,102,0.40); }
+  50% { transform: scale(1.08); box-shadow: 0 8px 32px rgba(37,211,102,0.55); }
+}
+
+@keyframes waBubble {
+  from { opacity: 0; transform: translateX(10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+</style>
+
+<div class="wa-float">
+  <div class="wa-bubble">Quero registrar minha marca 👋</div>
+  <a class="wa-btn" href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" target="_blank" aria-label="Falar no WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+</div>
+
+  
 </body>
 </html>
 
