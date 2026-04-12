@@ -242,7 +242,8 @@ footer{background:#111009;padding:36px var(--page-pad);border-top:1px solid rgba
         <div class="field"><label>Seu nome</label><input type="text" placeholder="Ex: Maria Silva" required></div>
         <div class="field"><label>WhatsApp</label><input type="tel" placeholder="(11) 99999-9999" required></div>
         <div class="field"><label>Nome da marca</label><input type="text" placeholder="Ex: Minha Empresa" required></div>
-        <button type="submit" class="form-btn">Verificar disponibilidade →</button>
+        <button type="button" class="form-btn" onclick="enviarWhatsApp()">Verificar disponibilidade →</button>
+
       </form>
       <p class="form-trust">Sem spam. Seus dados são usados apenas para contato.</p>
       <div class="form-divider"></div>
@@ -560,6 +561,28 @@ footer{background:#111009;padding:36px var(--page-pad);border-top:1px solid rgba
     </svg>
   </a>
 </div>
+
+  <script>
+function enviarWhatsApp() {
+  const nome = document.querySelector('input[placeholder="Ex: Maria Silva"]').value.trim();
+  const whats = document.querySelector('input[placeholder="(11) 99999-9999"]').value.trim();
+  const marca = document.querySelector('input[placeholder="Ex: Minha Empresa"]').value.trim();
+
+  if (!nome || !whats || !marca) {
+    alert('Preencha todos os campos antes de continuar.');
+    return;
+  }
+
+  const msg = `Olá! Quero registrar minha marca no INPI.
+
+*Nome:* ${nome}
+*WhatsApp:* ${whats}
+*Nome da marca:* ${marca}`;
+
+  const url = `https://wa.me/5548984283696?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+</script>
 
   
 </body>
