@@ -447,6 +447,27 @@ footer{background:#0A0908;padding:32px var(--pp);border-top:1px solid rgba(255,2
 .checks{animation:fUp .5s .30s ease both;}
 .hero-ctas{animation:fUp .5s .35s ease both;}
 .fc{animation:fUp .55s .18s ease both;}
+
+/* ── MODALS ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,14,11,.65);z-index:500;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease;}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{background:var(--w);width:100%;max-width:720px;max-height:85vh;border-radius:var(--rl) var(--rl) 0 0;display:flex;flex-direction:column;transform:translateY(40px);transition:transform .3s ease;overflow:hidden;}
+.modal-overlay.open .modal-box{transform:translateY(0);}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;border-bottom:1px solid var(--bs);flex-shrink:0;}
+.modal-head h4{font-family:var(--f);font-size:18px;font-weight:700;color:var(--k);letter-spacing:-.02em;}
+.modal-close{width:32px;height:32px;border:none;background:var(--cd);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--g);transition:background .15s;}
+.modal-close:hover{background:var(--p);}
+.modal-body{overflow-y:auto;padding:28px;-webkit-overflow-scrolling:touch;}
+.modal-body h5{font-family:var(--f);font-size:15px;font-weight:700;color:var(--k);margin:20px 0 8px;}
+.modal-body h5:first-child{margin-top:0;}
+.modal-body p{font-size:14px;color:var(--g);line-height:1.75;font-weight:300;margin-bottom:12px;}
+.modal-body ul{padding-left:20px;margin-bottom:12px;}
+.modal-body ul li{font-size:14px;color:var(--g);line-height:1.7;font-weight:300;}
+.modal-updated{font-size:11px;color:var(--s);margin-top:24px;padding-top:16px;border-top:1px solid var(--bs);}
+@media(min-width:769px){
+  .modal-overlay{align-items:center;}
+  .modal-box{border-radius:var(--rl);max-height:80vh;}
+}
 </style>
 </head>
 <body>
@@ -942,7 +963,7 @@ footer{background:#0A0908;padding:32px var(--pp);border-top:1px solid rgba(255,2
   <div class="footer-in">
     <span class="footer-logo">HotMarcas</span>
     <div class="footer-meta">CNPJ: 61.405.919/0001-50 · Procurador Autorizado INPI · 30 anos de experiência<br>*Taxa de aprovação baseada em histórico interno. Resultados podem variar.</div>
-    <div class="footer-links"><a href="#">Termos</a><a href="#">Privacidade</a></div>
+    <div class="footer-links"><a href="#" onclick="openModal('modal-termos');return false;">Termos de Uso</a><a href="#" onclick="openModal('modal-privacidade');return false;">Privacidade</a><a href="#" onclick="openModal('modal-cookies');return false;">Cookies</a></div>
   </div>
 </footer>
 
@@ -1130,6 +1151,137 @@ if(formEl&&stickyEl){
   },{threshold:0.3});
   formObs.observe(formEl);
 }
+</script>
+
+<!-- MODAL: PRIVACIDADE -->
+<div class="modal-overlay" id="modal-privacidade" onclick="closeModal(event,this)">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h4>Política de Privacidade</h4>
+      <button class="modal-close" onclick="closeModalById('modal-privacidade')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h5>1. Quem somos</h5>
+      <p>A HotMarcas (CNPJ 61.405.919/0001-50) é um escritório especializado em registro de marcas no INPI, com atendimento 100% online em todo o Brasil. Esta Política descreve como coletamos, usamos e protegemos seus dados pessoais, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 — LGPD).</p>
+      <h5>2. Dados que coletamos</h5>
+      <p>Coletamos apenas os dados que você fornece voluntariamente através do formulário de contato:</p>
+      <ul>
+        <li>Nome completo</li>
+        <li>Número de WhatsApp</li>
+        <li>Nome da marca (quando informado)</li>
+      </ul>
+      <p>O site não utiliza cookies próprios de rastreamento. Utilizamos o Google Fonts (serviço do Google) para carregamento de tipografia, o que pode implicar o registro do seu endereço IP nos servidores do Google conforme a política de privacidade deles.</p>
+      <h5>3. Como usamos seus dados</h5>
+      <p>Seus dados são utilizados exclusivamente para:</p>
+      <ul>
+        <li>Entrar em contato via WhatsApp para responder sua solicitação</li>
+        <li>Enviar informações sobre o serviço de registro de marca solicitado</li>
+        <li>Elaborar e enviar proposta comercial, quando aplicável</li>
+      </ul>
+      <p>Não vendemos, alugamos nem compartilhamos seus dados com terceiros para fins comerciais.</p>
+      <h5>4. Base legal para o tratamento</h5>
+      <p>O tratamento dos seus dados é fundamentado no <strong>legítimo interesse</strong> (art. 7º, IX da LGPD) para responder à sua solicitação, e no <strong>consentimento</strong> expresso ao submeter o formulário.</p>
+      <h5>5. Armazenamento e retenção</h5>
+      <p>Os dados enviados pelo formulário chegam diretamente ao WhatsApp do responsável pelo atendimento e não são armazenados em servidores próprios. O histórico de conversas fica sujeito à política de retenção do WhatsApp (Meta Platforms).</p>
+      <p>Dados de clientes que contratam o serviço são mantidos pelo período necessário à execução do contrato e pelo prazo de guarda exigido pela legislação aplicável (mínimo 5 anos após o encerramento).</p>
+      <h5>6. Seus direitos como titular</h5>
+      <p>Nos termos da LGPD, você tem direito a confirmar a existência de tratamento, acessar seus dados, corrigir informações, solicitar exclusão e revogar o consentimento a qualquer momento. Para exercer esses direitos, entre em contato via WhatsApp: <strong>+55 48 98428-3696</strong>.</p>
+      <h5>7. Segurança</h5>
+      <p>O site utiliza HTTPS com certificado SSL. Não armazenamos dados de pagamento — as transações são processadas pela Hotmart, que possui certificação PCI-DSS.</p>
+      <h5>8. Alterações nesta política</h5>
+      <p>Podemos atualizar esta política periodicamente. A data de última atualização estará sempre indicada abaixo.</p>
+      <p class="modal-updated">Última atualização: Abril de 2026 · CNPJ 61.405.919/0001-50</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: TERMOS DE USO -->
+<div class="modal-overlay" id="modal-termos" onclick="closeModal(event,this)">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h4>Termos de Uso</h4>
+      <button class="modal-close" onclick="closeModalById('modal-termos')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h5>1. Aceitação dos termos</h5>
+      <p>Ao acessar e utilizar o site hotmarcas.com.br e contratar os serviços da HotMarcas (CNPJ 61.405.919/0001-50), você concorda com estes Termos de Uso.</p>
+      <h5>2. Descrição do serviço</h5>
+      <p>A HotMarcas presta serviços de assessoria para registro de marcas junto ao INPI, incluindo pesquisa de viabilidade, elaboração e protocolo do pedido e acompanhamento do processo pelo prazo contratado. O serviço é executado por procurador autorizado pelo INPI e não constitui advocacia nos termos do Estatuto da OAB.</p>
+      <h5>3. Escopo e limitações</h5>
+      <p>O serviço padrão inclui o protocolo do pedido inicial e o acompanhamento pelo prazo contratado. <strong>Não estão incluídos</strong>, salvo contratação adicional:</p>
+      <ul>
+        <li>Resposta a exigências do INPI</li>
+        <li>Defesa em oposições de terceiros</li>
+        <li>Interposição de recursos</li>
+        <li>Registro de classes adicionais não previstas no contrato</li>
+        <li>Representação em processos judiciais</li>
+      </ul>
+      <h5>4. Taxas e pagamento</h5>
+      <p>Os valores cobrados incluem os honorários da HotMarcas e as taxas iniciais do INPI para o pedido contratado. Taxas decorrentes de exigências, oposições ou classes adicionais serão informadas previamente por escrito. O pagamento é processado pela plataforma Hotmart.</p>
+      <h5>5. Garantia contratual</h5>
+      <p>Caso o pedido seja indeferido pelo INPI por motivos dentro do escopo de atuação da HotMarcas, um novo pedido será protocolado sem cobrança adicional de honorários. O cliente arca apenas com a nova taxa oficial do INPI.</p>
+      <p><strong>A garantia não se aplica</strong> a indeferimentos decorrentes de informações incorretas fornecidas pelo cliente, oposições de terceiros ou mudanças regulatórias do INPI.</p>
+      <h5>6. Responsabilidades do cliente</h5>
+      <p>O cliente é responsável por fornecer informações verdadeiras e completas, responder às comunicações dentro dos prazos informados, e verificar se possui os direitos de uso da marca que deseja registrar.</p>
+      <h5>7. Propriedade intelectual</h5>
+      <p>Todo o conteúdo deste site é de propriedade da HotMarcas e protegido pela legislação de propriedade intelectual. É vedada a reprodução sem autorização prévia.</p>
+      <h5>8. Foro e legislação</h5>
+      <p>Estes termos são regidos pelas leis brasileiras. Fica eleito o foro da Comarca de Florianópolis/SC para dirimir quaisquer controvérsias.</p>
+      <p class="modal-updated">Última atualização: Abril de 2026 · CNPJ 61.405.919/0001-50</p>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: COOKIES -->
+<div class="modal-overlay" id="modal-cookies" onclick="closeModal(event,this)">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h4>Política de Cookies</h4>
+      <button class="modal-close" onclick="closeModalById('modal-cookies')">✕</button>
+    </div>
+    <div class="modal-body">
+      <h5>O que são cookies</h5>
+      <p>Cookies são pequenos arquivos de texto armazenados no seu navegador quando você visita um site. Eles permitem que o site "lembre" informações sobre sua visita.</p>
+      <h5>Este site usa cookies?</h5>
+      <p>O site hotmarcas.com.br <strong>não utiliza cookies próprios</strong> de rastreamento, analytics ou publicidade.</p>
+      <h5>Cookies de terceiros</h5>
+      <p>Utilizamos o <strong>Google Fonts</strong> para carregar as fontes do site. Este serviço é fornecido pelo Google e pode registrar o seu endereço IP para fins de entrega do conteúdo. Consulte a <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--a);">Política de Privacidade do Google</a> para mais informações.</p>
+      <p>Nenhum cookie de rastreamento, pixel de publicidade ou ferramenta de analytics está instalado neste site atualmente.</p>
+      <h5>Como gerenciar cookies</h5>
+      <p>Você pode configurar seu navegador para bloquear ou deletar cookies:</p>
+      <ul>
+        <li><strong>Chrome:</strong> Configurações → Privacidade e segurança → Cookies</li>
+        <li><strong>Safari:</strong> Preferências → Privacidade → Cookies</li>
+        <li><strong>Firefox:</strong> Opções → Privacidade e Segurança → Cookies</li>
+      </ul>
+      <h5>Contato</h5>
+      <p>Dúvidas sobre cookies ou privacidade? Entre em contato via WhatsApp: <strong>+55 48 98428-3696</strong>.</p>
+      <p class="modal-updated">Última atualização: Abril de 2026 · CNPJ 61.405.919/0001-50</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── MODALS ──
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModalById(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeModal(e,overlay){
+  if(e.target===overlay)closeModalById(overlay.id);
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    document.querySelectorAll('.modal-overlay.open').forEach(m=>{
+      m.classList.remove('open');
+      document.body.style.overflow='';
+    });
+  }
+});
 </script>
 </body>
 </html>
