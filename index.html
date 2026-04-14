@@ -468,6 +468,21 @@ footer{background:#0A0908;padding:32px var(--pp);border-top:1px solid rgba(255,2
   .modal-overlay{align-items:center;}
   .modal-box{border-radius:var(--rl);max-height:80vh;}
 }
+
+/* ── FORM V2 ── */
+.fc-err{font-size:11px;color:#dc2626;margin-top:4px;display:none;}
+.fc-err.show{display:flex;align-items:center;gap:4px;}
+.fc-ok{font-size:11px;color:#16a34a;margin-top:4px;display:none;}
+.fc-ok.show{display:block;}
+.fc-hint{font-size:10.5px;color:var(--g);margin-top:5px;font-style:italic;display:none;}
+.fc-hint.show{display:block;}
+.fld input.invalid,.fld select.invalid{border-color:#dc2626!important;}
+.fld input.valid{border-color:#16a34a!important;}
+.fc-trust{text-align:center;margin-top:14px;font-size:11.5px;color:var(--g);}
+.fc-submitted{text-align:center;padding:24px 0;}
+.fc-submitted .ok-icon{font-size:48px;margin-bottom:16px;}
+.fc-submitted h4{font-family:var(--f);font-size:20px;font-weight:700;color:var(--k);margin-bottom:8px;letter-spacing:-.02em;}
+.fc-submitted p{font-size:13.5px;color:var(--g);margin-bottom:24px;font-weight:300;line-height:1.65;}
 </style>
 </head>
 <body>
@@ -526,19 +541,90 @@ footer{background:#0A0908;padding:32px var(--pp);border-top:1px solid rgba(255,2
       </div>
     </div>
 
-    <!-- FORM -->
+    <!-- FORM V2 -->
     <div id="form" class="fc">
-      <div class="fc-label">Verificação gratuita</div>
-      <h3>Consulte sua marca agora</h3>
-      <p class="sub">Retorno em até 2 horas no WhatsApp.</p>
-      <div class="fld"><label>Seu nome</label><input type="text" id="f-nome" placeholder="Ex: Maria Silva" required></div>
-      <div class="fld"><label>WhatsApp</label><input type="tel" id="f-whats" placeholder="(11) 99999-9999" required></div>
-      <div class="fld fc-hide-mobile"><label>Nome da marca</label><input type="text" id="f-marca" placeholder="Ex: Minha Empresa"></div>
-      <div class="fld" style="display:none" id="marca-desktop-only"><label>Nome da marca</label><input type="text" id="f-marca2" placeholder="Ex: Minha Empresa"></div>
-      <button type="button" class="fbtn" onclick="enviarWA()">Verificar disponibilidade →</button>
-      <p class="ftrust">Sem spam. Dados usados apenas para contato.</p>
-      <div class="fdiv"></div>
-      <a href="https://wa.me/5548984283696" target="_blank" rel="noopener" class="fwa">💬 Falar direto no WhatsApp</a>
+      <div id="fc-main">
+        <div class="fc-label">Verificação gratuita</div>
+        <h3>Pesquisa de viabilidade</h3>
+        <p class="sub">Preencha os dados. Retorno em até 2 horas no WhatsApp.</p>
+
+        <div class="fld">
+          <label>Seu nome *</label>
+          <input type="text" id="f-nome" placeholder="Ex: Maria Silva" autocomplete="name">
+          <div class="fc-err" id="err-nome">⚠ Informe seu nome</div>
+        </div>
+
+        <div class="fld">
+          <label>WhatsApp *</label>
+          <input type="tel" id="f-whats" placeholder="(11) 99999-9999" inputmode="numeric" maxlength="15" autocomplete="tel">
+          <div class="fc-err" id="err-whats"></div>
+          <div class="fc-ok" id="ok-whats">✓ Número válido</div>
+        </div>
+
+        <div class="fld">
+          <label>E-mail *</label>
+          <input type="email" id="f-email" placeholder="seu@email.com" autocomplete="email">
+          <div class="fc-err" id="err-email"></div>
+        </div>
+
+        <div class="fld">
+          <label>Nome da marca *</label>
+          <input type="text" id="f-marca" placeholder="Ex: Studio Mara, FitLife, NutriPro...">
+          <div class="fc-err" id="err-marca">⚠ Informe o nome da marca</div>
+        </div>
+
+        <div class="fld">
+          <label>Área de atividade *</label>
+          <select id="f-area" onchange="onAreaChange()">
+            <option value="">Selecione sua área...</option>
+            <option value="Moda, roupas e acessórios|25">Moda, roupas e acessórios</option>
+            <option value="Alimentação e bebidas|29,30,32">Alimentação e bebidas</option>
+            <option value="Saúde, beleza e estética|3,44">Saúde, beleza e estética</option>
+            <option value="Tecnologia e software (SaaS, apps)|42">Tecnologia e software (SaaS, apps)</option>
+            <option value="Educação, cursos e treinamentos|41">Educação, cursos e treinamentos</option>
+            <option value="Consultoria e serviços empresariais|35">Consultoria e serviços empresariais</option>
+            <option value="Criador de conteúdo / influenciador|41,35">Criador de conteúdo / influenciador</option>
+            <option value="E-commerce e varejo online|35">E-commerce e varejo online</option>
+            <option value="Agência de marketing e publicidade|35">Agência de marketing e publicidade</option>
+            <option value="Fitness, bem-estar e meditação|41,44">Fitness, bem-estar e meditação</option>
+            <option value="Arquitetura, design e engenharia|42">Arquitetura, design e engenharia</option>
+            <option value="Finanças, investimentos e seguros|36">Finanças, investimentos e seguros</option>
+            <option value="Alimentação saudável e suplementos|5,30">Alimentação saudável e suplementos</option>
+            <option value="Pets e produtos para animais|31,44">Pets e produtos para animais</option>
+            <option value="Imóveis e construção civil|36,37">Imóveis e construção civil</option>
+            <option value="Turismo, viagens e hospitalidade|39,43">Turismo, viagens e hospitalidade</option>
+            <option value="Indústria e manufatura|Varia por produto">Indústria e manufatura</option>
+            <option value="Outro (especificar no WhatsApp)|">Outro (especificar no WhatsApp)</option>
+          </select>
+          <div class="fc-err" id="err-area">⚠ Selecione sua área</div>
+          <div class="fc-hint" id="hint-area"></div>
+        </div>
+
+        <div class="fld">
+          <label>Objetivo da pesquisa *</label>
+          <select id="f-objetivo">
+            <option value="">Selecione seu objetivo...</option>
+            <option value="Quero registrar o quanto antes">Quero registrar o quanto antes</option>
+            <option value="Tenho interesse se a marca estiver disponível">Tenho interesse se a marca estiver disponível</option>
+            <option value="Por enquanto, só quero entender a viabilidade">Por enquanto, só quero entender a viabilidade</option>
+          </select>
+          <div class="fc-err" id="err-objetivo">⚠ Selecione seu objetivo</div>
+        </div>
+
+        <div class="fdiv"></div>
+        <button type="button" class="fbtn" onclick="enviarWA()">Verificar disponibilidade grátis →</button>
+        <a href="https://wa.me/5548984283696" target="_blank" rel="noopener" class="fwa" style="margin-top:10px;">💬 Prefiro falar direto no WhatsApp</a>
+        <div class="fc-trust">🔒 Sem spam. Dados usados apenas para contato.</div>
+      </div>
+
+      <div id="fc-success" style="display:none;">
+        <div class="fc-submitted">
+          <div class="ok-icon">✅</div>
+          <h4>Mensagem enviada!</h4>
+          <p>Seus dados foram enviados pelo WhatsApp. Retornamos em até 2 horas em horário comercial.</p>
+          <button type="button" class="fbtn" onclick="resetForm()" style="background:var(--a);">Enviar outra consulta</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1025,17 +1111,193 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   });
 });
 
-// ── FORM ──
+// ── FORM V2 ──
+const VALID_DDDS=[11,12,13,14,15,16,17,18,19,21,22,24,27,28,31,32,33,34,35,37,38,41,42,43,44,45,46,47,48,49,51,53,54,55,61,62,63,64,65,66,67,68,69,71,73,74,75,77,79,81,82,83,84,85,86,87,88,89,91,92,93,94,95,96,97,98,99];
+
+function maskPhone(raw){
+  const d=raw.replace(/\D/g,'').slice(0,11);
+  if(!d.length)return'';
+  if(d.length<=2)return`(${d}`;
+  if(d.length<=6)return`(${d.slice(0,2)}) ${d.slice(2)}`;
+  if(d.length<=10)return`(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
+  return`(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
+}
+
+function validatePhone(masked){
+  const d=masked.replace(/\D/g,'');
+  if(d.length<10)return'Número muito curto';
+  const ddd=parseInt(d.slice(0,2));
+  if(!VALID_DDDS.includes(ddd))return`DDD ${ddd} inválido`;
+  if(d.length===11&&d[2]!=='9')return'Celular deve começar com 9';
+  return null;
+}
+
+function validateEmail(email){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)?null:'E-mail inválido';
+}
+
+function showErr(id,msg){
+  const el=document.getElementById('err-'+id);
+  if(!el)return;
+  el.textContent='⚠ '+msg;
+  el.classList.add('show');
+  const inp=document.getElementById('f-'+id);
+  if(inp){inp.classList.add('invalid');inp.classList.remove('valid');}
+}
+
+function clearErr(id){
+  const el=document.getElementById('err-'+id);
+  if(el){el.classList.remove('show');}
+  const inp=document.getElementById('f-'+id);
+  if(inp){inp.classList.remove('invalid');}
+}
+
+function showOk(id){
+  const el=document.getElementById('ok-'+id);
+  if(el)el.classList.add('show');
+  const inp=document.getElementById('f-'+id);
+  if(inp){inp.classList.add('valid');inp.classList.remove('invalid');}
+}
+
+function clearOk(id){
+  const el=document.getElementById('ok-'+id);
+  if(el)el.classList.remove('show');
+}
+
+// WhatsApp live mask + validation
+const waInput=document.getElementById('f-whats');
+if(waInput){
+  waInput.addEventListener('input',function(){
+    this.value=maskPhone(this.value);
+    const d=this.value.replace(/\D/g,'');
+    clearErr('whats');clearOk('whats');
+    if(d.length>=10){
+      const err=validatePhone(this.value);
+      if(err)showErr('whats',err);
+      else showOk('whats');
+    }
+  });
+  waInput.addEventListener('blur',function(){
+    if(this.value){
+      const err=validatePhone(this.value);
+      if(err)showErr('whats',err);
+      else showOk('whats');
+    }
+  });
+}
+
+// Email live validation
+const emailInput=document.getElementById('f-email');
+if(emailInput){
+  emailInput.addEventListener('blur',function(){
+    if(this.value){
+      const err=validateEmail(this.value);
+      if(err)showErr('email',err);
+      else clearErr('email');
+    }
+  });
+  emailInput.addEventListener('input',function(){
+    if(document.getElementById('err-email').classList.contains('show')){
+      const err=validateEmail(this.value);
+      if(!err)clearErr('email');
+    }
+  });
+}
+
+// Area hint
+function onAreaChange(){
+  const sel=document.getElementById('f-area');
+  const hint=document.getElementById('hint-area');
+  clearErr('area');
+  if(sel.value){
+    const parts=sel.value.split('|');
+    const ncl=parts[1];
+    if(ncl&&ncl.trim()){
+      hint.textContent='Classe NCL correspondente: '+ncl;
+      hint.classList.add('show');
+    } else if(parts[0].includes('Outro')){
+      hint.textContent='Você poderá especificar no WhatsApp.';
+      hint.classList.add('show');
+    } else {
+      hint.classList.remove('show');
+    }
+  } else {
+    hint.classList.remove('show');
+  }
+}
+
 function enviarWA(){
+  let valid=true;
+
   const nome=document.getElementById('f-nome').value.trim();
-  const wats=document.getElementById('f-whats').value.trim();
-  // get marca from either visible field
-  const marcaEl=document.getElementById('f-marca');
-  const marcaEl2=document.getElementById('f-marca2');
-  const marca=(marcaEl.offsetParent?marcaEl:marcaEl2).value.trim();
-  if(!nome||!wats){alert('Preencha nome e WhatsApp.');return;}
-  const msg=`Olá! Quero registrar minha marca no INPI.\n\n*Nome:* ${nome}\n*WhatsApp:* ${wats}${marca?'\n*Marca:* '+marca:''}`;
+  if(!nome){showErr('nome','Informe seu nome');valid=false;}
+  else clearErr('nome');
+
+  const whats=document.getElementById('f-whats').value.trim();
+  const whatsErr=validatePhone(whats);
+  if(!whats){showErr('whats','Informe seu WhatsApp');valid=false;}
+  else if(whatsErr){showErr('whats',whatsErr);valid=false;}
+  else{clearErr('whats');showOk('whats');}
+
+  const email=document.getElementById('f-email').value.trim();
+  const emailErr=validateEmail(email);
+  if(!email){showErr('email','Informe seu e-mail');valid=false;}
+  else if(emailErr){showErr('email',emailErr);valid=false;}
+  else clearErr('email');
+
+  const marca=document.getElementById('f-marca').value.trim();
+  if(!marca){showErr('marca','Informe o nome da marca');valid=false;}
+  else clearErr('marca');
+
+  const areaVal=document.getElementById('f-area').value;
+  if(!areaVal){showErr('area','Selecione sua área');valid=false;}
+  else clearErr('area');
+
+  const objetivo=document.getElementById('f-objetivo').value;
+  if(!objetivo){showErr('objetivo','Selecione seu objetivo');valid=false;}
+  else clearErr('objetivo');
+
+  if(!valid){
+    // scroll to first error
+    const firstErr=document.querySelector('.fc-err.show');
+    if(firstErr)firstErr.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
+  const areaParts=areaVal.split('|');
+  const areaNome=areaParts[0];
+  const nclVal=areaParts[1];
+  const nclInfo=nclVal&&nclVal.trim()?` (NCL: ${nclVal})`:'';
+
+  const msg=[
+    `Olá! Quero uma pesquisa de viabilidade de marca.`,
+    ``,
+    `*Nome:* ${nome}`,
+    `*WhatsApp:* ${whats}`,
+    `*E-mail:* ${email}`,
+    `*Nome da marca:* ${marca}`,
+    `*Área de atividade:* ${areaNome}${nclInfo}`,
+    `*Objetivo:* ${objetivo}`,
+  ].join('\n');
+
   window.open(`https://wa.me/5548984283696?text=${encodeURIComponent(msg)}`,'_blank');
+
+  // Show success state
+  document.getElementById('fc-main').style.display='none';
+  document.getElementById('fc-success').style.display='block';
+}
+
+function resetForm(){
+  ['nome','whats','email','marca'].forEach(id=>{
+    const el=document.getElementById('f-'+id);
+    if(el)el.value='';
+    clearErr(id);clearOk(id);
+  });
+  document.getElementById('f-area').value='';
+  document.getElementById('f-objetivo').value='';
+  document.getElementById('hint-area').classList.remove('show');
+  document.getElementById('fc-main').style.display='block';
+  document.getElementById('fc-success').style.display='none';
 }
 
 // ── SEARCH ──
