@@ -85,19 +85,19 @@ nav{position:fixed;inset:0 0 auto;z-index:300;height:60px;display:flex;align-ite
 .bc:hover{opacity:.88;}
 .boc{background:transparent;color:rgba(240,239,231,.65);padding:15px 28px;border-radius:100px;font-size:14px;font-weight:500;text-decoration:none;border:2px solid rgba(240,239,231,.22);cursor:pointer;font-family:var(--n);transition:border-color .15s,color .15s;display:inline-flex;align-items:center;gap:7px;}
 .boc:hover{border-color:rgba(240,239,231,.55);color:var(--c);}
-.hero{padding-top:100px;padding-bottom:80px;background:var(--c);position:relative;overflow:hidden;}
+.hero{padding-top:88px;padding-bottom:52px;background:var(--c);position:relative;overflow:hidden;}
 .hero::after{content:'';position:absolute;top:-120px;right:-120px;width:500px;height:500px;background:radial-gradient(ellipse,rgba(192,80,40,.07) 0%,transparent 65%);pointer-events:none;z-index:0;}
 .hero-in{position:relative;z-index:1;display:grid;grid-template-columns:1fr 400px;gap:56px;align-items:start;max-width:var(--mw);margin:0 auto;padding:0 var(--pp);}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--a);margin-bottom:18px;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--a);margin-bottom:14px;}
 .eyebrow::before{content:'';width:20px;height:2px;background:var(--a);flex-shrink:0;}
-.hero h1{font-family:var(--f);font-size:clamp(34px,4vw,52px);font-weight:700;line-height:1.1;letter-spacing:-.025em;color:var(--k);margin-bottom:22px;}
+.hero h1{font-family:var(--f);font-size:clamp(30px,3.5vw,46px);font-weight:700;line-height:1.1;letter-spacing:-.025em;color:var(--k);margin-bottom:16px;}
 .hero h1 em{font-style:italic;color:var(--a);}
-.hero-sub{font-size:17px;font-weight:300;color:var(--g);line-height:1.7;max-width:480px;margin-bottom:28px;}
-.badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+.hero-sub{font-size:15.5px;font-weight:300;color:var(--g);line-height:1.65;max-width:480px;margin-bottom:16px;}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
 .badge{display:inline-flex;align-items:center;gap:5px;background:rgba(15,14,11,.05);border:1px solid var(--b);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--m);}
 .badge svg{width:11px;height:11px;fill:var(--a);}
-.checks{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:32px;}
-.checks li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--m);}
+.checks{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.checks li{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--m);}
 .chk{width:19px;height:19px;flex-shrink:0;border:2px solid var(--a);border-radius:4px;display:flex;align-items:center;justify-content:center;background:rgba(192,80,40,.06);}
 .chk svg{width:8px;height:8px;stroke:var(--a);stroke-width:2.8;fill:none;}
 .fc{background:var(--w);border:1.5px solid var(--b);border-radius:var(--rl);padding:32px;box-shadow:0 2px 4px rgba(0,0,0,.05),0 12px 40px rgba(0,0,0,.09);position:sticky;top:76px;}
@@ -244,24 +244,45 @@ nav{position:fixed;inset:0 0 auto;z-index:300;height:60px;display:flex;align-ite
 .transp-item h4{font-family:var(--f);font-size:15px;font-weight:700;color:var(--c);margin-bottom:8px;letter-spacing:-.01em;}
 .transp-item p{font-size:13px;color:rgba(240,239,231,.52);line-height:1.65;font-weight:300;}
 .pricing{background:var(--c);}
-.pb{background:var(--w);border:1.5px solid var(--b);border-radius:var(--rl);overflow:hidden;max-width:640px;margin:0 auto;box-shadow:0 4px 20px rgba(0,0,0,.06);}
-.pb-top{padding:40px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;border-bottom:1.5px solid var(--bs);}
+.pb{background:var(--w);border:1.5px solid var(--b);border-radius:var(--rl);overflow:hidden;max-width:680px;margin:0 auto;box-shadow:0 8px 40px rgba(0,0,0,.10),0 2px 8px rgba(0,0,0,.06);transition:transform .3s ease,box-shadow .3s ease;}
+.pb:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.14),0 4px 12px rgba(0,0,0,.08);}
+/* Pricing hero banner */
+.pb-hero{position:relative;height:180px;background:linear-gradient(135deg,var(--k) 0%,#1e1c17 55%,#2d1a0e 100%);overflow:hidden;display:flex;align-items:flex-end;padding:28px 36px;}
+.pb-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(ellipse,rgba(192,80,40,.35) 0%,transparent 65%);pointer-events:none;}
+.pb-hero::after{content:'';position:absolute;bottom:-80px;left:-40px;width:240px;height:240px;background:radial-gradient(ellipse,rgba(192,80,40,.18) 0%,transparent 65%);pointer-events:none;}
+.pb-hero-rings{position:absolute;top:50%;right:32px;transform:translateY(-50%);width:120px;height:120px;}
+.pb-hero-rings svg{width:100%;height:100%;animation:pbRingSpin 18s linear infinite;opacity:.18;}
+@keyframes pbRingSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.pb-hero-content{position:relative;z-index:1;}
+.pb-hero-ey{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--al);margin-bottom:8px;}
+.pb-hero-h{font-family:var(--f);font-size:22px;font-weight:700;color:var(--c);line-height:1.15;letter-spacing:-.02em;}
+.pb-hero-h em{font-style:italic;color:var(--al);}
+/* Pricing badge floating */
+.pb-badge{position:absolute;top:16px;right:20px;background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.18);border-radius:var(--rm);padding:8px 14px;text-align:center;backdrop-filter:blur(8px);}
+.pb-badge-main{font-family:var(--f);font-size:13px;font-weight:700;color:var(--c);display:block;line-height:1.2;}
+.pb-badge-sub{font-size:9px;color:rgba(240,239,231,.50);letter-spacing:.06em;text-transform:uppercase;}
+/* Pricing top section */
+.pb-top{padding:28px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;border-bottom:1.5px solid var(--bs);}
 .pb-lbl{font-size:11.5px;color:var(--g);margin-bottom:5px;font-weight:300;}
-.pb-amt{font-family:var(--f);font-size:50px;font-weight:700;color:var(--k);letter-spacing:-.035em;line-height:1;}
+.pb-amt{font-family:var(--f);font-size:52px;font-weight:700;color:var(--k);letter-spacing:-.035em;line-height:1;}
 .pb-amt sup{font-size:20px;vertical-align:super;}
 .pb-per{font-size:12.5px;color:var(--g);margin-top:5px;font-weight:300;}
-.pb-ins{text-align:right;padding:16px 20px;background:var(--c);border:1.5px solid var(--b);border-radius:var(--rm);}
-.pb-ins .big{font-family:var(--f);font-size:24px;font-weight:700;color:var(--a);display:block;line-height:1;}
-.pb-ins .sml{font-size:11.5px;color:var(--g);}
-.pb-items{padding:32px 44px;display:grid;grid-template-columns:1fr 1fr;gap:11px;border-bottom:1.5px solid var(--bs);}
+.pb-ins{text-align:right;padding:14px 18px;background:rgba(192,80,40,.06);border:1.5px solid rgba(192,80,40,.18);border-radius:var(--rm);}
+.pb-ins .big{font-family:var(--f);font-size:22px;font-weight:700;color:var(--a);display:block;line-height:1;}
+.pb-ins .sml{font-size:11px;color:var(--g);}
+/* Items grid */
+.pb-items{padding:24px 36px;display:grid;grid-template-columns:1fr 1fr;gap:10px;border-bottom:1.5px solid var(--bs);}
 .pi{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--m);}
-.pid{width:4px;height:4px;flex-shrink:0;border-radius:50%;background:var(--a);margin-top:7px;}
-.pb-ft{padding:24px 44px;display:flex;flex-direction:column;gap:14px;}
-.pb-ft .bp{justify-content:center;padding:14px 28px;font-size:14px;}
+.pi-chk{width:16px;height:16px;flex-shrink:0;border-radius:50%;background:rgba(192,80,40,.10);border:1.5px solid rgba(192,80,40,.25);display:flex;align-items:center;justify-content:center;margin-top:1px;}
+.pi-chk svg{width:7px;height:7px;stroke:var(--a);stroke-width:2.8;fill:none;}
+/* Footer */
+.pb-ft{padding:24px 36px;display:flex;flex-direction:column;gap:14px;}
+.pb-ft .bp{justify-content:center;padding:16px 28px;font-size:15px;font-weight:600;animation:pbPulse 3s 2s ease-in-out infinite;}
+@keyframes pbPulse{0%,100%{box-shadow:0 0 0 0 rgba(15,14,11,0);}50%{box-shadow:0 0 0 8px rgba(15,14,11,.08);}}
 .pb-hb{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;padding-top:10px;border-top:1px solid var(--bs);}
 .hb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g);font-weight:500;}
 .hb svg{width:13px;height:13px;fill:var(--g);}
-.pb-note{font-size:11px;color:var(--g);line-height:1.6;padding:0 44px 24px;font-weight:300;}
+.pb-note{font-size:11px;color:var(--g);line-height:1.6;padding:0 36px 20px;font-weight:300;}
 .checkout-next{background:var(--cd);border:1.5px solid var(--bs);border-radius:var(--rm);padding:18px 20px;margin-top:14px;}
 .checkout-next-title{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--m);margin-bottom:12px;font-family:var(--n);}
 .checkout-next-steps{display:flex;flex-direction:column;gap:9px;}
@@ -429,6 +450,13 @@ a.hotmart-fb.bc {
   clip: auto !important;
 }
 
+/* ── INPI SEAL ── */
+.inpi-seal{display:inline-flex;align-items:center;gap:10px;background:var(--w);border:1.5px solid var(--b);border-radius:var(--rm);padding:8px 14px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.inpi-seal-logo{width:36px;height:36px;flex-shrink:0;border-radius:6px;background:linear-gradient(135deg,#004A8F 0%,#0066CC 100%);display:flex;align-items:center;justify-content:center;font-family:var(--f);font-size:11px;font-weight:700;color:#fff;letter-spacing:.02em;line-height:1;}
+.inpi-seal-txt strong{display:block;font-size:12px;font-weight:700;color:var(--k);}
+.inpi-seal-txt span{font-size:10px;color:var(--g);font-weight:300;}
+.inpi-seal-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;flex-shrink:0;box-shadow:0 0 0 2px rgba(34,197,94,.20);}
+
 /* ── IMPROVEMENT 1: Sticky Urgency Badge ── */
 .sticky-urg-badge{text-align:center;font-size:11.5px;font-weight:600;color:var(--a);background:rgba(192,80,40,.07);border-radius:100px;padding:4px 12px;margin-bottom:6px;letter-spacing:.01em;}
 
@@ -527,12 +555,20 @@ a.hotmart-fb.bc {
   <div class="hero-in">
     <div>
       <div class="eyebrow">+3.000 marcas registradas · 30 anos de experiência</div>
-      <h1>Registre sua marca no INPI<br>antes que <em>outra empresa<br>chegue primeiro.</em></h1>
+      <h1>Registre sua marca no INPI antes que <em>outra empresa chegue primeiro.</em></h1>
       <p class="hero-sub">Conduzimos o processo completo: pesquisa de viabilidade, protocolo e acompanhamento por 12 meses. Online, com contrato claro e sem custo surpresa.</p>
       <div class="badges">
-        <span class="badge"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Procurador Autorizado INPI</span>
         <span class="badge"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>30 Anos de Experiência</span>
         <span class="badge"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>99,8% de Aprovação</span>
+      </div>
+      <!-- Selo INPI oficial -->
+      <div class="inpi-seal" style="margin-bottom:14px;">
+        <div class="inpi-seal-logo">INPI</div>
+        <div class="inpi-seal-txt">
+          <strong>Procurador Autorizado INPI</strong>
+          <span>Cadastro ativo junto ao INPI · Brasil</span>
+        </div>
+        <div class="inpi-seal-dot" title="Status ativo"></div>
       </div>
       <ul class="checks">
         <li><span class="chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Pesquisa de viabilidade gratuita inclusa</li>
@@ -744,6 +780,14 @@ a.hotmart-fb.bc {
         <div class="acri"><span class="acrd"></span>99,8% de taxa de aprovação (histórico interno)</div>
         <div class="acri"><span class="acrd"></span>Atendimento em todo o Brasil, 100% online</div>
       </div>
+      <div class="inpi-seal" style="margin-bottom:20px;">
+        <div class="inpi-seal-logo">INPI</div>
+        <div class="inpi-seal-txt">
+          <strong>Procurador Autorizado INPI</strong>
+          <span>Cadastro ativo — registro nacional</span>
+        </div>
+        <div class="inpi-seal-dot"></div>
+      </div>
       <a href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" target="_blank" rel="noopener" class="bp">💬 Falar com nossa equipe</a>
     </div>
   </div>
@@ -840,6 +884,26 @@ a.hotmart-fb.bc {
       <p class="ss">Tudo incluso. O que pode gerar custo extra é informado com antecedência, por escrito.</p>
     </div>
     <div class="pb rv">
+      <!-- Hero visual banner -->
+      <div class="pb-hero">
+        <div class="pb-badge">
+          <span class="pb-badge-main">99,8% aprovação</span>
+          <span class="pb-badge-sub">30 anos · +3.000 marcas</span>
+        </div>
+        <div class="pb-hero-rings" aria-hidden="true">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="56" stroke="white" stroke-width="1.2"/>
+            <circle cx="60" cy="60" r="44" stroke="white" stroke-width="0.8" stroke-dasharray="4 6"/>
+            <circle cx="60" cy="60" r="30" stroke="white" stroke-width="1.2"/>
+            <circle cx="60" cy="60" r="8" fill="white" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="pb-hero-content">
+          <div class="pb-hero-ey">Registro completo no INPI</div>
+          <div class="pb-hero-h">Sua marca protegida.<br><em>Sua história, sua.</em></div>
+        </div>
+      </div>
+      <!-- Price -->
       <div class="pb-top">
         <div>
           <div class="pb-lbl">Pagamento único — tudo incluso</div>
@@ -852,17 +916,17 @@ a.hotmart-fb.bc {
         </div>
       </div>
       <div class="pb-items">
-        <div class="pi"><span class="pid"></span>Pesquisa de viabilidade no INPI</div>
-        <div class="pi"><span class="pid"></span>Taxas iniciais do INPI inclusas</div>
-        <div class="pi"><span class="pid"></span>Definição da(s) classe(s) ideal(is)</div>
-        <div class="pi"><span class="pid"></span>Número de processo INPI</div>
-        <div class="pi"><span class="pid"></span>Elaboração e protocolo do pedido</div>
-        <div class="pi"><span class="pid"></span>Acompanhamento por 12 meses</div>
-        <div class="pi"><span class="pid"></span>Suporte via WhatsApp e e-mail</div>
-        <div class="pi"><span class="pid"></span>Garantia: novo pedido se negado</div>
+        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Pesquisa de viabilidade no INPI</div>
+        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Taxas iniciais do INPI inclusas</div>
+        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Definição da(s) classe(s) ideal(is)</div>
+        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Número de processo INPI</div>
+        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Elaboração e protocolo do pedido</div>
+        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Acompanhamento por 12 meses</div>
+        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Suporte via WhatsApp e e-mail</div>
+        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Garantia: novo pedido se negado</div>
       </div>
       <div class="pb-ft">
-        <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="hotmart-fb bp" onclick="return false;" data-hotmart-widget="checkout">Iniciar meu registro →</a>
+        <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="hotmart-fb bp" target="_blank" rel="noopener" data-hotmart-widget="checkout">Iniciar meu registro →</a>
         <div class="pb-hb">
           <span class="hb"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Compra Segura</span>
           <span class="hb"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>SSL Criptografado</span>
@@ -964,7 +1028,7 @@ a.hotmart-fb.bc {
     <h2 class="rv">Cada dia sem registro é<br>um dia de <em>risco desnecessário.</em></h2>
     <p class="rv d1">Verificação gratuita, sem compromisso. Retorno em até 2 horas.</p>
     <div class="final-btns rv d2">
-      <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="hotmart-fb bc" onclick="return false;" data-hotmart-widget="checkout">Iniciar meu registro agora →</a>
+      <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="hotmart-fb bc" target="_blank" rel="noopener" data-hotmart-widget="checkout">Iniciar meu registro agora →</a>
 
       <a href="https://wa.me/5548984283696" target="_blank" rel="noopener" class="boc">💬 WhatsApp</a>
     </div>
@@ -1244,9 +1308,17 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelec
     '🟢 Carlos, do Rio de Janeiro, iniciou seu registro',
     '🟢 Mariana, de Curitiba, verificou a disponibilidade da marca',
     '🟢 Paulo, de Belo Horizonte, acabou de contratar',
-    '🟢 Fernanda, de Porto Alegre, está verificando sua marca agora'
+    '🟢 Fernanda, de Porto Alegre, está verificando sua marca agora',
+    '🟢 Rafael, de Brasília, acabou de proteger sua marca',
+    '🟢 Camila, de Florianópolis, solicitou a pesquisa de viabilidade',
+    '🟢 Diego, de Salvador, iniciou o registro do seu canal',
+    '🟢 Juliana, de Recife, recebeu a confirmação do pedido',
+    '🟢 Thiago, de Campinas, acabou de contratar o registro',
+    '🟢 Larissa, de Goiânia, verificou a disponibilidade agora',
+    '🟢 Bruno, de Manaus, protegeu sua marca de cursos online'
   ];
-  var idx=0;var dismissed=false;
+  var idx=Math.floor(Math.random()*MESSAGES.length);
+  var dismissed=false;
   var toast=document.createElement('div');
   toast.className='sp-toast';
   toast.setAttribute('role','status');
@@ -1260,10 +1332,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelec
   toast.appendChild(msgSpan);
   toast.appendChild(closeBtn);
   document.body.appendChild(toast);
-  function show(){if(dismissed)return;msgSpan.textContent=MESSAGES[idx%MESSAGES.length];idx++;toast.classList.add('sp-visible');setTimeout(hide,4000);}
+  function show(){if(dismissed)return;msgSpan.textContent=MESSAGES[idx%MESSAGES.length];idx++;toast.classList.add('sp-visible');setTimeout(hide,6000);}
   function hide(){toast.classList.remove('sp-visible');}
-  setTimeout(show,8000);
-  setInterval(function(){if(!dismissed)show();},45000);
+  setTimeout(show,15000);
+  setInterval(function(){if(!dismissed)show();},90000);
 })();
 
 // ── IMPROVEMENT 4: Exit-Intent Popup ──
