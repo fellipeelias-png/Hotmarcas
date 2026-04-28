@@ -429,7 +429,68 @@ a.hotmart-fb.bc {
   clip: auto !important;
 }
 
-  
+/* ── IMPROVEMENT 1: Sticky Urgency Badge ── */
+.sticky-urg-badge{text-align:center;font-size:11.5px;font-weight:600;color:var(--a);background:rgba(192,80,40,.07);border-radius:100px;padding:4px 12px;margin-bottom:6px;letter-spacing:.01em;}
+
+/* ── IMPROVEMENT 2: Social Proof Toast ── */
+.sp-toast{position:fixed;bottom:80px;left:16px;z-index:270;background:var(--w);border:1.5px solid var(--b);border-radius:var(--rm);padding:12px 36px 12px 14px;max-width:280px;box-shadow:0 4px 20px rgba(0,0,0,.12);font-size:12.5px;color:var(--m);line-height:1.45;transform:translateX(-120%);transition:transform .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none;}
+.sp-toast.sp-visible{transform:translateX(0);pointer-events:all;}
+.sp-toast-close{position:absolute;top:6px;right:8px;background:none;border:none;cursor:pointer;font-size:13px;color:var(--s);line-height:1;padding:2px 4px;}
+.sp-toast-close:hover{color:var(--k);}
+@media(min-width:769px){.sp-toast{bottom:28px;}}
+
+/* ── IMPROVEMENT 3: Multi-Step Form ── */
+.fc-progress{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;}
+.fc-dot{width:10px;height:10px;border-radius:50%;background:var(--bs);border:1.5px solid var(--b);transition:background .25s,border-color .25s,transform .25s;}
+.fc-dot.active{background:var(--a);border-color:var(--a);transform:scale(1.25);}
+.fc-dot.done{background:var(--k);border-color:var(--k);}
+.fc-step-panel{display:none;}
+.fc-step-panel.fc-active{display:block;}
+.fc-step-nav{display:flex;gap:8px;margin-top:12px;}
+.fc-step-nav .fbtn{flex:1;}
+.fc-back-btn{background:var(--c);color:var(--m);border:1.5px solid var(--b);border-radius:100px;padding:12px 16px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--n);transition:border-color .15s,background .15s;white-space:nowrap;flex-shrink:0;}
+.fc-back-btn:hover{border-color:var(--k);background:var(--cd);}
+
+/* ── IMPROVEMENT 4: Exit-Intent Popup ── */
+.exit-overlay{position:fixed;inset:0;background:rgba(15,14,11,.72);z-index:490;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s ease;}
+.exit-overlay.exit-open{opacity:1;pointer-events:all;}
+.exit-box{background:var(--w);border-radius:var(--rl);padding:36px 32px 28px;max-width:400px;width:100%;position:relative;box-shadow:0 24px 64px rgba(0,0,0,.22);transform:scale(.96);transition:transform .3s ease;}
+.exit-overlay.exit-open .exit-box{transform:scale(1);}
+.exit-close{position:absolute;top:14px;right:14px;width:30px;height:30px;background:var(--cd);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--g);transition:background .15s;}
+.exit-close:hover{background:var(--p);}
+.exit-eyebrow{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--a);margin-bottom:10px;}
+.exit-box h3{font-family:var(--f);font-size:22px;font-weight:700;color:var(--k);letter-spacing:-.025em;line-height:1.2;margin-bottom:8px;}
+.exit-box p{font-size:13.5px;color:var(--g);line-height:1.65;font-weight:300;margin-bottom:20px;}
+.exit-fld{margin-bottom:10px;}
+.exit-fld label{display:block;font-size:10px;font-weight:700;color:var(--m);letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px;}
+.exit-fld input{width:100%;padding:11px 14px;background:var(--c);border:1.5px solid var(--b);border-radius:var(--r);font-size:14px;font-family:var(--n);color:var(--k);outline:none;transition:border-color .15s,box-shadow .15s;}
+.exit-fld input:focus{border-color:var(--a);background:var(--w);box-shadow:0 0 0 3px rgba(192,80,40,.09);}
+.exit-fld input::placeholder{color:var(--s);}
+.exit-err{font-size:11px;color:#dc2626;margin-top:4px;display:none;}
+.exit-err.show{display:flex;align-items:center;gap:4px;}
+.exit-submit{width:100%;background:var(--a);color:#fff;padding:13px;border:none;border-radius:100px;font-size:14px;font-weight:600;font-family:var(--n);cursor:pointer;margin-top:4px;transition:background .15s;}
+.exit-submit:hover{background:var(--ad);}
+.exit-skip{display:block;text-align:center;margin-top:12px;font-size:12px;color:var(--s);cursor:pointer;background:none;border:none;font-family:var(--n);transition:color .15s;}
+.exit-skip:hover{color:var(--g);}
+@media(max-width:480px){.exit-box{padding:28px 20px 22px;}.exit-box h3{font-size:19px;}}
+
+/* ── IMPROVEMENT 5: Search Lead Gate ── */
+.sgate{margin-top:14px;padding:16px 18px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);border-radius:var(--rm);display:none;}
+.sgate.sg-visible{display:block;}
+.sgate-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,239,231,.50);margin-bottom:8px;}
+.sgate p{font-size:13px;color:rgba(240,239,231,.70);line-height:1.55;margin-bottom:12px;font-weight:300;}
+.sgate-row{display:flex;gap:8px;flex-wrap:wrap;}
+.sgate-row input{flex:1;min-width:140px;padding:10px 14px;background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.18);border-radius:100px;font-size:13px;font-family:var(--n);color:var(--c);outline:none;transition:border-color .15s;}
+.sgate-row input::placeholder{color:rgba(240,239,231,.38);}
+.sgate-row input:focus{border-color:rgba(240,239,231,.55);}
+.sgate-row button{background:var(--a);color:#fff;border:none;padding:10px 18px;border-radius:100px;font-size:13px;font-weight:600;font-family:var(--n);cursor:pointer;white-space:nowrap;transition:background .15s;flex-shrink:0;}
+.sgate-row button:hover{background:var(--ad);}
+.sgate-err{font-size:11px;color:#fca5a5;margin-top:6px;display:none;}
+.sgate-err.show{display:flex;align-items:center;gap:4px;}
+.sgate-thanks{font-size:13px;color:rgba(240,239,231,.70);text-align:center;padding:8px 0;display:none;}
+.sgate-thanks.show{display:block;}
+@media(max-width:480px){.sgate-row{flex-direction:column;}.sgate-row input,.sgate-row button{width:100%;}}
+
 </style>
 </head>
 <body>
@@ -482,70 +543,96 @@ a.hotmart-fb.bc {
     </div>
     <div id="form" class="fc">
       <div id="fc-main">
-        <div class="fc-label">Verificação gratuita</div>
+        <!-- Header: label + step counter + progress dots -->
+        <div class="fc-label" id="fc-step-label">Verificação gratuita — Passo 1 de 3</div>
         <h3>Pesquisa de viabilidade</h3>
         <p class="sub">Preencha os dados. Retorno em até 2 horas no WhatsApp.</p>
-        <div class="fld">
-          <label>Seu nome *</label>
-          <input type="text" id="f-nome" placeholder="Ex: Maria Silva" autocomplete="name">
-          <div class="fc-err" id="err-nome">⚠ Informe seu nome</div>
+        <div class="fc-progress" aria-label="Progresso do formulário">
+          <div class="fc-dot active" id="fc-dot-1"></div>
+          <div class="fc-dot" id="fc-dot-2"></div>
+          <div class="fc-dot" id="fc-dot-3"></div>
         </div>
-        <div class="fld">
-          <label>WhatsApp *</label>
-          <input type="tel" id="f-whats" placeholder="(11) 99999-9999" inputmode="numeric" maxlength="15" autocomplete="tel">
-          <div class="fc-err" id="err-whats"></div>
-          <div class="fc-ok" id="ok-whats">✓ Número válido</div>
+
+        <!-- STEP 1: Marca + Área -->
+        <div class="fc-step-panel fc-active" id="fc-step-1">
+          <div class="fld">
+            <label>Nome da marca *</label>
+            <input type="text" id="f-marca" placeholder="Ex: Studio Mara, FitLife, NutriPro...">
+            <div class="fc-err" id="err-marca">⚠ Informe o nome da marca</div>
+          </div>
+          <div class="fld">
+            <label>Área de atividade *</label>
+            <select id="f-area" onchange="onAreaChange()">
+              <option value="">Selecione sua área...</option>
+              <option value="Moda, roupas e acessórios|25">Moda, roupas e acessórios</option>
+              <option value="Alimentação e bebidas|29,30,32">Alimentação e bebidas</option>
+              <option value="Saúde, beleza e estética|3,44">Saúde, beleza e estética</option>
+              <option value="Tecnologia e software (SaaS, apps)|42">Tecnologia e software (SaaS, apps)</option>
+              <option value="Educação, cursos e treinamentos|41">Educação, cursos e treinamentos</option>
+              <option value="Consultoria e serviços empresariais|35">Consultoria e serviços empresariais</option>
+              <option value="Criador de conteúdo / influenciador|41,35">Criador de conteúdo / influenciador</option>
+              <option value="E-commerce e varejo online|35">E-commerce e varejo online</option>
+              <option value="Agência de marketing e publicidade|35">Agência de marketing e publicidade</option>
+              <option value="Fitness, bem-estar e meditação|41,44">Fitness, bem-estar e meditação</option>
+              <option value="Arquitetura, design e engenharia|42">Arquitetura, design e engenharia</option>
+              <option value="Finanças, investimentos e seguros|36">Finanças, investimentos e seguros</option>
+              <option value="Alimentação saudável e suplementos|5,30">Alimentação saudável e suplementos</option>
+              <option value="Pets e produtos para animais|31,44">Pets e produtos para animais</option>
+              <option value="Imóveis e construção civil|36,37">Imóveis e construção civil</option>
+              <option value="Turismo, viagens e hospitalidade|39,43">Turismo, viagens e hospitalidade</option>
+              <option value="Indústria e manufatura|Varia por produto">Indústria e manufatura</option>
+              <option value="Outro (especificar no WhatsApp)|">Outro (especificar no WhatsApp)</option>
+            </select>
+            <div class="fc-err" id="err-area">⚠ Selecione sua área</div>
+            <div class="fc-hint" id="hint-area"></div>
+          </div>
+          <button type="button" class="fbtn" onclick="fcNext(1)">Continuar →</button>
         </div>
-        <div class="fld">
-          <label>E-mail *</label>
-          <input type="email" id="f-email" placeholder="seu@email.com" autocomplete="email">
-          <div class="fc-err" id="err-email"></div>
+
+        <!-- STEP 2: Nome + WhatsApp + E-mail -->
+        <div class="fc-step-panel" id="fc-step-2">
+          <div class="fld">
+            <label>Seu nome *</label>
+            <input type="text" id="f-nome" placeholder="Ex: Maria Silva" autocomplete="name">
+            <div class="fc-err" id="err-nome">⚠ Informe seu nome</div>
+          </div>
+          <div class="fld">
+            <label>WhatsApp *</label>
+            <input type="tel" id="f-whats" placeholder="(11) 99999-9999" inputmode="numeric" maxlength="15" autocomplete="tel">
+            <div class="fc-err" id="err-whats"></div>
+            <div class="fc-ok" id="ok-whats">✓ Número válido</div>
+          </div>
+          <div class="fld">
+            <label>E-mail *</label>
+            <input type="email" id="f-email" placeholder="seu@email.com" autocomplete="email">
+            <div class="fc-err" id="err-email"></div>
+          </div>
+          <div class="fc-step-nav">
+            <button type="button" class="fc-back-btn" onclick="fcBack(2)">← Voltar</button>
+            <button type="button" class="fbtn" onclick="fcNext(2)">Continuar →</button>
+          </div>
         </div>
-        <div class="fld">
-          <label>Nome da marca *</label>
-          <input type="text" id="f-marca" placeholder="Ex: Studio Mara, FitLife, NutriPro...">
-          <div class="fc-err" id="err-marca">⚠ Informe o nome da marca</div>
+
+        <!-- STEP 3: Objetivo + Submit -->
+        <div class="fc-step-panel" id="fc-step-3">
+          <div class="fld">
+            <label>Objetivo da pesquisa *</label>
+            <select id="f-objetivo">
+              <option value="">Selecione seu objetivo...</option>
+              <option value="Quero registrar o quanto antes">Quero registrar o quanto antes</option>
+              <option value="Tenho interesse se a marca estiver disponível">Tenho interesse se a marca estiver disponível</option>
+              <option value="Por enquanto, só quero entender a viabilidade">Por enquanto, só quero entender a viabilidade</option>
+            </select>
+            <div class="fc-err" id="err-objetivo">⚠ Selecione seu objetivo</div>
+          </div>
+          <div class="fdiv"></div>
+          <div class="fc-step-nav">
+            <button type="button" class="fc-back-btn" onclick="fcBack(3)">← Voltar</button>
+            <button type="button" class="fbtn" onclick="enviarWA()">Verificar disponibilidade grátis →</button>
+          </div>
+          <a href="https://wa.me/5548984283696" target="_blank" rel="noopener" class="fwa" style="margin-top:10px;">💬 Prefiro falar direto no WhatsApp</a>
+          <div class="fc-trust">🔒 Sem spam. Dados usados apenas para contato.</div>
         </div>
-        <div class="fld">
-          <label>Área de atividade *</label>
-          <select id="f-area" onchange="onAreaChange()">
-            <option value="">Selecione sua área...</option>
-            <option value="Moda, roupas e acessórios|25">Moda, roupas e acessórios</option>
-            <option value="Alimentação e bebidas|29,30,32">Alimentação e bebidas</option>
-            <option value="Saúde, beleza e estética|3,44">Saúde, beleza e estética</option>
-            <option value="Tecnologia e software (SaaS, apps)|42">Tecnologia e software (SaaS, apps)</option>
-            <option value="Educação, cursos e treinamentos|41">Educação, cursos e treinamentos</option>
-            <option value="Consultoria e serviços empresariais|35">Consultoria e serviços empresariais</option>
-            <option value="Criador de conteúdo / influenciador|41,35">Criador de conteúdo / influenciador</option>
-            <option value="E-commerce e varejo online|35">E-commerce e varejo online</option>
-            <option value="Agência de marketing e publicidade|35">Agência de marketing e publicidade</option>
-            <option value="Fitness, bem-estar e meditação|41,44">Fitness, bem-estar e meditação</option>
-            <option value="Arquitetura, design e engenharia|42">Arquitetura, design e engenharia</option>
-            <option value="Finanças, investimentos e seguros|36">Finanças, investimentos e seguros</option>
-            <option value="Alimentação saudável e suplementos|5,30">Alimentação saudável e suplementos</option>
-            <option value="Pets e produtos para animais|31,44">Pets e produtos para animais</option>
-            <option value="Imóveis e construção civil|36,37">Imóveis e construção civil</option>
-            <option value="Turismo, viagens e hospitalidade|39,43">Turismo, viagens e hospitalidade</option>
-            <option value="Indústria e manufatura|Varia por produto">Indústria e manufatura</option>
-            <option value="Outro (especificar no WhatsApp)|">Outro (especificar no WhatsApp)</option>
-          </select>
-          <div class="fc-err" id="err-area">⚠ Selecione sua área</div>
-          <div class="fc-hint" id="hint-area"></div>
-        </div>
-        <div class="fld">
-          <label>Objetivo da pesquisa *</label>
-          <select id="f-objetivo">
-            <option value="">Selecione seu objetivo...</option>
-            <option value="Quero registrar o quanto antes">Quero registrar o quanto antes</option>
-            <option value="Tenho interesse se a marca estiver disponível">Tenho interesse se a marca estiver disponível</option>
-            <option value="Por enquanto, só quero entender a viabilidade">Por enquanto, só quero entender a viabilidade</option>
-          </select>
-          <div class="fc-err" id="err-objetivo">⚠ Selecione seu objetivo</div>
-        </div>
-        <div class="fdiv"></div>
-        <button type="button" class="fbtn" onclick="enviarWA()">Verificar disponibilidade grátis →</button>
-        <a href="https://wa.me/5548984283696" target="_blank" rel="noopener" class="fwa" style="margin-top:10px;">💬 Prefiro falar direto no WhatsApp</a>
-        <div class="fc-trust">🔒 Sem spam. Dados usados apenas para contato.</div>
       </div>
       <div id="fc-success" style="display:none;">
         <div class="fc-submitted">
@@ -582,6 +669,17 @@ a.hotmart-fb.bc {
       <button onclick="buscarMarca()">Analisar →</button>
     </div>
     <div class="sres" id="sres"></div>
+    <!-- IMPROVEMENT 5: INPI Lead Gate -->
+    <div class="sgate" id="sgate">
+      <div class="sgate-lbl">Próximo passo</div>
+      <p>Quer verificar se <strong id="sgate-brand-name"></strong> já está registrado na base oficial do INPI? Deixe seu WhatsApp — verificamos gratuitamente.</p>
+      <div class="sgate-row">
+        <input type="tel" id="sgate-whats" placeholder="(11) 99999-9999" inputmode="numeric" maxlength="15" autocomplete="tel">
+        <button type="button" onclick="sgateSubmit()">Verificar no INPI →</button>
+      </div>
+      <div class="sgate-err" id="sgate-err">⚠ Informe um WhatsApp válido</div>
+      <div class="sgate-thanks" id="sgate-thanks">✅ Enviado! Retornamos em até 2 horas.</div>
+    </div>
     <p class="sdis">⚠️ Esta análise avalia o formato do nome — não consulta a base oficial do INPI. A verificação completa de anterioridade está inclusa no serviço.</p>
   </div>
 </section>
@@ -881,6 +979,28 @@ a.hotmart-fb.bc {
   </div>
 </footer>
 
+<!-- IMPROVEMENT 4: Exit-Intent Popup -->
+<div class="exit-overlay" id="exit-popup" role="dialog" aria-modal="true" aria-labelledby="exit-title">
+  <div class="exit-box">
+    <button class="exit-close" id="exit-close-btn" aria-label="Fechar">✕</button>
+    <div class="exit-eyebrow">Antes de sair</div>
+    <h3 id="exit-title">Sua marca está em risco?</h3>
+    <p>Deixe seu nome e WhatsApp. Nossa equipe verifica a disponibilidade e retorna em até 2 horas — sem compromisso.</p>
+    <div class="exit-fld">
+      <label>Seu nome *</label>
+      <input type="text" id="exit-nome" placeholder="Ex: Maria Silva" autocomplete="name">
+      <div class="exit-err" id="exit-err-nome">⚠ Informe seu nome</div>
+    </div>
+    <div class="exit-fld">
+      <label>WhatsApp *</label>
+      <input type="tel" id="exit-whats" placeholder="(11) 99999-9999" inputmode="numeric" maxlength="15" autocomplete="tel">
+      <div class="exit-err" id="exit-err-whats"></div>
+    </div>
+    <button type="button" class="exit-submit" onclick="exitSubmit()">Verificar minha marca agora →</button>
+    <button type="button" class="exit-skip" onclick="closeExitPopup()">Não, obrigado</button>
+  </div>
+</div>
+
 <div class="wa-float">
   <a class="wa-btn-f" href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" target="_blank" rel="noopener" aria-label="WhatsApp">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -888,6 +1008,7 @@ a.hotmart-fb.bc {
 </div>
 
 <div class="sticky-cta">
+  <div class="sticky-urg-badge">⚡ <span id="sticky-count">47</span> pessoas verificaram hoje</div>
   <div class="sticky-cta-row">
     <a href="#form">Verificar marca →</a>
     <a href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" target="_blank" rel="noopener">💬 WhatsApp</a>
@@ -918,11 +1039,131 @@ if(waInput){waInput.addEventListener('input',function(){this.value=maskPhone(thi
 const emailInput=document.getElementById('f-email');
 if(emailInput){emailInput.addEventListener('blur',function(){if(this.value){const err=validateEmail(this.value);if(err)showErr('email',err);else clearErr('email');}});emailInput.addEventListener('input',function(){if(document.getElementById('err-email').classList.contains('show')){const err=validateEmail(this.value);if(!err)clearErr('email');}});}
 function onAreaChange(){const sel=document.getElementById('f-area');const hint=document.getElementById('hint-area');clearErr('area');if(sel.value){const parts=sel.value.split('|');const ncl=parts[1];if(ncl&&ncl.trim()){hint.textContent='Classe NCL correspondente: '+ncl;hint.classList.add('show');}else if(parts[0].includes('Outro')){hint.textContent='Você poderá especificar no WhatsApp.';hint.classList.add('show');}else{hint.classList.remove('show');}}else{hint.classList.remove('show');}}
-function enviarWA(){let valid=true;const nome=document.getElementById('f-nome').value.trim();if(!nome){showErr('nome','Informe seu nome');valid=false;}else clearErr('nome');const whats=document.getElementById('f-whats').value.trim();const whatsErr=validatePhone(whats);if(!whats){showErr('whats','Informe seu WhatsApp');valid=false;}else if(whatsErr){showErr('whats',whatsErr);valid=false;}else{clearErr('whats');showOk('whats');}const email=document.getElementById('f-email').value.trim();const emailErr=validateEmail(email);if(!email){showErr('email','Informe seu e-mail');valid=false;}else if(emailErr){showErr('email',emailErr);valid=false;}else clearErr('email');const marca=document.getElementById('f-marca').value.trim();if(!marca){showErr('marca','Informe o nome da marca');valid=false;}else clearErr('marca');const areaVal=document.getElementById('f-area').value;if(!areaVal){showErr('area','Selecione sua área');valid=false;}else clearErr('area');const objetivo=document.getElementById('f-objetivo').value;if(!objetivo){showErr('objetivo','Selecione seu objetivo');valid=false;}else clearErr('objetivo');if(!valid){const firstErr=document.querySelector('.fc-err.show');if(firstErr)firstErr.scrollIntoView({behavior:'smooth',block:'center'});return;}const areaParts=areaVal.split('|');const areaNome=areaParts[0];const nclVal=areaParts[1];const nclInfo=nclVal&&nclVal.trim()?` (NCL: ${nclVal})`:'';const msg=[`Olá! Quero uma pesquisa de viabilidade de marca.`,``,`*Nome:* ${nome}`,`*WhatsApp:* ${whats}`,`*E-mail:* ${email}`,`*Nome da marca:* ${marca}`,`*Área de atividade:* ${areaNome}${nclInfo}`,`*Objetivo:* ${objetivo}`].join('\n');window.open(`https://wa.me/5548984283696?text=${encodeURIComponent(msg)}`,'_blank');document.getElementById('fc-main').style.display='none';document.getElementById('fc-success').style.display='block';}
-function resetForm(){['nome','whats','email','marca'].forEach(id=>{const el=document.getElementById('f-'+id);if(el)el.value='';clearErr(id);clearOk(id);});document.getElementById('f-area').value='';document.getElementById('f-objetivo').value='';document.getElementById('hint-area').classList.remove('show');document.getElementById('fc-main').style.display='block';document.getElementById('fc-success').style.display='none';}
+// ── Multi-Step Form Navigation ──
+function fcGoTo(step){
+  [1,2,3].forEach(function(s){
+    var panel=document.getElementById('fc-step-'+s);
+    var dot=document.getElementById('fc-dot-'+s);
+    if(!panel||!dot)return;
+    panel.classList.toggle('fc-active',s===step);
+    dot.classList.remove('active','done');
+    if(s<step)dot.classList.add('done');
+    else if(s===step)dot.classList.add('active');
+  });
+  var labels={1:'Verificação gratuita — Passo 1 de 3',2:'Seus dados — Passo 2 de 3',3:'Objetivo — Passo 3 de 3'};
+  var lbl=document.getElementById('fc-step-label');
+  if(lbl)lbl.textContent=labels[step]||'';
+}
+function fcNext(fromStep){
+  if(fromStep===1){
+    var ok=true;
+    var marca=document.getElementById('f-marca').value.trim();
+    if(!marca){showErr('marca','Informe o nome da marca');ok=false;}else clearErr('marca');
+    var areaVal=document.getElementById('f-area').value;
+    if(!areaVal){showErr('area','Selecione sua área');ok=false;}else clearErr('area');
+    if(!ok){var fe=document.querySelector('.fc-err.show');if(fe)fe.scrollIntoView({behavior:'smooth',block:'center'});return;}
+    fcGoTo(2);
+    var fc=document.getElementById('form');if(fc)fc.scrollIntoView({behavior:'smooth',block:'start'});
+  } else if(fromStep===2){
+    var ok2=true;
+    var nome=document.getElementById('f-nome').value.trim();
+    if(!nome){showErr('nome','Informe seu nome');ok2=false;}else clearErr('nome');
+    var whats=document.getElementById('f-whats').value.trim();
+    var wErr=validatePhone(whats);
+    if(!whats){showErr('whats','Informe seu WhatsApp');ok2=false;}
+    else if(wErr){showErr('whats',wErr);ok2=false;}
+    else{clearErr('whats');showOk('whats');}
+    var email=document.getElementById('f-email').value.trim();
+    var eErr=validateEmail(email);
+    if(!email){showErr('email','Informe seu e-mail');ok2=false;}
+    else if(eErr){showErr('email',eErr);ok2=false;}
+    else clearErr('email');
+    if(!ok2){var fe2=document.querySelector('.fc-err.show');if(fe2)fe2.scrollIntoView({behavior:'smooth',block:'center'});return;}
+    fcGoTo(3);
+    var fc2=document.getElementById('form');if(fc2)fc2.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+function fcBack(fromStep){fcGoTo(fromStep-1);var fc=document.getElementById('form');if(fc)fc.scrollIntoView({behavior:'smooth',block:'start'});}
+
+function enviarWA(){
+  var valid=true;
+  var objetivo=document.getElementById('f-objetivo').value;
+  if(!objetivo){showErr('objetivo','Selecione seu objetivo');valid=false;}else clearErr('objetivo');
+  if(!valid){return;}
+  var nome=document.getElementById('f-nome').value.trim();
+  var whats=document.getElementById('f-whats').value.trim();
+  var email=document.getElementById('f-email').value.trim();
+  var marca=document.getElementById('f-marca').value.trim();
+  var areaVal=document.getElementById('f-area').value;
+  var areaParts=areaVal.split('|');
+  var areaNome=areaParts[0];
+  var nclVal=areaParts[1];
+  var nclInfo=nclVal&&nclVal.trim()?' (NCL: '+nclVal+')':'';
+  var msg=['Olá! Quero uma pesquisa de viabilidade de marca.','','*Nome:* '+nome,'*WhatsApp:* '+whats,'*E-mail:* '+email,'*Nome da marca:* '+marca,'*Área de atividade:* '+areaNome+nclInfo,'*Objetivo:* '+objetivo].join('\n');
+  window.open('https://wa.me/5548984283696?text='+encodeURIComponent(msg),'_blank');
+  document.getElementById('fc-main').style.display='none';
+  document.getElementById('fc-success').style.display='block';
+}
+function resetForm(){
+  ['nome','whats','email','marca'].forEach(function(id){var el=document.getElementById('f-'+id);if(el)el.value='';clearErr(id);clearOk(id);});
+  document.getElementById('f-area').value='';
+  document.getElementById('f-objetivo').value='';
+  document.getElementById('hint-area').classList.remove('show');
+  document.getElementById('fc-main').style.display='block';
+  document.getElementById('fc-success').style.display='none';
+  fcGoTo(1);
+}
 const genericTerms=['empresa','brasil','store','shop','digital','online','tech','solutions','group','service','serviços','comercio','comercial','nacional','internacional','global','universal','geral','central','prime','plus','pro','max','top','super','mega','ultra','brazil'];
-function buscarMarca(){const v=document.getElementById('search-input').value.trim();const r=document.getElementById('sres');if(!v){r.className='sres';return;}const lo=v.toLowerCase();const words=lo.split(/\s+/);const isNum=/^\d+$/.test(v);const hasSpec=/[!@#$%^&*()\[\]{}|\\<>\/]/.test(v);const allGeneric=words.every(w=>genericTerms.includes(w));const hasGeneric=words.some(w=>genericTerms.includes(w));r.classList.add('on');if(isNum){r.className='sres bad on';r.innerHTML=`🔴 <strong>"${v}"</strong> é composto apenas por números — o INPI não registra marcas exclusivamente numéricas. <a href="#form">Falar com especialista →</a>`;}else if(v.length<3){r.className='sres bad on';r.innerHTML=`🔴 <strong>"${v}"</strong> é muito curto. O INPI exige distintividade mínima. <a href="#form">Falar com especialista →</a>`;}else if(v.length>50){r.className='sres warn on';r.innerHTML=`🟡 <strong>"${v}"</strong> é muito longo (${v.length} caracteres). Considere uma versão mais concisa. <a href="#form">Solicitar análise →</a>`;}else if(hasSpec){r.className='sres warn on';r.innerHTML=`🟡 <strong>"${v}"</strong> contém caracteres especiais que o INPI pode questionar. <a href="#form">Solicitar análise →</a>`;}else if(allGeneric){r.className='sres bad on';r.innerHTML=`🔴 <strong>"${v}"</strong> é composto apenas por termos genéricos. O INPI tende a indeferir marcas sem distintividade. <a href="#form">Falar com especialista →</a>`;}else if(hasGeneric){r.className='sres warn on';r.innerHTML=`🟡 <strong>"${v}"</strong> contém termos de uso comum. Exige estratégia específica na especificação. <a href="#form">Solicitar análise completa →</a>`;}else{r.className='sres ok on';r.innerHTML=`✅ <strong>"${v}"</strong> tem boa distintividade e comprimento adequado. A verificação de anterioridade completa é o próximo passo. <a href="#form">Solicitar análise gratuita →</a>`;}}
-document.getElementById('search-input').addEventListener('keydown',e=>{if(e.key==='Enter')buscarMarca();});
+var _lastBrandAnalysis={name:'',result:''};
+function buscarMarca(){
+  var v=document.getElementById('search-input').value.trim();
+  var r=document.getElementById('sres');
+  var gate=document.getElementById('sgate');
+  var brandSpan=document.getElementById('sgate-brand-name');
+  gate.classList.remove('sg-visible');
+  document.getElementById('sgate-thanks').classList.remove('show');
+  document.getElementById('sgate-err').classList.remove('show');
+  var sgw=document.getElementById('sgate-whats');if(sgw)sgw.value='';
+  if(!v){r.className='sres';return;}
+  var lo=v.toLowerCase();
+  var words=lo.split(/\s+/);
+  var isNum=/^\d+$/.test(v);
+  var hasSpec=/[!@#$%^&*()\[\]{}|\\<>\/]/.test(v);
+  var allGeneric=words.every(function(w){return genericTerms.includes(w);});
+  var hasGeneric=words.some(function(w){return genericTerms.includes(w);});
+  r.classList.add('on');
+  var outcome='';
+  if(isNum){outcome='bad';r.className='sres bad on';r.innerHTML='🔴 <strong>"'+v+'"</strong> é composto apenas por números — o INPI não registra marcas exclusivamente numéricas. <a href="#form">Falar com especialista →</a>';}
+  else if(v.length<3){outcome='bad';r.className='sres bad on';r.innerHTML='🔴 <strong>"'+v+'"</strong> é muito curto. O INPI exige distintividade mínima. <a href="#form">Falar com especialista →</a>';}
+  else if(v.length>50){outcome='warn';r.className='sres warn on';r.innerHTML='🟡 <strong>"'+v+'"</strong> é muito longo ('+v.length+' caracteres). Considere uma versão mais concisa.';}
+  else if(hasSpec){outcome='warn';r.className='sres warn on';r.innerHTML='🟡 <strong>"'+v+'"</strong> contém caracteres especiais que o INPI pode questionar.';}
+  else if(allGeneric){outcome='bad';r.className='sres bad on';r.innerHTML='🔴 <strong>"'+v+'"</strong> é composto apenas por termos genéricos. O INPI tende a indeferir marcas sem distintividade. <a href="#form">Falar com especialista →</a>';}
+  else if(hasGeneric){outcome='warn';r.className='sres warn on';r.innerHTML='🟡 <strong>"'+v+'"</strong> contém termos de uso comum. Exige estratégia específica na especificação.';}
+  else{outcome='ok';r.className='sres ok on';r.innerHTML='✅ <strong>"'+v+'"</strong> tem boa distintividade e comprimento adequado. A verificação de anterioridade completa é o próximo passo.';}
+  _lastBrandAnalysis.name=v;_lastBrandAnalysis.result=outcome;
+  if(outcome==='ok'||outcome==='warn'){
+    if(brandSpan)brandSpan.textContent='"'+v+'"';
+    gate.classList.add('sg-visible');
+    if(sgw&&!sgw._masked){sgw._masked=true;sgw.addEventListener('input',function(){this.value=maskPhone(this.value);});}
+  }
+}
+function sgateSubmit(){
+  var whatsEl=document.getElementById('sgate-whats');
+  var errEl=document.getElementById('sgate-err');
+  var thanksEl=document.getElementById('sgate-thanks');
+  var whats=whatsEl.value.trim();
+  var wErr=validatePhone(whats);
+  if(!whats||wErr){errEl.textContent='⚠ '+(wErr||'Informe seu WhatsApp');errEl.classList.add('show');return;}
+  errEl.classList.remove('show');
+  var brandName=_lastBrandAnalysis.name;
+  var resultTxt=_lastBrandAnalysis.result==='ok'?'Boa distintividade':'Atenção: termos genéricos/comprimento';
+  var msg='🔍 [BUSCA] Nome: '+brandName+' | WhatsApp: '+whats+' | Resultado: '+resultTxt;
+  window.open('https://wa.me/5548984283696?text='+encodeURIComponent(msg),'_blank');
+  whatsEl.disabled=true;
+  var btn=document.querySelector('#sgate .sgate-row button');if(btn)btn.disabled=true;
+  thanksEl.classList.add('show');
+}
+document.getElementById('search-input').addEventListener('keydown',function(e){if(e.key==='Enter')buscarMarca();});
 function setupFaq(btnSelector,filterSync){document.querySelectorAll(btnSelector).forEach(btn=>{btn.addEventListener('click',()=>{const cat=btn.dataset.cat;document.querySelectorAll(btnSelector).forEach(b=>b.classList.remove('on'));btn.classList.add('on');if(filterSync)filterSync(cat);document.querySelectorAll('#faq-acc .fg').forEach(g=>{g.style.display=(cat==='all'||g.dataset.cat===cat)?'':'none';});document.querySelectorAll('.fe.on').forEach(e=>e.classList.remove('on'));});});}
 setupFaq('#faq-cats-desktop .faq-cb',cat=>{document.querySelectorAll('.faq-cm-btn').forEach(b=>b.classList.toggle('on',b.dataset.cat===cat));});
 setupFaq('.faq-cm-btn',cat=>{document.querySelectorAll('.faq-cb').forEach(b=>b.classList.toggle('on',b.dataset.cat===cat));});
@@ -980,7 +1221,103 @@ document.querySelectorAll('.ft').forEach(ft=>{ft.addEventListener('click',()=>{c
 function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
 function closeModalById(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
 function closeModal(e,overlay){if(e.target===overlay)closeModalById(overlay.id);}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';});}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';});closeExitPopup();}});
+</script>
+<script>
+// ── IMPROVEMENT 1: Sticky Urgency Counter ──
+(function(){
+  var COUNT_KEY='hm_verify_count';
+  var LAST_INC_KEY='hm_last_inc';
+  var INC_MS=8*60*1000;
+  var stored=parseInt(sessionStorage.getItem(COUNT_KEY),10);
+  var count=isNaN(stored)?47:stored;
+  function updateDisplay(){var el=document.getElementById('sticky-count');if(el)el.textContent=count;}
+  function maybeInc(){var last=parseInt(sessionStorage.getItem(LAST_INC_KEY),10);var now=Date.now();if(isNaN(last)||(now-last)>=INC_MS){count++;sessionStorage.setItem(COUNT_KEY,count);sessionStorage.setItem(LAST_INC_KEY,now);updateDisplay();}}
+  updateDisplay();
+  setInterval(maybeInc,INC_MS);
+})();
+
+// ── IMPROVEMENT 2: Social Proof Toast ──
+(function(){
+  var MESSAGES=[
+    '🟢 Andrea, de São Paulo, acabou de solicitar verificação',
+    '🟢 Carlos, do Rio de Janeiro, iniciou seu registro',
+    '🟢 Mariana, de Curitiba, verificou a disponibilidade da marca',
+    '🟢 Paulo, de Belo Horizonte, acabou de contratar',
+    '🟢 Fernanda, de Porto Alegre, está verificando sua marca agora'
+  ];
+  var idx=0;var dismissed=false;
+  var toast=document.createElement('div');
+  toast.className='sp-toast';
+  toast.setAttribute('role','status');
+  toast.setAttribute('aria-live','polite');
+  var closeBtn=document.createElement('button');
+  closeBtn.className='sp-toast-close';
+  closeBtn.textContent='✕';
+  closeBtn.setAttribute('aria-label','Fechar');
+  closeBtn.addEventListener('click',function(){dismissed=true;hide();});
+  var msgSpan=document.createElement('span');
+  toast.appendChild(msgSpan);
+  toast.appendChild(closeBtn);
+  document.body.appendChild(toast);
+  function show(){if(dismissed)return;msgSpan.textContent=MESSAGES[idx%MESSAGES.length];idx++;toast.classList.add('sp-visible');setTimeout(hide,4000);}
+  function hide(){toast.classList.remove('sp-visible');}
+  setTimeout(show,8000);
+  setInterval(function(){if(!dismissed)show();},45000);
+})();
+
+// ── IMPROVEMENT 4: Exit-Intent Popup ──
+(function(){
+  var SESSION_KEY='hm_exit_shown';
+  if(sessionStorage.getItem(SESSION_KEY))return;
+  var popup=document.getElementById('exit-popup');
+  var triggered=false;
+  var mobileTimer=null;
+  function showPopup(){
+    if(triggered)return;
+    triggered=true;
+    sessionStorage.setItem(SESSION_KEY,'1');
+    setTimeout(function(){
+      popup.classList.add('exit-open');
+      document.body.style.overflow='hidden';
+      var fi=document.getElementById('exit-nome');if(fi)fi.focus();
+    },1000);
+  }
+  document.addEventListener('mouseleave',function(e){if(e.clientY<10)showPopup();});
+  function resetMobile(){clearTimeout(mobileTimer);mobileTimer=setTimeout(showPopup,30000);}
+  if('ontouchstart' in window){['touchstart','touchmove','touchend','scroll'].forEach(function(ev){document.addEventListener(ev,resetMobile,{passive:true});});resetMobile();}
+  popup.addEventListener('click',function(e){if(e.target===popup)closeExitPopup();});
+  document.getElementById('exit-close-btn').addEventListener('click',closeExitPopup);
+  var exitW=document.getElementById('exit-whats');
+  if(exitW){exitW.addEventListener('input',function(){this.value=maskPhone(this.value);});}
+})();
+
+function closeExitPopup(){
+  var popup=document.getElementById('exit-popup');
+  if(popup)popup.classList.remove('exit-open');
+  var drawerOpen=document.getElementById('drawer').classList.contains('open');
+  var modalOpen=document.querySelector('.modal-overlay.open');
+  if(!drawerOpen&&!modalOpen)document.body.style.overflow='';
+}
+function exitSubmit(){
+  var nameEl=document.getElementById('exit-nome');
+  var whatsEl=document.getElementById('exit-whats');
+  var errName=document.getElementById('exit-err-nome');
+  var errWhats=document.getElementById('exit-err-whats');
+  var valid=true;
+  var name=nameEl.value.trim();
+  if(!name){errName.textContent='⚠ Informe seu nome';errName.classList.add('show');nameEl.style.borderColor='#dc2626';valid=false;}
+  else{errName.classList.remove('show');nameEl.style.borderColor='';}
+  var whats=whatsEl.value.trim();
+  var wErr=validatePhone(whats);
+  if(!whats){errWhats.textContent='⚠ Informe seu WhatsApp';errWhats.classList.add('show');whatsEl.style.borderColor='#dc2626';valid=false;}
+  else if(wErr){errWhats.textContent='⚠ '+wErr;errWhats.classList.add('show');whatsEl.style.borderColor='#dc2626';valid=false;}
+  else{errWhats.classList.remove('show');whatsEl.style.borderColor='';}
+  if(!valid)return;
+  var msg='🔴 [EXIT] Nome: '+name+' | WhatsApp: '+whats+' | Solicitou verificação de urgência';
+  window.open('https://wa.me/5548984283696?text='+encodeURIComponent(msg),'_blank');
+  closeExitPopup();
+}
 </script>
 </body>
 </html>
