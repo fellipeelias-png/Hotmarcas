@@ -679,47 +679,9 @@ a.hotmart-fb.bc {
 
 
 <div class="lw">
-  <div class="lw-label">+3.000 marcas que já protegemos <span id="cnt-marcas" style="display:none"></span></div>
+  <div class="lw-label">✅ Clientes reais com marcas registradas pela HotMarcas <span id="cnt-marcas" style="display:none"></span></div>
   <div class="lw-track-wrap">
-    <div class="lw-track">
-      <span class="lw-item">Studio Mara</span><span class="lw-dot">·</span>
-      <span class="lw-item">FitLife</span><span class="lw-dot">·</span>
-      <span class="lw-item">NutriPro</span><span class="lw-dot">·</span>
-      <span class="lw-item">ZenFlow</span><span class="lw-dot">·</span>
-      <span class="lw-item">EverBee</span><span class="lw-dot">·</span>
-      <span class="lw-item">Bella Casa</span><span class="lw-dot">·</span>
-      <span class="lw-item">TechFlow</span><span class="lw-dot">·</span>
-      <span class="lw-item">PuraVida</span><span class="lw-dot">·</span>
-      <span class="lw-item">MindSet</span><span class="lw-dot">·</span>
-      <span class="lw-item">BioFresh</span><span class="lw-dot">·</span>
-      <span class="lw-item">ArtHome</span><span class="lw-dot">·</span>
-      <span class="lw-item">SwiftPay</span><span class="lw-dot">·</span>
-      <span class="lw-item">LearnHub</span><span class="lw-dot">·</span>
-      <span class="lw-item">PetCare</span><span class="lw-dot">·</span>
-      <span class="lw-item">NovaModa</span><span class="lw-dot">·</span>
-      <span class="lw-item">CriaBR</span><span class="lw-dot">·</span>
-      <span class="lw-item">VivaSaúde</span><span class="lw-dot">·</span>
-      <span class="lw-item">FlexWork</span><span class="lw-dot">·</span>
-      <!-- duplicata para loop contínuo -->
-      <span class="lw-item">Studio Mara</span><span class="lw-dot">·</span>
-      <span class="lw-item">FitLife</span><span class="lw-dot">·</span>
-      <span class="lw-item">NutriPro</span><span class="lw-dot">·</span>
-      <span class="lw-item">ZenFlow</span><span class="lw-dot">·</span>
-      <span class="lw-item">EverBee</span><span class="lw-dot">·</span>
-      <span class="lw-item">Bella Casa</span><span class="lw-dot">·</span>
-      <span class="lw-item">TechFlow</span><span class="lw-dot">·</span>
-      <span class="lw-item">PuraVida</span><span class="lw-dot">·</span>
-      <span class="lw-item">MindSet</span><span class="lw-dot">·</span>
-      <span class="lw-item">BioFresh</span><span class="lw-dot">·</span>
-      <span class="lw-item">ArtHome</span><span class="lw-dot">·</span>
-      <span class="lw-item">SwiftPay</span><span class="lw-dot">·</span>
-      <span class="lw-item">LearnHub</span><span class="lw-dot">·</span>
-      <span class="lw-item">PetCare</span><span class="lw-dot">·</span>
-      <span class="lw-item">NovaModa</span><span class="lw-dot">·</span>
-      <span class="lw-item">CriaBR</span><span class="lw-dot">·</span>
-      <span class="lw-item">VivaSaúde</span><span class="lw-dot">·</span>
-      <span class="lw-item">FlexWork</span><span class="lw-dot">·</span>
-    </div>
+    <div class="lw-track" id="lw-track"></div>
   </div>
 </div>
 
@@ -1345,6 +1307,7 @@ function sgateSubmit(){
   thanksEl.classList.add('show');
 }
 document.getElementById('search-input').addEventListener('keydown',function(e){if(e.key==='Enter')buscarMarca();});
+(function(){var brands=['Müsy','Pangea','Café On TV','Soletra+','Helpers Education','QStarts','IACES Brasil','Capeia Azul','Mináguas','Bless Music','Musy Records','Agathos Editora','AGT Produtora','Grupo Agathos','Auset','BizuCash','Capoeira D\'Tomé','Djiele','Liquida Itaperuna','Agathos Play','Beer Beard Club','Art\'s Empire','Angion Clínica','Futura Supermercados'];for(var i=brands.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=brands[i];brands[i]=brands[j];brands[j]=tmp;}var html='';var set=brands.concat(brands);set.forEach(function(b){html+='<span class="lw-item">'+b+'</span><span class="lw-dot">·</span>';});document.getElementById('lw-track').innerHTML=html;})();
 function setupFaq(btnSelector,filterSync){document.querySelectorAll(btnSelector).forEach(btn=>{btn.addEventListener('click',()=>{const cat=btn.dataset.cat;document.querySelectorAll(btnSelector).forEach(b=>b.classList.remove('on'));btn.classList.add('on');if(filterSync)filterSync(cat);document.querySelectorAll('#faq-acc .fg').forEach(g=>{g.style.display=(cat==='all'||g.dataset.cat===cat)?'':'none';});document.querySelectorAll('.fe.on').forEach(e=>e.classList.remove('on'));});});}
 setupFaq('#faq-cats-desktop .faq-cb',cat=>{document.querySelectorAll('.faq-cm-btn').forEach(b=>b.classList.toggle('on',b.dataset.cat===cat));});
 setupFaq('.faq-cm-btn',cat=>{document.querySelectorAll('.faq-cb').forEach(b=>b.classList.toggle('on',b.dataset.cat===cat));});
