@@ -305,52 +305,41 @@ nav{position:fixed;inset:0 0 auto;z-index:300;height:60px;display:flex;align-ite
 .transp-item h4{font-family:var(--f);font-size:15px;font-weight:700;color:var(--c);margin-bottom:8px;letter-spacing:-.01em;}
 .transp-item p{font-size:13px;color:rgba(240,239,231,.52);line-height:1.65;font-weight:300;}
 .pricing{background:var(--c);}
-.pb{background:var(--w);border:1.5px solid var(--b);border-radius:var(--rl);overflow:hidden;max-width:680px;margin:0 auto;box-shadow:0 8px 40px rgba(0,0,0,.10),0 2px 8px rgba(0,0,0,.06);transition:transform .3s ease,box-shadow .3s ease;}
-.pb:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.14),0 4px 12px rgba(0,0,0,.08);}
-/* Pricing hero banner */
-.pb-hero{position:relative;height:180px;background:linear-gradient(135deg,var(--k) 0%,#1e1c17 55%,#2d1a0e 100%);overflow:hidden;display:flex;align-items:flex-end;padding:28px 36px;}
-.pb-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(ellipse,rgba(192,80,40,.35) 0%,transparent 65%);pointer-events:none;}
-.pb-hero::after{content:'';position:absolute;bottom:-80px;left:-40px;width:240px;height:240px;background:radial-gradient(ellipse,rgba(192,80,40,.18) 0%,transparent 65%);pointer-events:none;}
-.pb-hero-rings{position:absolute;top:50%;right:32px;transform:translateY(-50%);width:120px;height:120px;}
-.pb-hero-rings svg{width:100%;height:100%;animation:pbRingSpin 18s linear infinite;opacity:.18;}
-@keyframes pbRingSpin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-.pb-hero-content{position:relative;z-index:1;}
-.pb-hero-ey{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--al);margin-bottom:8px;}
-.pb-hero-h{font-family:var(--f);font-size:22px;font-weight:700;color:var(--c);line-height:1.15;letter-spacing:-.02em;}
-.pb-hero-h em{font-style:italic;color:var(--al);}
-/* Pricing badge floating */
-.pb-badge{position:absolute;top:16px;right:20px;background:rgba(255,255,255,.10);border:1.5px solid rgba(255,255,255,.18);border-radius:var(--rm);padding:8px 14px;text-align:center;backdrop-filter:blur(8px);}
-.pb-badge-main{font-family:var(--f);font-size:13px;font-weight:700;color:var(--c);display:block;line-height:1.2;}
-.pb-badge-sub{font-size:9px;color:rgba(240,239,231,.50);letter-spacing:.06em;text-transform:uppercase;}
-/* Pricing top section */
-.pb-top{padding:28px 36px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;border-bottom:1.5px solid var(--bs);}
-.pb-lbl{font-size:11.5px;color:var(--g);margin-bottom:5px;font-weight:300;}
-.pb-amt{font-family:var(--f);font-size:52px;font-weight:700;color:var(--k);letter-spacing:-.035em;line-height:1;}
-.pb-amt sup{font-size:20px;vertical-align:super;}
-.pb-per{font-size:12.5px;color:var(--g);margin-top:5px;font-weight:300;}
-.pb-ins{text-align:right;padding:14px 18px;background:rgba(192,80,40,.06);border:1.5px solid rgba(192,80,40,.18);border-radius:var(--rm);}
-.pb-ins .big{font-family:var(--f);font-size:22px;font-weight:700;color:var(--a);display:block;line-height:1;}
-.pb-ins .sml{font-size:11px;color:var(--g);}
-/* Items grid */
-.pb-items{padding:24px 36px;display:grid;grid-template-columns:1fr 1fr;gap:10px;border-bottom:1.5px solid var(--bs);}
-.pi{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--m);}
-.pi-chk{width:16px;height:16px;flex-shrink:0;border-radius:50%;background:rgba(192,80,40,.10);border:1.5px solid rgba(192,80,40,.25);display:flex;align-items:center;justify-content:center;margin-top:1px;}
-.pi-chk svg{width:7px;height:7px;stroke:var(--a);stroke-width:2.8;fill:none;}
-/* Footer */
-.pb-ft{padding:24px 36px;display:flex;flex-direction:column;gap:14px;}
-.pb-ft .bp{justify-content:center;padding:16px 28px;font-size:15px;font-weight:600;animation:pbPulse 3s 2s ease-in-out infinite;}
-@keyframes pbPulse{0%,100%{box-shadow:0 0 0 0 rgba(15,14,11,0);}50%{box-shadow:0 0 0 8px rgba(15,14,11,.08);}}
-.pb-hb{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;padding-top:10px;border-top:1px solid var(--bs);}
-.hb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g);font-weight:500;}
-.hb svg{width:13px;height:13px;fill:var(--g);}
-.pb-note{font-size:11px;color:var(--g);line-height:1.6;padding:0 36px 20px;font-weight:300;}
-.checkout-next{background:var(--cd);border:1.5px solid var(--bs);border-radius:var(--rm);padding:18px 20px;margin-top:14px;}
-.checkout-next-title{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--m);margin-bottom:12px;font-family:var(--n);}
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto;align-items:start;}
+.tier{background:var(--w);border:1.5px solid var(--b);border-radius:var(--rl);overflow:hidden;position:relative;transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column;}
+.tier:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.10);}
+.tier-pop{border:2px solid var(--a);transform:scale(1.04);box-shadow:0 12px 48px rgba(192,80,40,.16);}
+.tier-pop:hover{transform:scale(1.04) translateY(-4px);}
+.tier-pop-badge{background:var(--a);color:#fff;text-align:center;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:8px;font-family:var(--n);}
+.tier-head{padding:24px 24px 18px;}
+.tier-name{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--g);margin-bottom:14px;}
+.tier-price{font-family:var(--f);font-size:42px;font-weight:700;color:var(--k);letter-spacing:-.03em;line-height:1;}
+.tier-price sup{font-size:17px;vertical-align:super;font-family:var(--n);font-weight:600;}
+.tier-per{font-size:11.5px;color:var(--g);margin-top:6px;font-weight:300;}
+.tier-classes{font-size:12.5px;font-weight:600;color:var(--m);margin-top:12px;padding-top:12px;border-top:1px solid var(--bs);}
+.tier-cta-wrap{padding:0 20px 18px;}
+.tier-cta{display:block;padding:13px;background:var(--k);color:var(--c);border-radius:100px;font-size:14px;font-weight:600;font-family:var(--n);text-align:center;text-decoration:none;transition:opacity .15s;width:100%;}
+.tier-cta:hover{opacity:.82;}
+.tier-pop .tier-cta{background:var(--a);}
+.tier-feats{list-style:none;padding:16px 20px 24px;display:flex;flex-direction:column;gap:9px;border-top:1.5px solid var(--bs);flex:1;}
+.tier-feats li{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;color:var(--m);line-height:1.45;}
+.tier-feats li::before{content:'✓';color:var(--a);font-weight:700;flex-shrink:0;margin-top:1px;}
+.tier-guarantee{max-width:1000px;margin:24px auto 0;background:var(--w);border:1.5px solid rgba(192,80,40,.22);border-radius:var(--rm);padding:16px 24px;display:flex;align-items:center;gap:14px;}
+.tier-guarantee-icon{font-size:26px;flex-shrink:0;}
+.tier-guarantee p{font-size:13px;color:var(--m);line-height:1.55;}
+.tier-guarantee strong{color:var(--k);}
+.checkout-next{background:var(--cd);border:1.5px solid var(--bs);border-radius:var(--rm);padding:18px 20px;max-width:1000px;margin:16px auto 0;}
+.checkout-next-title{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--m);margin-bottom:12px;}
 .checkout-next-steps{display:flex;flex-direction:column;gap:9px;}
-.checkout-next-step{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;color:var(--g);line-height:1.55;font-family:var(--n);}
+.checkout-next-step{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;color:var(--g);line-height:1.55;}
 .checkout-next-step-num{width:20px;height:20px;border-radius:50%;background:var(--a);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .checkout-next-wa{display:flex;align-items:center;gap:7px;margin-top:12px;padding-top:12px;border-top:1px solid var(--bs);font-size:12px;color:var(--g);}
 .checkout-next-wa a{color:var(--a);font-weight:600;text-decoration:none;}
+.tier-trust{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;max-width:1000px;margin:18px auto 0;}
+.tier-trust-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--g);}
+.tier-note{font-size:11px;color:var(--g);line-height:1.6;font-weight:300;text-align:center;margin-top:10px;}
+.hb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g);font-weight:500;}
+.hb svg{width:13px;height:13px;fill:var(--g);}
 .testi{background:var(--cd);}
 .tg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 .tc{background:var(--c);border:1.5px solid var(--bs);border-radius:var(--rm);padding:28px;transition:box-shadow .25s,transform .25s,border-color .2s;}
@@ -463,6 +452,9 @@ footer{background:#0A0908;padding:32px var(--pp);border-top:1px solid rgba(255,2
   .hb{padding:12px 20px;}
   .hero-badges{gap:0;}
   .lw-item{font-size:13px;padding:0 18px;}
+  .tier-grid{grid-template-columns:1fr;max-width:480px;}
+  .tier-pop{transform:none;}
+  .tier-pop:hover{transform:translateY(-4px);}
   .cg{grid-template-columns:1fr;}
   .eg{grid-template-columns:1fr;gap:10px;}
   .about-in{grid-template-columns:1fr;gap:44px;}
@@ -693,70 +685,96 @@ a.hotmart-fb.bc {
   <div class="wrap">
     <div class="sh rv">
       <div class="sey">Investimento</div>
-      <h2 class="st">Um valor, sem surpresas</h2>
-      <p class="ss">Tudo incluso. O que pode gerar custo extra é informado com antecedência, por escrito.</p>
+      <h2 class="st">Escolha o plano ideal para sua marca</h2>
+      <p class="ss">Todos os planos incluem marca mista (nome + logo) e taxas do INPI. Sem letras miúdas.</p>
     </div>
-    <div class="pb rv">
-      <!-- Hero visual banner -->
-      <div class="pb-hero">
-        <div class="pb-badge">
-          <span class="pb-badge-main">99,8% aprovação</span>
-          <span class="pb-badge-sub">30 anos · +3.000 marcas</span>
+    <div class="tier-grid rv">
+      <!-- Essencial -->
+      <div class="tier">
+        <div class="tier-head">
+          <div class="tier-name">Essencial</div>
+          <div class="tier-price"><sup>R$</sup>1.697</div>
+          <div class="tier-per">à vista · ou parcele em até 12×</div>
+          <div class="tier-classes">1 classe · Marca mista</div>
         </div>
-        <div class="pb-hero-rings" aria-hidden="true">
-          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="60" cy="60" r="56" stroke="white" stroke-width="1.2"/>
-            <circle cx="60" cy="60" r="44" stroke="white" stroke-width="0.8" stroke-dasharray="4 6"/>
-            <circle cx="60" cy="60" r="30" stroke="white" stroke-width="1.2"/>
-            <circle cx="60" cy="60" r="8" fill="white" opacity="0.6"/>
-          </svg>
+        <div class="tier-cta-wrap">
+          <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="tier-cta hotmart-fb" target="_blank" rel="noopener" data-hotmart-widget="checkout">Iniciar registro →</a>
         </div>
-        <div class="pb-hero-content">
-          <div class="pb-hero-ey">Registro completo no INPI</div>
-          <div class="pb-hero-h">Sua marca protegida.<br><em>Sua história, sua.</em></div>
-        </div>
+        <ul class="tier-feats">
+          <li>Pesquisa de viabilidade no INPI</li>
+          <li>Taxas do INPI inclusas (1 classe)</li>
+          <li>Protocolo em até 10 dias úteis</li>
+          <li>Elaboração completa do pedido</li>
+          <li>Número de processo INPI</li>
+          <li>Acompanhamento de status por 12 meses</li>
+          <li>Suporte via WhatsApp</li>
+          <li>Garantia: reprotocolo se negado por nossa falha</li>
+        </ul>
       </div>
-      <!-- Price -->
-      <div class="pb-top">
-        <div>
-          <div class="pb-lbl">Pagamento único — tudo incluso</div>
-          <div class="pb-amt"><sup>R$</sup>1.697</div>
-          <div class="pb-per">à vista · ou parcele em até 12×</div>
+      <!-- Profissional -->
+      <div class="tier tier-pop">
+        <div class="tier-pop-badge">★ Mais popular</div>
+        <div class="tier-head">
+          <div class="tier-name">Profissional</div>
+          <div class="tier-price"><sup>R$</sup>2.497</div>
+          <div class="tier-per">à vista · ou parcele em até 12×</div>
+          <div class="tier-classes">2 classes · Marca mista</div>
         </div>
-        <div class="pb-ins">
-          <span class="big">12× R$ 175,51</span>
-          <span class="sml">no cartão via Hotmart</span>
+        <div class="tier-cta-wrap">
+          <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="tier-cta hotmart-fb" target="_blank" rel="noopener" data-hotmart-widget="checkout">Iniciar registro →</a>
         </div>
+        <ul class="tier-feats">
+          <li>Pesquisa de viabilidade no INPI</li>
+          <li>Taxas do INPI inclusas (2 classes)</li>
+          <li>Protocolo em até 10 dias úteis</li>
+          <li>Elaboração completa do pedido</li>
+          <li>Número de processo INPI</li>
+          <li>Acompanhamento de status por 12 meses</li>
+          <li>Suporte WhatsApp prioritário</li>
+          <li>Garantia: reprotocolo se negado por nossa falha</li>
+          <li>Estratégia de 2 classes por especialista</li>
+        </ul>
       </div>
-      <div class="pb-items">
-        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Pesquisa de viabilidade no INPI</div>
-        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Taxas iniciais do INPI inclusas</div>
-        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Definição da(s) classe(s) ideal(is)</div>
-        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Número de processo INPI</div>
-        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Elaboração e protocolo do pedido</div>
-        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Acompanhamento por 12 meses</div>
-        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Suporte via WhatsApp e e-mail</div>
-        <div class="pi"><span class="pi-chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Garantia: novo pedido se negado</div>
-      </div>
-      <div class="pb-ft">
-        <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="hotmart-fb bp" target="_blank" rel="noopener" data-hotmart-widget="checkout">Iniciar meu registro →</a>
-        <div class="pb-hb">
-          <span class="hb"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Compra Segura</span>
-          <span class="hb"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>SSL Criptografado</span>
-          <span class="hb"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>Hotmart Checkout</span>
+      <!-- Premium -->
+      <div class="tier">
+        <div class="tier-head">
+          <div class="tier-name">Premium</div>
+          <div class="tier-price"><sup>R$</sup>3.997</div>
+          <div class="tier-per">à vista · ou parcele em até 12×</div>
+          <div class="tier-classes">3 classes · Marca mista</div>
         </div>
-      </div>
-      <p class="pb-note">* Para 1 classe. Classes adicionais têm desconto cumulativo de 5%. Criadores de conteúdo: consulte condição especial via WhatsApp.</p>
-      <div class="checkout-next">
-        <div class="checkout-next-title">O que acontece após o clique</div>
-        <div class="checkout-next-steps">
-          <div class="checkout-next-step"><div class="checkout-next-step-num">1</div><span>Você será direcionado para um <strong>checkout seguro da Hotmart</strong> — pagamento protegido por criptografia SSL e processado pela Hotmart (PCI-DSS).</span></div>
-          <div class="checkout-next-step"><div class="checkout-next-step-num">2</div><span>Após a confirmação do pagamento, você receberá por e-mail o acesso ao <strong>Kit de Boas-Vindas em PDF</strong> — com a procuração, checklist de documentos e guia completo do processo.</span></div>
-          <div class="checkout-next-step"><div class="checkout-next-step-num">3</div><span>Nossa equipe entrará em contato pelo <strong>WhatsApp em até 2 horas</strong> para dar início ao processo.</span></div>
+        <div class="tier-cta-wrap">
+          <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="tier-cta hotmart-fb" target="_blank" rel="noopener" data-hotmart-widget="checkout">Iniciar registro →</a>
         </div>
-        <div class="checkout-next-wa"><span>💬</span><span>Dúvidas antes de comprar? <a href="https://wa.me/5548984283696?text=Olá! Tenho uma dúvida sobre o registro de marca." target="_blank" rel="noopener">Fale pelo WhatsApp</a> — respondemos em até 2 horas.</span></div>
+        <ul class="tier-feats">
+          <li>Pesquisa de viabilidade no INPI</li>
+          <li>Taxas do INPI inclusas (3 classes)</li>
+          <li>Protocolo em até 10 dias úteis</li>
+          <li>Elaboração completa do pedido</li>
+          <li>Número de processo INPI</li>
+          <li>Acompanhamento de status por 24 meses</li>
+          <li>Suporte WhatsApp prioritário</li>
+          <li>Garantia: reprotocolo se negado por nossa falha</li>
+          <li>Estratégia de 3 classes por especialista</li>
+        </ul>
       </div>
     </div>
+    <!-- Garantia -->
+    <div class="tier-guarantee rv">
+      <div class="tier-guarantee-icon">🛡️</div>
+      <p><strong>Garantia HotMarcas:</strong> se o INPI indeferir por erro de classe, especificação ou pesquisa da nossa parte, protocolamos um novo pedido sem cobrar honorários. Você paga apenas a nova taxa do INPI. Está no contrato.</p>
+    </div>
+    <!-- O que acontece após o clique -->
+    <div class="checkout-next rv">
+      <div class="checkout-next-title">O que acontece após o clique</div>
+      <div class="checkout-next-steps">
+        <div class="checkout-next-step"><div class="checkout-next-step-num">1</div><span>Você é direcionado ao <strong>checkout seguro da Hotmart</strong> — SSL e PCI-DSS.</span></div>
+        <div class="checkout-next-step"><div class="checkout-next-step-num">2</div><span>Após o pagamento, recebe por e-mail o <strong>Kit de Boas-Vindas</strong> com procuração e checklist.</span></div>
+        <div class="checkout-next-step"><div class="checkout-next-step-num">3</div><span>Nossa equipe entra em contato pelo <strong>WhatsApp em até 2 horas</strong> para iniciar o processo.</span></div>
+      </div>
+      <div class="checkout-next-wa"><span>💬</span><span>Dúvidas antes de comprar? <a href="https://wa.me/5548984283696?text=Olá! Tenho uma dúvida sobre o registro de marca." target="_blank" rel="noopener">Fale pelo WhatsApp</a> — respondemos em até 2 horas.</span></div>
+    </div>
+    <p class="tier-note">* Preços por plano, pagamento único. Classes adicionais fora dos planos têm desconto de 5%. Criadores de conteúdo: consulte condição especial via WhatsApp.</p>
   </div>
 </section>
 
