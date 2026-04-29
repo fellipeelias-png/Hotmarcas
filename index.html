@@ -99,6 +99,11 @@ nav{position:fixed;inset:0 0 auto;z-index:300;height:60px;display:flex;align-ite
 .hero-search .sres{text-align:left;}
 .hero-search .sgate{text-align:left;}
 .hero-microcopy{font-size:12px;color:var(--g);margin-top:14px;line-height:1.6;}
+.hero-select{position:relative;margin-top:10px;}
+.hero-select select{width:100%;padding:14px 44px 14px 22px;background:var(--w);border:1.5px solid var(--b);border-radius:100px;font-size:14px;font-family:var(--n);color:var(--k);outline:none;-webkit-appearance:none;appearance:none;cursor:pointer;transition:border-color .15s;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+.hero-select select:focus{border-color:var(--a);}
+.hero-select select.has-value{border-color:rgba(192,80,40,.40);}
+.hero-select::after{content:'▾';position:absolute;right:20px;top:50%;transform:translateY(-50%);color:var(--g);pointer-events:none;font-size:15px;}
 /* trust badges no rodapé do hero */
 .hero-badges{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:56px;padding-top:36px;border-top:1.5px solid var(--b);width:100%;}
 .hb{display:flex;flex-direction:column;align-items:center;gap:5px;padding:0 32px;}
@@ -598,6 +603,29 @@ a.hotmart-fb.bc {
       <div class="sbox">
         <input type="text" id="search-input" placeholder="Digite o nome da sua marca..." maxlength="60" autocomplete="off">
         <button onclick="buscarMarca()">Analisar →</button>
+      </div>
+      <div class="hero-select">
+        <select id="search-area" onchange="this.classList.toggle('has-value',this.value!=='')">
+          <option value="">Ramo de atividade (NCL)...</option>
+          <option value="Moda, roupas e acessórios|25">Moda, roupas e acessórios</option>
+          <option value="Alimentação e bebidas|29,30,32">Alimentação e bebidas</option>
+          <option value="Saúde, beleza e estética|3,44">Saúde, beleza e estética</option>
+          <option value="Tecnologia e software (SaaS, apps)|42">Tecnologia e software (SaaS, apps)</option>
+          <option value="Educação, cursos e treinamentos|41">Educação, cursos e treinamentos</option>
+          <option value="Consultoria e serviços empresariais|35">Consultoria e serviços empresariais</option>
+          <option value="Criador de conteúdo / influenciador|41,35">Criador de conteúdo / influenciador</option>
+          <option value="E-commerce e varejo online|35">E-commerce e varejo online</option>
+          <option value="Agência de marketing e publicidade|35">Agência de marketing e publicidade</option>
+          <option value="Fitness, bem-estar e meditação|41,44">Fitness, bem-estar e meditação</option>
+          <option value="Arquitetura, design e engenharia|42">Arquitetura, design e engenharia</option>
+          <option value="Finanças, investimentos e seguros|36">Finanças, investimentos e seguros</option>
+          <option value="Alimentação saudável e suplementos|5,30">Alimentação saudável e suplementos</option>
+          <option value="Pets e produtos para animais|31,44">Pets e produtos para animais</option>
+          <option value="Imóveis e construção civil|36,37">Imóveis e construção civil</option>
+          <option value="Turismo, viagens e hospitalidade|39,43">Turismo, viagens e hospitalidade</option>
+          <option value="Indústria e manufatura|">Indústria e manufatura</option>
+          <option value="Outro (especificar no WhatsApp)|">Outro (especificar no WhatsApp)</option>
+        </select>
       </div>
       <div class="sres" id="sres"></div>
       <div class="sgate" id="sgate">
@@ -1247,7 +1275,10 @@ function buscarMarca(){
   else if(allGeneric){outcome='bad';r.className='sres bad on';r.innerHTML='🔴 <strong>"'+v+'"</strong> é composto apenas por termos genéricos. O INPI tende a indeferir marcas sem distintividade. <a href="#form">Falar com especialista →</a>';}
   else if(hasGeneric){outcome='warn';r.className='sres warn on';r.innerHTML='🟡 <strong>"'+v+'"</strong> contém termos de uso comum. Exige estratégia específica na especificação.';}
   else{outcome='ok';r.className='sres ok on';r.innerHTML='✅ <strong>"'+v+'"</strong> tem boa distintividade e comprimento adequado. A verificação de anterioridade completa é o próximo passo.';}
-  _lastBrandAnalysis.name=v;_lastBrandAnalysis.result=outcome;
+  var areaSel=document.getElementById('search-area');
+  var areaVal=areaSel?areaSel.value:'';
+  if(areaVal){var parts=areaVal.split('|');var ncl=parts[1];var areaName=parts[0];var nclTxt=ncl?(' Classe NCL sugerida: <strong>'+ncl+'</strong>.'):'';r.innerHTML+='<br><span style="font-size:12px;opacity:.85">📂 Ramo: '+areaName+'.'+nclTxt+'</span>';}
+  _lastBrandAnalysis.name=v;_lastBrandAnalysis.result=outcome;_lastBrandAnalysis.area=areaVal;
   if(outcome==='ok'||outcome==='warn'){
     if(brandSpan)brandSpan.textContent='"'+v+'"';
     gate.classList.add('sg-visible');
@@ -1264,7 +1295,8 @@ function sgateSubmit(){
   errEl.classList.remove('show');
   var brandName=_lastBrandAnalysis.name;
   var resultTxt=_lastBrandAnalysis.result==='ok'?'Boa distintividade':'Atenção: termos genéricos/comprimento';
-  var msg='🔍 [BUSCA] Nome: '+brandName+' | WhatsApp: '+whats+' | Resultado: '+resultTxt;
+  var areaInfo=_lastBrandAnalysis.area?(' | Ramo: '+_lastBrandAnalysis.area.split('|')[0]):'';
+  var msg='🔍 [BUSCA] Nome: '+brandName+' | WhatsApp: '+whats+' | Resultado: '+resultTxt+areaInfo;
   window.open('https://wa.me/5548984283696?text='+encodeURIComponent(msg),'_blank');
   whatsEl.disabled=true;
   var btn=document.querySelector('#sgate .sgate-row button');if(btn)btn.disabled=true;
