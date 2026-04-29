@@ -383,32 +383,46 @@ nav{position:fixed;inset:0 0 auto;z-index:300;height:64px;display:grid;grid-temp
 .tn2{font-size:13px;font-weight:700;color:var(--k);display:block;}
 .tr{font-size:11.5px;color:var(--g);font-weight:300;}
 .faq-sec{background:var(--c);}
-.faq-lay{display:grid;grid-template-columns:260px 1fr;gap:56px;align-items:start;}
-.faq-sb{position:sticky;top:80px;}
-.faq-sb h3{font-family:var(--f);font-size:24px;font-weight:700;color:var(--k);letter-spacing:-.02em;line-height:1.2;margin-bottom:12px;}
-.faq-sb p{font-size:13.5px;font-weight:300;color:var(--g);line-height:1.65;margin-bottom:20px;}
-.faq-cats{display:flex;flex-direction:column;gap:3px;margin-top:24px;}
-.faq-cb{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:var(--r);font-size:12.5px;font-weight:500;color:var(--g);cursor:pointer;border:none;background:transparent;font-family:var(--n);transition:background .15s,color .15s;text-align:left;width:100%;}
-.faq-cb:hover,.faq-cb.on{background:var(--cd);color:var(--k);}
-.faq-cb.on{font-weight:700;}
-.faq-cd{width:5px;height:5px;border-radius:50%;background:var(--s);flex-shrink:0;transition:background .15s;}
-.faq-cb.on .faq-cd{background:var(--a);}
-.fg{margin-bottom:28px;}
-.fg-lbl{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--s);padding:0 0 8px;border-bottom:1px solid var(--bs);}
-.fe{border-bottom:1px solid var(--bs);overflow:hidden;}
+.faq-lay{display:grid;grid-template-columns:280px 1fr;gap:56px;align-items:start;}
+.faq-sb{position:sticky;top:80px;background:var(--w);border:1.5px solid var(--b);border-radius:var(--rl);padding:28px 24px;box-shadow:0 4px 12px rgba(0,0,0,.04);}
+.faq-sb h3{font-family:var(--f);font-size:24px;font-weight:700;color:var(--k);letter-spacing:-.02em;line-height:1.2;margin-bottom:8px;}
+.faq-sb p{font-size:13px;font-weight:300;color:var(--g);line-height:1.6;margin-bottom:18px;}
+.faq-sb .bp{width:100%;text-align:center;}
+.faq-cats{display:flex;flex-direction:column;gap:2px;margin-top:22px;}
+.faq-cb{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:var(--r);font-size:12.5px;font-weight:500;color:var(--g);cursor:pointer;border:1px solid transparent;background:transparent;font-family:var(--n);transition:all .15s;text-align:left;width:100%;}
+.faq-cb:hover{background:var(--cd);color:var(--k);border-color:var(--b);}
+.faq-cb.on{background:var(--k);color:var(--c);font-weight:700;border-color:var(--k);}
+.faq-cb .faq-cd{width:6px;height:6px;border-radius:50%;background:var(--s);flex-shrink:0;transition:background .15s;}
+.faq-cb.on .faq-cd{background:#fff;}
+.fg{margin-bottom:32px;}
+.fg-lbl{font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--a);padding:0 0 10px;border-bottom:2px solid var(--a);margin-bottom:16px;}
+.fe{border-bottom:1px solid var(--bs);overflow:hidden;transition:background .15s;}
+.fe:hover{background:rgba(192,80,40,.02);}
 .fe:last-child{border-bottom:none;}
-.ft{width:100%;display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:19px 0;background:transparent;border:none;cursor:pointer;text-align:left;font-family:var(--n);}
-.ft-tx{font-size:14.5px;font-weight:500;color:var(--k);line-height:1.4;transition:color .15s;}
-.fe.on .ft-tx{color:var(--a);}
-.fchev{width:26px;height:26px;flex-shrink:0;border:2px solid var(--b);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:border-color .2s,background .2s,transform .3s ease;}
-.fchev svg{width:9px;height:9px;stroke:var(--g);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s;}
-.fe.on .fchev{border-color:var(--a);background:var(--a);transform:rotate(180deg);}
+.fe.popular::before{content:'⚡ Rápida';position:absolute;right:0;top:0;font-size:9px;font-weight:700;color:#fff;background:var(--a);padding:4px 9px;border-radius:var(--r);text-transform:uppercase;letter-spacing:.08em;}
+.fe{position:relative;}
+.ft{width:100%;display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:22px 0;background:transparent;border:none;cursor:pointer;text-align:left;font-family:var(--n);}
+.ft-tx{font-size:14.5px;font-weight:500;color:var(--k);line-height:1.45;transition:color .15s;}
+.fe.on .ft-tx{color:var(--a);font-weight:600;}
+.fchev{width:28px;height:28px;flex-shrink:0;border:2px solid var(--b);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .2s;background:transparent;}
+.fchev svg{width:10px;height:10px;stroke:var(--g);stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s;}
+.fe.on .fchev{border-color:var(--a);background:var(--a);}
 .fe.on .fchev svg{stroke:#fff;}
+.fe:hover .fchev{border-color:var(--a);}
 .fan{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s ease;}
 .fe.on .fan{grid-template-rows:1fr;}
 .fan-in{overflow:hidden;}
-.fan-bd{font-size:14px;font-weight:300;color:var(--g);line-height:1.75;padding-bottom:20px;max-width:580px;}
+.fan-bd{font-size:14px;font-weight:300;color:var(--g);line-height:1.8;padding-bottom:22px;max-width:620px;}
 .fan-bd strong{color:var(--m);font-weight:600;}
+.faq-cta-box{background:var(--w);border:2px solid var(--a);border-radius:var(--rl);padding:28px 32px;margin-top:40px;max-width:900px;}
+.faq-cta-in{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.faq-cta-left h3{font-family:var(--f);font-size:22px;font-weight:700;color:var(--k);margin-bottom:6px;}
+.faq-cta-left p{font-size:14px;color:var(--g);line-height:1.5;}
+.faq-cta-right{display:flex;gap:12px;}
+.faq-cta-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:var(--a);color:#fff;border-radius:100px;font-size:13.5px;font-weight:700;text-decoration:none;white-space:nowrap;transition:opacity .15s;font-family:var(--n);}
+.faq-cta-btn:hover{opacity:.85;}
+.faq-cta-btn.alt{background:var(--k);color:var(--c);}
+@media(max-width:768px){.faq-cta-in{flex-direction:column;text-align:center;}.faq-cta-right{width:100%;flex-direction:column;}.faq-cta-btn{width:100%;justify-content:center;}}
 .final{background:var(--k);padding:96px var(--pp);text-align:center;position:relative;overflow:hidden;}
 .final::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(ellipse,rgba(192,80,40,.16) 0%,transparent 60%);pointer-events:none;}
 .final-in{position:relative;z-index:1;}
@@ -1095,10 +1109,10 @@ a.hotmart-fb.bc {
           </div>
           <div class="fg" data-cat="custo">
             <div class="fg-lbl">Custos e pagamento</div>
-            <div class="fe"><button class="ft"><span class="ft-tx">Quanto custa registrar uma marca com a HotMarcas?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">O valor base é <strong>R$ 1.697 por classe</strong>. Parcele em até 12× via Hotmart. Classes extras têm desconto cumulativo de 5%.</p></div></div></div>
+            <div class="fe popular"><button class="ft"><span class="ft-tx">Quanto custa registrar uma marca com a HotMarcas?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">O valor base é <strong>R$ 1.697 por classe</strong>. Parcele em até 12× via Hotmart. Classes extras têm desconto cumulativo de 5%.</p></div></div></div>
             <div class="fe"><button class="ft"><span class="ft-tx">As taxas do INPI estão inclusas?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Sim. As taxas do INPI para o <strong>pedido inicial de 1 classe</strong> estão incluídas. Desde setembro de 2025, uma taxa única na entrada já cobre o pedido, análise, certificado e os primeiros 10 anos de vigência.</p></div></div></div>
             <div class="fe"><button class="ft"><span class="ft-tx">Quais formas de pagamento são aceitas?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Cartão de crédito em até <strong>12× via Hotmart</strong>, boleto bancário e Pix. Pagamento processado pela Hotmart com segurança PCI-DSS.</p></div></div></div>
-            <div class="fe"><button class="ft"><span class="ft-tx">Se o pedido for indeferido, tenho reembolso?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Taxas pagas ao INPI não são reembolsáveis. Nossa <strong>garantia contratual</strong>: se o pedido for indeferido por motivos dentro do nosso escopo, entramos com um novo pedido sem cobrar honorários. Você paga apenas a nova taxa do INPI.</p></div></div></div>
+            <div class="fe popular"><button class="ft"><span class="ft-tx">Se o pedido for indeferido, tenho reembolso?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Taxas pagas ao INPI não são reembolsáveis. Nossa <strong>garantia contratual</strong>: se o pedido for indeferido por motivos dentro do nosso escopo, entramos com um novo pedido sem cobrar honorários. Você paga apenas a nova taxa do INPI.</p></div></div></div>
           </div>
           <div class="fg" data-cat="tecnico">
             <div class="fg-lbl">Técnico e jurídico</div>
@@ -1114,6 +1128,18 @@ a.hotmart-fb.bc {
             <div class="fe"><button class="ft"><span class="ft-tx">Preciso assinar contrato antes de começar?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Sim — e isso é uma garantia sua. Enviamos um <strong>contrato digital claro</strong> com escopo, valores e responsabilidades antes de iniciar. Você assina eletronicamente. Só começamos após confirmação do pagamento e assinatura.</p></div></div></div>
             <div class="fe"><button class="ft"><span class="ft-tx">Qual a diferença entre registrar sozinho e contratar a HotMarcas?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Qualquer pessoa pode usar o e-Marcas. O risco: erros na classe, especificação ou busca de anterioridade causam indeferimento — e <strong>as taxas não são devolvidas</strong>. Com 30 anos de experiência e +3.000 marcas, eliminamos esses riscos.</p></div></div></div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="faq-cta-box rv">
+      <div class="faq-cta-in">
+        <div class="faq-cta-left">
+          <h3>Ainda tem dúvida?</h3>
+          <p>Respondemos via WhatsApp sem bot, sem fila. Horário comercial.</p>
+        </div>
+        <div class="faq-cta-right">
+          <a href="https://wa.me/5548984283696?text=Tenho%20uma%20d%C3%BAvida%20sobre%20o%20registro%20de%20marca" target="_blank" rel="noopener" class="faq-cta-btn">💬 Falar agora</a>
+          <a href="#inicio" onclick="document.getElementById('search-input').focus();return false;" class="faq-cta-btn alt">Verificar marca grátis →</a>
         </div>
       </div>
     </div>
