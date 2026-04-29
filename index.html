@@ -83,14 +83,72 @@ nav{position:fixed;inset:0 0 auto;z-index:300;height:60px;display:flex;align-ite
 .bc:hover{opacity:.88;}
 .boc{background:transparent;color:rgba(240,239,231,.65);padding:15px 28px;border-radius:100px;font-size:14px;font-weight:500;text-decoration:none;border:2px solid rgba(240,239,231,.22);cursor:pointer;font-family:var(--n);transition:border-color .15s,color .15s;display:inline-flex;align-items:center;gap:7px;}
 .boc:hover{border-color:rgba(240,239,231,.55);color:var(--c);}
-.hero{padding-top:88px;padding-bottom:52px;background:var(--c);position:relative;overflow:hidden;}
+.hero{padding-top:88px;padding-bottom:60px;background:var(--c);position:relative;overflow:hidden;}
 .hero::after{content:'';position:absolute;top:-120px;right:-120px;width:500px;height:500px;background:radial-gradient(ellipse,rgba(192,80,40,.07) 0%,transparent 65%);pointer-events:none;z-index:0;}
-.hero-in{position:relative;z-index:1;display:grid;grid-template-columns:1fr 400px;gap:56px;align-items:start;max-width:var(--mw);margin:0 auto;padding:0 var(--pp);}
+.hero-in{position:relative;z-index:1;display:grid;grid-template-columns:1fr 420px;gap:56px;align-items:start;max-width:var(--mw);margin:0 auto;padding:0 var(--pp);}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--a);margin-bottom:14px;}
 .eyebrow::before{content:'';width:20px;height:2px;background:var(--a);flex-shrink:0;}
-.hero h1{font-family:var(--f);font-size:clamp(30px,3.5vw,46px);font-weight:700;line-height:1.1;letter-spacing:-.025em;color:var(--k);margin-bottom:16px;}
+.hero h1{font-family:var(--f);font-size:clamp(28px,3.2vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.025em;color:var(--k);margin-bottom:16px;}
 .hero h1 em{font-style:italic;color:var(--a);}
-.hero-sub{font-size:15.5px;font-weight:300;color:var(--g);line-height:1.65;max-width:480px;margin-bottom:16px;}
+.hero-sub{font-size:15px;font-weight:300;color:var(--g);line-height:1.65;max-width:460px;margin-bottom:20px;}
+/* trust line */
+.hero-trust{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:24px;}
+.hero-trust-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--m);}
+.hero-trust-dot{width:4px;height:4px;border-radius:50%;background:var(--s);flex-shrink:0;}
+/* founder block */
+.founder-block{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--w);border:1.5px solid var(--b);border-radius:var(--rm);box-shadow:0 2px 8px rgba(0,0,0,.05);margin-top:24px;}
+.founder-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--k) 0%,#2E2C27 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.founder-initials{font-family:var(--f);font-size:18px;font-weight:700;color:var(--al);}
+.founder-info strong{display:block;font-size:13px;font-weight:700;color:var(--k);}
+.founder-info span{font-size:11px;color:var(--g);font-weight:300;display:block;margin-top:1px;}
+.founder-status{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;color:#15803d;margin-top:5px;}
+.founder-status::before{content:'';width:7px;height:7px;border-radius:50%;background:#22c55e;display:block;}
+/* brand checker widget */
+.hc-widget{background:var(--w);border:1.5px solid var(--b);border-radius:var(--rl);padding:32px;box-shadow:0 2px 4px rgba(0,0,0,.05),0 12px 40px rgba(0,0,0,.09);position:sticky;top:76px;}
+.hc-eyebrow{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--a);margin-bottom:8px;}
+.hc-title{font-family:var(--f);font-size:20px;font-weight:700;color:var(--k);margin-bottom:5px;letter-spacing:-.02em;line-height:1.2;}
+.hc-sub{font-size:13px;color:var(--g);font-weight:300;margin-bottom:20px;}
+.sbox{display:flex;background:var(--c);border:1.5px solid var(--b);border-radius:var(--rm);overflow:hidden;}
+.sbox input{flex:1;padding:13px 16px;border:none;outline:none;font-size:14px;font-family:var(--n);color:var(--k);background:transparent;min-width:0;}
+.sbox input::placeholder{color:var(--s);}
+.sbox button{background:var(--a);color:#fff;border:none;padding:11px 20px;font-size:13px;font-weight:600;font-family:var(--n);cursor:pointer;white-space:nowrap;transition:background .15s;}
+.sbox button:hover{background:var(--ad);}
+.sres{margin-top:14px;padding:14px 16px;border-radius:var(--rm);font-size:13.5px;font-weight:500;display:none;text-align:left;line-height:1.55;}
+.sres a{font-weight:700;text-decoration:underline;cursor:pointer;}
+.sres.ok{background:rgba(34,197,94,.10);border:1.5px solid rgba(34,197,94,.28);color:#15803d;}
+.sres.warn{background:rgba(234,179,8,.10);border:1.5px solid rgba(234,179,8,.28);color:#92400e;}
+.sres.bad{background:rgba(192,80,40,.10);border:1.5px solid rgba(192,80,40,.28);color:#9a3e1e;}
+.sres.on{display:block;}
+.sdis{font-size:11px;color:var(--s);margin-top:12px;line-height:1.6;}
+.hc-divider{height:1px;background:var(--bs);margin:18px 0;}
+.hc-wa{display:flex;align-items:center;justify-content:center;gap:7px;padding:11px;background:transparent;border:1.5px solid var(--b);border-radius:100px;font-size:13px;font-weight:500;color:var(--m);text-decoration:none;transition:border-color .15s;font-family:var(--n);}
+.hc-wa:hover{border-color:var(--k);}
+/* search gate dentro do widget */
+.sgate{margin-top:14px;padding:14px 16px;background:var(--c);border:1.5px solid var(--b);border-radius:var(--rm);display:none;}
+.sgate.sg-visible{display:block;}
+.sgate-lbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g);margin-bottom:7px;}
+.sgate p{font-size:12.5px;color:var(--m);line-height:1.55;margin-bottom:10px;font-weight:300;}
+.sgate-row{display:flex;gap:8px;flex-wrap:wrap;}
+.sgate-row input{flex:1;min-width:120px;padding:9px 13px;background:var(--w);border:1.5px solid var(--b);border-radius:100px;font-size:13px;font-family:var(--n);color:var(--k);outline:none;transition:border-color .15s;}
+.sgate-row input::placeholder{color:var(--s);}
+.sgate-row input:focus{border-color:var(--a);}
+.sgate-row button{background:var(--a);color:#fff;border:none;padding:9px 16px;border-radius:100px;font-size:13px;font-weight:600;font-family:var(--n);cursor:pointer;white-space:nowrap;transition:background .15s;flex-shrink:0;}
+.sgate-row button:hover{background:var(--ad);}
+.sgate-err{font-size:11px;color:#dc2626;margin-top:6px;display:none;}
+.sgate-err.show{display:flex;align-items:center;gap:4px;}
+.sgate-thanks{font-size:12.5px;color:#15803d;text-align:center;padding:8px 0;display:none;font-weight:500;}
+.sgate-thanks.show{display:block;}
+/* form modal */
+.fm-overlay{position:fixed;inset:0;background:rgba(15,14,11,.65);z-index:500;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease;}
+.fm-overlay.open{opacity:1;pointer-events:all;}
+.fm-box{background:var(--w);width:100%;max-width:500px;border-radius:var(--rl) var(--rl) 0 0;transform:translateY(40px);transition:transform .3s ease;overflow:hidden;max-height:92vh;display:flex;flex-direction:column;}
+.fm-overlay.open .fm-box{transform:translateY(0);}
+.fm-head{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--bs);flex-shrink:0;}
+.fm-head h4{font-family:var(--f);font-size:18px;font-weight:700;color:var(--k);letter-spacing:-.02em;}
+.fm-close{width:32px;height:32px;border:none;background:var(--cd);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--g);transition:background .15s;}
+.fm-close:hover{background:var(--p);}
+.fm-body{overflow-y:auto;padding:24px;flex:1;-webkit-overflow-scrolling:touch;}
+/* badges legados (mantidos para não quebrar nada) */
 .badges{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
 .badge{display:inline-flex;align-items:center;gap:5px;background:rgba(15,14,11,.05);border:1px solid var(--b);border-radius:100px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--m);}
 .badge svg{width:11px;height:11px;fill:var(--a);}
@@ -382,19 +440,22 @@ footer{background:#0A0908;padding:32px var(--pp);border-top:1px solid rgba(255,2
 .hero .eyebrow{animation:fUp .5s .05s ease both;}
 .hero h1{animation:fUp .5s .12s ease both;}
 .hero-sub{animation:fUp .5s .19s ease both;}
-.badges{animation:fUp .5s .24s ease both;}
-.checks{animation:fUp .5s .30s ease both;}
-.fc{animation:fUp .55s .18s ease both;}
+.hero-trust{animation:fUp .5s .25s ease both;}
+.hero-cta-main{animation:fUp .5s .32s ease both;}
+.founder-block{animation:fUp .5s .38s ease both;}
+.hc-widget{animation:fUp .55s .18s ease both;}
+@media(min-width:769px){
+  .fm-overlay{align-items:center;}
+  .fm-box{border-radius:var(--rl);max-height:85vh;}
+}
 @media(max-width:768px){
   .nav-links{display:none;}
   .hamburger{display:flex;}
   .sticky-cta{display:block;}
-  .hero{padding-top:88px;padding-bottom:56px;}
+  .hero{padding-top:88px;padding-bottom:48px;}
   .hero-in{grid-template-columns:1fr;gap:32px;}
-  .hero h1{font-size:clamp(30px,8vw,42px);}
-  .badges{gap:6px;}
-  .badge{font-size:10px;padding:4px 10px;}
-  .fc{position:static;}
+  .hero h1{font-size:clamp(28px,8vw,42px);}
+  .hc-widget{position:static;}
   .tb-in{grid-template-columns:repeat(2,1fr);}
   .tn{font-size:clamp(22px,6vw,30px);}
   .cg{grid-template-columns:1fr;}
@@ -524,7 +585,7 @@ a.hotmart-fb.bc {
 <nav>
   <a href="/" class="nav-logo">Hot<span>Marcas</span></a>
   <ul class="nav-links">
-    <li><a href="#buscar">Buscar marca</a></li>
+    <li><a href="#inicio" onclick="document.getElementById('search-input').focus();return false;">Verificar marca</a></li>
     <li><a href="#criadores" class="nav-hl">✦ Criadores de Conteúdo</a></li>
     <li><a href="#preco">Preços</a></li>
     <li><a href="#faq">Dúvidas</a></li>
@@ -537,7 +598,7 @@ a.hotmart-fb.bc {
 
 <div class="drawer" id="drawer">
   <ul>
-    <li><a href="#buscar" onclick="closeDrawer()">🔍 Buscar marca</a></li>
+    <li><a href="#inicio" onclick="closeDrawer();setTimeout(()=>document.getElementById('search-input').focus(),300)">🔍 Verificar marca</a></li>
     <li><a href="#criadores" onclick="closeDrawer()" style="color:var(--a);font-weight:600;">✦ Criadores de Conteúdo</a></li>
     <li><a href="#para-quem" onclick="closeDrawer()">Para quem é</a></li>
     <li><a href="#preco" onclick="closeDrawer()">💰 Preços</a></li>
@@ -545,137 +606,60 @@ a.hotmart-fb.bc {
     <li><a href="#faq" onclick="closeDrawer()">Dúvidas frequentes</a></li>
   </ul>
   <div class="drawer-cta">
-    <a href="#form" onclick="closeDrawer()">Verificar minha marca grátis →</a>
+    <a href="#" onclick="closeDrawer();openFormModal();return false;">Verificar minha marca grátis →</a>
   </div>
 </div>
 
-<section class="hero">
+<section class="hero" id="inicio">
   <div class="hero-in">
+    <!-- ESQUERDA: copy emocional -->
     <div>
-      <div class="eyebrow">+3.000 marcas registradas · 30 anos de experiência</div>
-      <h1>Registre sua marca no INPI antes que <em>outra empresa chegue primeiro.</em></h1>
-      <p class="hero-sub">Conduzimos o processo completo: pesquisa de viabilidade, protocolo e acompanhamento por 12 meses. Online, com contrato claro e sem custo surpresa.</p>
-      <div class="badges">
-        <span class="badge"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>30 Anos de Experiência</span>
-        <span class="badge"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>99,8% de Aprovação</span>
+      <div class="eyebrow">🇧🇷 Procurador Autorizado INPI · 30 anos · 99,8% aprovação</div>
+      <h1>Registre sua marca no INPI. <em>Antes que outra empresa faça isso por você.</em></h1>
+      <p class="hero-sub">Pesquisa de viabilidade gratuita, protocolo em até 10 dias úteis, acompanhamento por 12 meses. Sem surpresas.</p>
+      <div class="hero-trust">
+        <span class="hero-trust-item">+3.000 marcas registradas</span>
+        <span class="hero-trust-dot"></span>
+        <span class="hero-trust-item">⭐ 4,9 Reclame Aqui</span>
+        <span class="hero-trust-dot"></span>
+        <span class="hero-trust-item">CNPJ 61.405.919/0001-50</span>
       </div>
-      <!-- Selo INPI oficial -->
-      <div class="inpi-seal" style="margin-bottom:14px;">
-        <div class="inpi-seal-logo">INPI</div>
-        <div class="inpi-seal-txt">
+      <button class="ba hero-cta-main" onclick="openFormModal()" style="font-size:15px;padding:15px 32px;">Verificar minha marca grátis →</button>
+      <!-- Fundador placeholder -->
+      <div class="founder-block">
+        <div class="founder-avatar">
+          <span class="founder-initials">HM</span>
+        </div>
+        <div class="founder-info">
           <strong>Procurador Autorizado INPI</strong>
-          <span>Cadastro ativo junto ao INPI · Brasil</span>
+          <span>30 anos de atuação exclusiva em marcas · CNPJ verificável</span>
+          <span class="founder-status">Cadastro ativo junto ao INPI</span>
         </div>
-        <div class="inpi-seal-dot" title="Status ativo"></div>
       </div>
-      <ul class="checks">
-        <li><span class="chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Pesquisa de viabilidade gratuita inclusa</li>
-        <li><span class="chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Protocolo no INPI em até 10 dias úteis</li>
-        <li><span class="chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Taxas do INPI já inclusas no valor</li>
-        <li><span class="chk"><svg viewBox="0 0 10 8"><polyline points="1,4 3.5,6.5 9,1"/></svg></span>Garantia: novo pedido sem custo se negado</li>
-      </ul>
     </div>
-    <div id="form" class="fc">
-      <div id="fc-main">
-        <!-- Header: label + step counter + progress dots -->
-        <div class="fc-label" id="fc-step-label">Verificação gratuita — Passo 1 de 3</div>
-        <h3>Pesquisa de viabilidade</h3>
-        <p class="sub">Preencha os dados. Retorno em até 2 horas no WhatsApp.</p>
-        <div class="fc-progress" aria-label="Progresso do formulário">
-          <div class="fc-dot active" id="fc-dot-1"></div>
-          <div class="fc-dot" id="fc-dot-2"></div>
-          <div class="fc-dot" id="fc-dot-3"></div>
-        </div>
-
-        <!-- STEP 1: Marca + Área -->
-        <div class="fc-step-panel fc-active" id="fc-step-1">
-          <div class="fld">
-            <label>Nome da marca *</label>
-            <input type="text" id="f-marca" placeholder="Ex: Studio Mara, FitLife, NutriPro...">
-            <div class="fc-err" id="err-marca">⚠ Informe o nome da marca</div>
-          </div>
-          <div class="fld">
-            <label>Área de atividade *</label>
-            <select id="f-area" onchange="onAreaChange()">
-              <option value="">Selecione sua área...</option>
-              <option value="Moda, roupas e acessórios|25">Moda, roupas e acessórios</option>
-              <option value="Alimentação e bebidas|29,30,32">Alimentação e bebidas</option>
-              <option value="Saúde, beleza e estética|3,44">Saúde, beleza e estética</option>
-              <option value="Tecnologia e software (SaaS, apps)|42">Tecnologia e software (SaaS, apps)</option>
-              <option value="Educação, cursos e treinamentos|41">Educação, cursos e treinamentos</option>
-              <option value="Consultoria e serviços empresariais|35">Consultoria e serviços empresariais</option>
-              <option value="Criador de conteúdo / influenciador|41,35">Criador de conteúdo / influenciador</option>
-              <option value="E-commerce e varejo online|35">E-commerce e varejo online</option>
-              <option value="Agência de marketing e publicidade|35">Agência de marketing e publicidade</option>
-              <option value="Fitness, bem-estar e meditação|41,44">Fitness, bem-estar e meditação</option>
-              <option value="Arquitetura, design e engenharia|42">Arquitetura, design e engenharia</option>
-              <option value="Finanças, investimentos e seguros|36">Finanças, investimentos e seguros</option>
-              <option value="Alimentação saudável e suplementos|5,30">Alimentação saudável e suplementos</option>
-              <option value="Pets e produtos para animais|31,44">Pets e produtos para animais</option>
-              <option value="Imóveis e construção civil|36,37">Imóveis e construção civil</option>
-              <option value="Turismo, viagens e hospitalidade|39,43">Turismo, viagens e hospitalidade</option>
-              <option value="Indústria e manufatura|Varia por produto">Indústria e manufatura</option>
-              <option value="Outro (especificar no WhatsApp)|">Outro (especificar no WhatsApp)</option>
-            </select>
-            <div class="fc-err" id="err-area">⚠ Selecione sua área</div>
-            <div class="fc-hint" id="hint-area"></div>
-          </div>
-          <button type="button" class="fbtn" onclick="fcNext(1)">Continuar →</button>
-        </div>
-
-        <!-- STEP 2: Nome + WhatsApp + E-mail -->
-        <div class="fc-step-panel" id="fc-step-2">
-          <div class="fld">
-            <label>Seu nome *</label>
-            <input type="text" id="f-nome" placeholder="Ex: Maria Silva" autocomplete="name">
-            <div class="fc-err" id="err-nome">⚠ Informe seu nome</div>
-          </div>
-          <div class="fld">
-            <label>WhatsApp *</label>
-            <input type="tel" id="f-whats" placeholder="(11) 99999-9999" inputmode="numeric" maxlength="15" autocomplete="tel">
-            <div class="fc-err" id="err-whats"></div>
-            <div class="fc-ok" id="ok-whats">✓ Número válido</div>
-          </div>
-          <div class="fld">
-            <label>E-mail *</label>
-            <input type="email" id="f-email" placeholder="seu@email.com" autocomplete="email">
-            <div class="fc-err" id="err-email"></div>
-          </div>
-          <div class="fc-step-nav">
-            <button type="button" class="fc-back-btn" onclick="fcBack(2)">← Voltar</button>
-            <button type="button" class="fbtn" onclick="fcNext(2)">Continuar →</button>
-          </div>
-        </div>
-
-        <!-- STEP 3: Objetivo + Submit -->
-        <div class="fc-step-panel" id="fc-step-3">
-          <div class="fld">
-            <label>Objetivo da pesquisa *</label>
-            <select id="f-objetivo">
-              <option value="">Selecione seu objetivo...</option>
-              <option value="Quero registrar o quanto antes">Quero registrar o quanto antes</option>
-              <option value="Tenho interesse se a marca estiver disponível">Tenho interesse se a marca estiver disponível</option>
-              <option value="Por enquanto, só quero entender a viabilidade">Por enquanto, só quero entender a viabilidade</option>
-            </select>
-            <div class="fc-err" id="err-objetivo">⚠ Selecione seu objetivo</div>
-          </div>
-          <div class="fdiv"></div>
-          <div class="fc-step-nav">
-            <button type="button" class="fc-back-btn" onclick="fcBack(3)">← Voltar</button>
-            <button type="button" class="fbtn" onclick="enviarWA()">Verificar disponibilidade grátis →</button>
-          </div>
-          <a href="https://wa.me/5548984283696" target="_blank" rel="noopener" class="fwa" style="margin-top:10px;">💬 Prefiro falar direto no WhatsApp</a>
-          <div class="fc-trust">🔒 Sem spam. Dados usados apenas para contato.</div>
-        </div>
+    <!-- DIREITA: verificador de marca -->
+    <div class="hc-widget">
+      <div class="hc-eyebrow">Análise gratuita de marca</div>
+      <h3 class="hc-title">Como está o nome da sua marca?</h3>
+      <p class="hc-sub">Digite o nome e receba uma análise de distintividade para registro no INPI.</p>
+      <div class="sbox">
+        <input type="text" id="search-input" placeholder="Ex: Studio Mara, FitLife..." maxlength="60" autocomplete="off">
+        <button onclick="buscarMarca()">Analisar →</button>
       </div>
-      <div id="fc-success" style="display:none;">
-        <div class="fc-submitted">
-          <div class="ok-icon">✅</div>
-          <h4>Mensagem enviada!</h4>
-          <p>Seus dados foram enviados pelo WhatsApp. Retornamos em até 2 horas em horário comercial.</p>
-          <button type="button" class="fbtn" onclick="resetForm()" style="background:var(--a);">Enviar outra consulta</button>
+      <div class="sres" id="sres"></div>
+      <div class="sgate" id="sgate">
+        <div class="sgate-lbl">Próximo passo</div>
+        <p>Quer verificar se <strong id="sgate-brand-name"></strong> já está registrado na base oficial do INPI? Deixe seu WhatsApp — verificamos gratuitamente.</p>
+        <div class="sgate-row">
+          <input type="tel" id="sgate-whats" placeholder="(11) 99999-9999" inputmode="numeric" maxlength="15" autocomplete="tel">
+          <button type="button" onclick="sgateSubmit()">Verificar no INPI →</button>
         </div>
+        <div class="sgate-err" id="sgate-err">⚠ Informe um WhatsApp válido</div>
+        <div class="sgate-thanks" id="sgate-thanks">✅ Enviado! Retornamos em breve.</div>
       </div>
+      <p class="sdis">⚠️ Esta análise avalia o formato do nome — não consulta a base oficial do INPI. A verificação completa está inclusa no serviço.</p>
+      <div class="hc-divider"></div>
+      <a href="https://wa.me/5548984283696" target="_blank" rel="noopener" class="hc-wa">💬 Prefiro falar direto no WhatsApp</a>
     </div>
   </div>
 </section>
@@ -693,30 +677,7 @@ a.hotmart-fb.bc {
   <p>⚠️ O INPI aplica o <strong>princípio da anterioridade</strong>: o direito pertence a quem deposita primeiro. Se o seu nome ainda não está protegido, qualquer empresa pode registrá-lo antes de você.</p>
 </div>
 
-<section class="search-sec" id="buscar">
-  <div class="search-in rv">
-    <div class="search-ey">Análise de formato gratuita</div>
-    <h2>Como está o nome da sua marca?</h2>
-    <p>Digite o nome e receba uma análise sobre suas características para registro.</p>
-    <div class="sbox">
-      <input type="text" id="search-input" placeholder="Digite o nome da marca..." maxlength="60" autocomplete="off">
-      <button onclick="buscarMarca()">Analisar →</button>
-    </div>
-    <div class="sres" id="sres"></div>
-    <!-- IMPROVEMENT 5: INPI Lead Gate -->
-    <div class="sgate" id="sgate">
-      <div class="sgate-lbl">Próximo passo</div>
-      <p>Quer verificar se <strong id="sgate-brand-name"></strong> já está registrado na base oficial do INPI? Deixe seu WhatsApp — verificamos gratuitamente.</p>
-      <div class="sgate-row">
-        <input type="tel" id="sgate-whats" placeholder="(11) 99999-9999" inputmode="numeric" maxlength="15" autocomplete="tel">
-        <button type="button" onclick="sgateSubmit()">Verificar no INPI →</button>
-      </div>
-      <div class="sgate-err" id="sgate-err">⚠ Informe um WhatsApp válido</div>
-      <div class="sgate-thanks" id="sgate-thanks">✅ Enviado! Retornamos em até 2 horas.</div>
-    </div>
-    <p class="sdis">⚠️ Esta análise avalia o formato do nome — não consulta a base oficial do INPI. A verificação completa de anterioridade está inclusa no serviço.</p>
-  </div>
-</section>
+<!-- Seção de busca movida para o hero (coluna direita) -->
 
 <section class="sec fw" id="para-quem">
   <div class="wrap">
@@ -1041,6 +1002,111 @@ a.hotmart-fb.bc {
   </div>
 </footer>
 
+<!-- FORM MODAL -->
+<div class="fm-overlay" id="form-modal" role="dialog" aria-modal="true" aria-labelledby="fm-title">
+  <div class="fm-box">
+    <div class="fm-head">
+      <h4 id="fm-title">Verificação gratuita de marca</h4>
+      <button class="fm-close" onclick="closeFormModal()" aria-label="Fechar">✕</button>
+    </div>
+    <div class="fm-body">
+      <div id="fc-main">
+        <div class="fc-label" id="fc-step-label">Passo 1 de 3</div>
+        <h3 style="font-family:var(--f);font-size:18px;font-weight:700;color:var(--k);margin-bottom:4px;letter-spacing:-.02em;">Pesquisa de viabilidade</h3>
+        <p class="sub" style="font-size:13px;color:var(--g);margin-bottom:18px;font-weight:300;">Preencha os dados. Retornamos em horário comercial.</p>
+        <div class="fc-progress" aria-label="Progresso do formulário">
+          <div class="fc-dot active" id="fc-dot-1"></div>
+          <div class="fc-dot" id="fc-dot-2"></div>
+          <div class="fc-dot" id="fc-dot-3"></div>
+        </div>
+        <div class="fc-step-panel fc-active" id="fc-step-1">
+          <div class="fld">
+            <label>Nome da marca *</label>
+            <input type="text" id="f-marca" placeholder="Ex: Studio Mara, FitLife, NutriPro...">
+            <div class="fc-err" id="err-marca">⚠ Informe o nome da marca</div>
+          </div>
+          <div class="fld">
+            <label>Área de atividade *</label>
+            <select id="f-area" onchange="onAreaChange()">
+              <option value="">Selecione sua área...</option>
+              <option value="Moda, roupas e acessórios|25">Moda, roupas e acessórios</option>
+              <option value="Alimentação e bebidas|29,30,32">Alimentação e bebidas</option>
+              <option value="Saúde, beleza e estética|3,44">Saúde, beleza e estética</option>
+              <option value="Tecnologia e software (SaaS, apps)|42">Tecnologia e software (SaaS, apps)</option>
+              <option value="Educação, cursos e treinamentos|41">Educação, cursos e treinamentos</option>
+              <option value="Consultoria e serviços empresariais|35">Consultoria e serviços empresariais</option>
+              <option value="Criador de conteúdo / influenciador|41,35">Criador de conteúdo / influenciador</option>
+              <option value="E-commerce e varejo online|35">E-commerce e varejo online</option>
+              <option value="Agência de marketing e publicidade|35">Agência de marketing e publicidade</option>
+              <option value="Fitness, bem-estar e meditação|41,44">Fitness, bem-estar e meditação</option>
+              <option value="Arquitetura, design e engenharia|42">Arquitetura, design e engenharia</option>
+              <option value="Finanças, investimentos e seguros|36">Finanças, investimentos e seguros</option>
+              <option value="Alimentação saudável e suplementos|5,30">Alimentação saudável e suplementos</option>
+              <option value="Pets e produtos para animais|31,44">Pets e produtos para animais</option>
+              <option value="Imóveis e construção civil|36,37">Imóveis e construção civil</option>
+              <option value="Turismo, viagens e hospitalidade|39,43">Turismo, viagens e hospitalidade</option>
+              <option value="Indústria e manufatura|Varia por produto">Indústria e manufatura</option>
+              <option value="Outro (especificar no WhatsApp)|">Outro (especificar no WhatsApp)</option>
+            </select>
+            <div class="fc-err" id="err-area">⚠ Selecione sua área</div>
+            <div class="fc-hint" id="hint-area"></div>
+          </div>
+          <button type="button" class="fbtn" onclick="fcNext(1)">Continuar →</button>
+        </div>
+        <div class="fc-step-panel" id="fc-step-2">
+          <div class="fld">
+            <label>Seu nome *</label>
+            <input type="text" id="f-nome" placeholder="Ex: Maria Silva" autocomplete="name">
+            <div class="fc-err" id="err-nome">⚠ Informe seu nome</div>
+          </div>
+          <div class="fld">
+            <label>WhatsApp *</label>
+            <input type="tel" id="f-whats" placeholder="(11) 99999-9999" inputmode="numeric" maxlength="15" autocomplete="tel">
+            <div class="fc-err" id="err-whats"></div>
+            <div class="fc-ok" id="ok-whats">✓ Número válido</div>
+          </div>
+          <div class="fld">
+            <label>E-mail *</label>
+            <input type="email" id="f-email" placeholder="seu@email.com" autocomplete="email">
+            <div class="fc-err" id="err-email"></div>
+          </div>
+          <div class="fc-step-nav">
+            <button type="button" class="fc-back-btn" onclick="fcBack(2)">← Voltar</button>
+            <button type="button" class="fbtn" onclick="fcNext(2)">Continuar →</button>
+          </div>
+        </div>
+        <div class="fc-step-panel" id="fc-step-3">
+          <div class="fld">
+            <label>Objetivo da pesquisa *</label>
+            <select id="f-objetivo">
+              <option value="">Selecione seu objetivo...</option>
+              <option value="Quero registrar o quanto antes">Quero registrar o quanto antes</option>
+              <option value="Tenho interesse se a marca estiver disponível">Tenho interesse se a marca estiver disponível</option>
+              <option value="Por enquanto, só quero entender a viabilidade">Por enquanto, só quero entender a viabilidade</option>
+            </select>
+            <div class="fc-err" id="err-objetivo">⚠ Selecione seu objetivo</div>
+          </div>
+          <div class="fdiv"></div>
+          <div class="fc-step-nav">
+            <button type="button" class="fc-back-btn" onclick="fcBack(3)">← Voltar</button>
+            <button type="button" class="fbtn" onclick="enviarWA()">Verificar disponibilidade grátis →</button>
+          </div>
+          <a href="https://wa.me/5548984283696" target="_blank" rel="noopener" class="fwa" style="margin-top:10px;">💬 Prefiro falar direto no WhatsApp</a>
+          <div class="fc-trust">🔒 Sem spam. Dados usados apenas para contato.</div>
+        </div>
+      </div>
+      <div id="fc-success" style="display:none;">
+        <div class="fc-submitted">
+          <div class="ok-icon">✅</div>
+          <h4>Mensagem enviada!</h4>
+          <p>Seus dados foram enviados pelo WhatsApp. Retornamos em horário comercial.</p>
+          <button type="button" class="fbtn" onclick="resetForm()" style="background:var(--a);">Enviar outra consulta</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- IMPROVEMENT 4: Exit-Intent Popup -->
 <div class="exit-overlay" id="exit-popup" role="dialog" aria-modal="true" aria-labelledby="exit-title">
   <div class="exit-box">
@@ -1072,7 +1138,7 @@ a.hotmart-fb.bc {
 <div class="sticky-cta">
   <div class="sticky-urg-badge">⚡ <span id="sticky-count">47</span> pessoas verificaram hoje</div>
   <div class="sticky-cta-row">
-    <a href="#form">Verificar marca →</a>
+    <a href="#" onclick="openFormModal();return false;">Verificar marca →</a>
     <a href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" target="_blank" rel="noopener">💬 WhatsApp</a>
   </div>
 </div>
@@ -1283,7 +1349,10 @@ document.querySelectorAll('.ft').forEach(ft=>{ft.addEventListener('click',()=>{c
 function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
 function closeModalById(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
 function closeModal(e,overlay){if(e.target===overlay)closeModalById(overlay.id);}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';});closeExitPopup();}});
+function openFormModal(){var m=document.getElementById('form-modal');if(m){m.classList.add('open');document.body.style.overflow='hidden';}}
+function closeFormModal(){var m=document.getElementById('form-modal');if(m){m.classList.remove('open');var drawerOpen=document.getElementById('drawer').classList.contains('open');var modalOpen=document.querySelector('.modal-overlay.open');if(!drawerOpen&&!modalOpen)document.body.style.overflow='';}}
+document.getElementById('form-modal').addEventListener('click',function(e){if(e.target===this)closeFormModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';});closeFormModal();closeExitPopup();}});
 </script>
 <script>
 // ── IMPROVEMENT 1: Sticky Urgency Counter ──
