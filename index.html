@@ -97,7 +97,7 @@ nav{position:fixed;inset:0 0 auto;z-index:300;height:60px;display:flex;align-ite
 .hero-trust-dot{width:4px;height:4px;border-radius:50%;background:var(--s);flex-shrink:0;}
 /* founder block */
 .founder-block{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--w);border:1.5px solid var(--b);border-radius:var(--rm);box-shadow:0 2px 8px rgba(0,0,0,.05);margin-top:24px;}
-.founder-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--k) 0%,#2E2C27 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.founder-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--k) 0%,#2E2C27 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
 .founder-initials{font-family:var(--f);font-size:18px;font-weight:700;color:var(--al);}
 .founder-info strong{display:block;font-size:13px;font-weight:700;color:var(--k);}
 .founder-info span{font-size:11px;color:var(--g);font-weight:300;display:block;margin-top:1px;}
@@ -628,7 +628,8 @@ a.hotmart-fb.bc {
       <!-- Fundador placeholder -->
       <div class="founder-block">
         <div class="founder-avatar">
-          <span class="founder-initials">HM</span>
+          <img src="fundador.jpg" alt="Procurador Autorizado INPI" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <span class="founder-initials" style="display:none;">HM</span>
         </div>
         <div class="founder-info">
           <strong>Procurador Autorizado INPI</strong>
