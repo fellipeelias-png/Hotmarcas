@@ -338,6 +338,29 @@ nav{position:fixed;inset:0 0 auto;z-index:300;height:60px;display:flex;align-ite
 .tier-trust{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;max-width:1000px;margin:18px auto 0;}
 .tier-trust-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--g);}
 .tier-note{font-size:11px;color:var(--g);line-height:1.6;font-weight:300;text-align:center;margin-top:10px;}
+/* Comparativo */
+.comp-sec{background:var(--w);}
+.comp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:8px;}
+.comp-table{width:100%;border-collapse:separate;border-spacing:0;max-width:1000px;margin:0 auto;}
+.comp-table th,.comp-table td{padding:14px 20px;font-size:13.5px;text-align:left;border-bottom:1px solid var(--bs);}
+.comp-table thead th{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--g);background:var(--c);padding-top:16px;padding-bottom:16px;}
+.comp-table thead th:first-child{border-radius:var(--rm) 0 0 0;}
+.comp-table thead th:last-child{border-radius:0 var(--rm) 0 0;}
+.comp-col-hot{background:rgba(192,80,40,.04);}
+.comp-table thead .comp-col-hot{background:var(--a);color:#fff !important;position:relative;}
+.comp-table thead .comp-col-hot::after{content:'✦ Recomendado';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:var(--a);color:#fff;font-size:9.5px;font-weight:700;letter-spacing:.07em;padding:2px 10px;border-radius:100px;white-space:nowrap;}
+.comp-table tbody tr:last-child td{border-bottom:none;}
+.comp-table tbody tr:last-child td:first-child{border-radius:0 0 0 var(--rm);}
+.comp-table tbody tr:last-child td:last-child{border-radius:0 0 var(--rm) 0;}
+.comp-table tbody td:first-child{font-weight:600;color:var(--m);font-size:13px;}
+.comp-ico-no{color:#b91c1c;font-weight:700;}
+.comp-ico-mid{color:#b45309;}
+.comp-ico-yes{color:#15803d;font-weight:600;}
+.comp-table tfoot td{font-size:12px;padding-top:20px;border-bottom:none;}
+.comp-cta-row{display:flex;justify-content:center;margin-top:28px;}
+.comp-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--a);color:#fff;border-radius:100px;font-size:15px;font-weight:600;text-decoration:none;transition:opacity .15s;}
+.comp-cta:hover{opacity:.85;}
+@media(max-width:640px){.comp-table th,.comp-table td{padding:12px 14px;font-size:12.5px;}}
 .hb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g);font-weight:500;}
 .hb svg{width:13px;height:13px;fill:var(--g);}
 .testi{background:var(--cd);}
@@ -775,6 +798,75 @@ a.hotmart-fb.bc {
       <div class="checkout-next-wa"><span>💬</span><span>Dúvidas antes de comprar? <a href="https://wa.me/5548984283696?text=Olá! Tenho uma dúvida sobre o registro de marca." target="_blank" rel="noopener">Fale pelo WhatsApp</a> — respondemos em até 2 horas.</span></div>
     </div>
     <p class="tier-note">* Preços por plano, pagamento único. Classes adicionais fora dos planos têm desconto de 5%. Criadores de conteúdo: consulte condição especial via WhatsApp.</p>
+  </div>
+</section>
+
+<section class="sec comp-sec" id="comparativo">
+  <div class="wrap">
+    <div class="sh rv">
+      <div class="sey">Comparativo</div>
+      <h2 class="st">Por que a HotMarcas é a escolha certa?</h2>
+      <p class="ss">Veja como nos comparamos com as alternativas que você está considerando.</p>
+    </div>
+    <div class="comp-table-wrap rv">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Critério</th>
+            <th>Sozinho no INPI</th>
+            <th>Outro escritório</th>
+            <th class="comp-col-hot">HotMarcas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Pesquisa de viabilidade</td>
+            <td><span class="comp-ico-no">✗</span> Não inclusa</td>
+            <td><span class="comp-ico-mid">~</span> Cobra à parte</td>
+            <td class="comp-col-hot"><span class="comp-ico-yes">✓</span> Grátis antes do pagamento</td>
+          </tr>
+          <tr>
+            <td>Risco de indeferimento</td>
+            <td><span class="comp-ico-no">✗</span> Alto — 40%+ dos pedidos</td>
+            <td><span class="comp-ico-mid">~</span> Médio — sem garantia</td>
+            <td class="comp-col-hot"><span class="comp-ico-yes">✓</span> 99,8% de aprovação*</td>
+          </tr>
+          <tr>
+            <td>Acompanhamento pós-protocolo</td>
+            <td><span class="comp-ico-no">✗</span> Você monitora sozinho</td>
+            <td><span class="comp-ico-mid">~</span> Esporádico ou pago</td>
+            <td class="comp-col-hot"><span class="comp-ico-yes">✓</span> Semanal por 12–24 meses</td>
+          </tr>
+          <tr>
+            <td>Garantia de reprotocolo</td>
+            <td><span class="comp-ico-no">✗</span> Taxa não é devolvida</td>
+            <td><span class="comp-ico-no">✗</span> Cobra novamente</td>
+            <td class="comp-col-hot"><span class="comp-ico-yes">✓</span> Novo pedido sem honorários</td>
+          </tr>
+          <tr>
+            <td>Suporte direto</td>
+            <td><span class="comp-ico-no">✗</span> Nenhum</td>
+            <td><span class="comp-ico-mid">~</span> E-mail em 24–48h</td>
+            <td class="comp-col-hot"><span class="comp-ico-yes">✓</span> WhatsApp dedicado</td>
+          </tr>
+          <tr>
+            <td>Marca mista (nome + logo)</td>
+            <td><span class="comp-ico-no">✗</span> Separado e mais caro</td>
+            <td><span class="comp-ico-mid">~</span> Inclusa em alguns planos</td>
+            <td class="comp-col-hot"><span class="comp-ico-yes">✓</span> Inclusa em todos os planos</td>
+          </tr>
+          <tr>
+            <td>Transparência de processo</td>
+            <td><span class="comp-ico-no">✗</span> Você descobre sozinho</td>
+            <td><span class="comp-ico-mid">~</span> Relatórios esporádicos</td>
+            <td class="comp-col-hot"><span class="comp-ico-yes">✓</span> Acesso ao número INPI em tempo real</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="comp-cta-row rv">
+      <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="comp-cta hotmart-fb" target="_blank" rel="noopener" data-hotmart-widget="checkout">Quero proteger minha marca →</a>
+    </div>
   </div>
 </section>
 
