@@ -95,14 +95,7 @@ nav{position:fixed;inset:0 0 auto;z-index:300;height:60px;display:flex;align-ite
 .hero-trust{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:24px;}
 .hero-trust-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--m);}
 .hero-trust-dot{width:4px;height:4px;border-radius:50%;background:var(--s);flex-shrink:0;}
-/* founder block */
-.founder-block{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--w);border:1.5px solid var(--b);border-radius:var(--rm);box-shadow:0 2px 8px rgba(0,0,0,.05);margin-top:24px;}
-.founder-avatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--k) 0%,#2E2C27 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
-.founder-initials{font-family:var(--f);font-size:18px;font-weight:700;color:var(--al);}
-.founder-info strong{display:block;font-size:13px;font-weight:700;color:var(--k);}
-.founder-info span{font-size:11px;color:var(--g);font-weight:300;display:block;margin-top:1px;}
-.founder-status{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;color:#15803d;margin-top:5px;}
-.founder-status::before{content:'';width:7px;height:7px;border-radius:50%;background:#22c55e;display:block;}
+.founder-initials{font-family:var(--f);font-size:13px;font-weight:700;color:var(--al);}
 /* brand checker widget */
 .hc-widget{background:var(--w);border:1.5px solid var(--b);border-radius:var(--rl);padding:32px;box-shadow:0 2px 4px rgba(0,0,0,.05),0 12px 40px rgba(0,0,0,.09);position:sticky;top:76px;}
 .hc-eyebrow{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--a);margin-bottom:8px;}
@@ -185,27 +178,19 @@ nav{position:fixed;inset:0 0 auto;z-index:300;height:60px;display:flex;align-ite
 .sey::before{content:'';width:16px;height:2px;background:var(--a);}
 .st{font-family:var(--f);font-size:clamp(24px,2.6vw,38px);font-weight:700;color:var(--k);letter-spacing:-.025em;line-height:1.12;margin-bottom:12px;}
 .ss{font-size:15px;font-weight:300;color:var(--g);line-height:1.65;max-width:480px;}
-.search-sec{background:var(--k);padding:56px var(--pp);}
-.search-in{max-width:640px;margin:0 auto;text-align:center;}
-.search-ey{display:inline-flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--al);margin-bottom:14px;}
-.search-ey::before{content:'';width:16px;height:2px;background:var(--al);}
-.search-sec h2{font-family:var(--f);font-size:clamp(22px,2.4vw,34px);font-weight:700;color:var(--c);margin-bottom:10px;letter-spacing:-.025em;}
-.search-sec p{font-size:14px;color:rgba(240,239,231,.48);margin-bottom:28px;font-weight:300;}
-.sbox{display:flex;background:var(--w);border-radius:100px;overflow:hidden;box-shadow:0 6px 32px rgba(0,0,0,.22);}
-.sbox input{flex:1;padding:15px 22px;border:none;outline:none;font-size:15px;font-family:var(--n);color:var(--k);background:transparent;min-width:0;}
-.sbox input::placeholder{color:var(--s);}
-.sbox button{background:var(--a);color:#fff;border:none;padding:13px 24px;font-size:14px;font-weight:600;font-family:var(--n);cursor:pointer;border-radius:100px;margin:4px;white-space:nowrap;transition:background .15s;}
-.sbox button:hover{background:var(--ad);}
-.sres{margin-top:18px;padding:18px 20px;border-radius:var(--rm);font-size:14px;font-weight:500;display:none;text-align:left;line-height:1.55;}
-.sres a{font-weight:700;text-decoration:underline;}
-.sres.ok{background:rgba(34,197,94,.14);border:1.5px solid rgba(34,197,94,.30);color:#15803d;}
-.sres.ok a{color:#15803d;}
-.sres.warn{background:rgba(234,179,8,.14);border:1.5px solid rgba(234,179,8,.30);color:#92400e;}
-.sres.warn a{color:#92400e;}
-.sres.bad{background:rgba(192,80,40,.14);border:1.5px solid rgba(192,80,40,.30);color:#9a3e1e;}
-.sres.bad a{color:#9a3e1e;}
-.sres.on{display:block;}
-.sdis{font-size:11px;color:rgba(240,239,231,.28);margin-top:12px;line-height:1.6;}
+/* trust strip — faixa de credenciais do procurador abaixo do hero */
+.trust-strip{background:var(--w);border-top:1.5px solid var(--b);border-bottom:1.5px solid var(--b);padding:14px var(--pp);}
+.trust-strip-in{max-width:var(--mw);margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.ts-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--k) 0%,#2E2C27 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.ts-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.ts-avatar .founder-initials{font-family:var(--f);font-size:13px;font-weight:700;color:var(--al);}
+.ts-text{display:flex;flex-direction:column;gap:1px;}
+.ts-text strong{font-size:12.5px;font-weight:700;color:var(--k);}
+.ts-text span{font-size:11px;color:var(--g);}
+.ts-badge{font-size:11px;font-weight:600;color:#15803d;display:flex;align-items:center;gap:4px;}
+.ts-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:#22c55e;display:block;}
+.ts-sep{color:var(--s);font-size:11px;}
+.ts-stat{font-size:12px;color:var(--m);font-weight:500;}
 .fw{background:var(--cd);}
 .cg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 .wc{background:var(--c);border:1.5px solid var(--bs);border-radius:var(--rm);padding:28px 24px;transition:border-color .2s,transform .25s,box-shadow .25s;}
@@ -442,7 +427,6 @@ footer{background:#0A0908;padding:32px var(--pp);border-top:1px solid rgba(255,2
 .hero-sub{animation:fUp .5s .19s ease both;}
 .hero-trust{animation:fUp .5s .25s ease both;}
 .hero-cta-main{animation:fUp .5s .32s ease both;}
-.founder-block{animation:fUp .5s .38s ease both;}
 .hc-widget{animation:fUp .55s .18s ease both;}
 @media(min-width:769px){
   .fm-overlay{align-items:center;}
@@ -602,7 +586,7 @@ a.hotmart-fb.bc {
     <div>
       <div class="eyebrow">🇧🇷 Procurador Autorizado INPI · 30 anos · 99,8% aprovação</div>
       <h1>Registre sua marca no INPI. <em>Antes que outra empresa faça isso por você.</em></h1>
-      <p class="hero-sub">Pesquisa de viabilidade gratuita, protocolo em até 10 dias úteis, acompanhamento por 12 meses. Sem surpresas.</p>
+      <p class="hero-sub">Pesquisa grátis. Protocolo em 10 dias. Acompanhamento por 12 meses.</p>
       <div class="hero-trust">
         <span class="hero-trust-item">+3.000 marcas registradas</span>
         <span class="hero-trust-dot"></span>
@@ -611,18 +595,6 @@ a.hotmart-fb.bc {
         <span class="hero-trust-item">CNPJ 61.405.919/0001-50</span>
       </div>
       <button class="ba hero-cta-main" onclick="openFormModal()" style="font-size:15px;padding:15px 32px;">Verificar minha marca grátis →</button>
-      <!-- Fundador placeholder -->
-      <div class="founder-block">
-        <div class="founder-avatar">
-          <img src="fundador.jpg" alt="Procurador Autorizado INPI" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <span class="founder-initials" style="display:none;">HM</span>
-        </div>
-        <div class="founder-info">
-          <strong>Procurador Autorizado INPI</strong>
-          <span>30 anos de atuação exclusiva em marcas · CNPJ verificável</span>
-          <span class="founder-status">Cadastro ativo junto ao INPI</span>
-        </div>
-      </div>
     </div>
     <!-- DIREITA: verificador de marca -->
     <div class="hc-widget">
@@ -650,6 +622,24 @@ a.hotmart-fb.bc {
     </div>
   </div>
 </section>
+
+<div class="trust-strip">
+  <div class="trust-strip-in">
+    <div class="ts-avatar">
+      <img src="fundador.jpg" alt="Procurador Autorizado INPI" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <span class="founder-initials" style="display:none;">HM</span>
+    </div>
+    <div class="ts-text">
+      <strong>Procurador Autorizado INPI</strong>
+      <span>30 anos de atuação exclusiva · CNPJ 61.405.919/0001-50</span>
+    </div>
+    <span class="ts-badge">Cadastro ativo no INPI</span>
+    <span class="ts-sep">·</span>
+    <span class="ts-stat">+3.000 marcas registradas</span>
+    <span class="ts-sep">·</span>
+    <span class="ts-stat">⭐⭐⭐⭐⭐ Avaliação de clientes</span>
+  </div>
+</div>
 
 <div class="tb">
   <div class="tb-in">
