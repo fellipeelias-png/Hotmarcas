@@ -1,9 +1,9 @@
 const Stripe = require('stripe');
 
 const TIER_PRICES = {
-  essencial:     process.env.STRIPE_PRICE_ESSENCIAL,
-  profissional:  process.env.STRIPE_PRICE_PROFISSIONAL,
-  premium:       process.env.STRIPE_PRICE_PREMIUM,
+  essencial:    process.env.STRIPE_PRICE_ESSENCIAL    || 'price_1TRwmgLH6uUPSAvWFvLlXWye',
+  profissional: process.env.STRIPE_PRICE_PROFISSIONAL || 'price_1TRwn9LH6uUPSAvWeBIWbEJ9',
+  premium:      process.env.STRIPE_PRICE_PREMIUM      || 'price_1TRwnQLH6uUPSAvWUXzSVh6l',
 };
 
 const TIER_NAMES = {
