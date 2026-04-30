@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pagamento confirmado — HotMarcas</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --navy:#1A3454;--navy-d:#0F1E30;
+    --a:#C05028;--al:#E06A40;
+    --c:#F0EFE7;--k:#0F0E0B;--g:#524F48;
+    --w:#fff;--b:rgba(15,14,11,.14);
+    --f:'Lora',Georgia,serif;--n:'Inter',system-ui,sans-serif;
+    --r:8px;--rm:12px;--rl:20px;
+  }
+  body{font-family:var(--n);background:var(--c);color:var(--k);min-height:100vh;display:flex;flex-direction:column;}
+
+  /* Nav */
+  .top-nav{background:var(--navy);padding:0 clamp(20px,5vw,48px);height:64px;display:flex;align-items:center;}
+  .nav-logo{font-family:var(--f);font-size:20px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.02em;}
+  .nav-logo span{color:var(--al);}
+
+  /* Main */
+  main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px clamp(20px,5vw,48px);}
+  .card{background:var(--w);border:1.5px solid var(--b);border-radius:24px;padding:48px 52px;max-width:620px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.06);}
+
+  /* Loading */
+  .state-loading{text-align:center;padding:24px 0;}
+  .spinner{width:40px;height:40px;border:3px solid rgba(192,80,40,.2);border-top-color:var(--a);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .state-loading p{color:var(--g);font-size:14px;}
+
+  /* Success state */
+  .state-ok{display:none;}
+  .success-badge{display:inline-flex;align-items:center;gap:8px;background:#dcfce7;border:1.5px solid #86efac;color:#15803d;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:28px;}
+  .success-badge svg{width:14px;height:14px;stroke:currentColor;stroke-width:2.5;fill:none;}
+  .card h1{font-family:var(--f);font-size:clamp(24px,3vw,32px);font-weight:700;color:var(--k);letter-spacing:-.02em;line-height:1.15;margin-bottom:10px;}
+  .card h1 em{font-style:italic;color:var(--a);}
+  .card .subtitle{font-size:15px;color:var(--g);line-height:1.6;margin-bottom:36px;font-weight:300;}
+
+  /* Steps */
+  .steps{display:flex;flex-direction:column;gap:16px;margin-bottom:36px;}
+  .step{display:flex;align-items:flex-start;gap:16px;padding:18px 20px;background:var(--c);border:1.5px solid var(--b);border-radius:var(--rm);}
+  .step-num{width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--n);}
+  .step-body strong{display:block;font-size:14px;font-weight:700;color:var(--k);margin-bottom:3px;}
+  .step-body span{font-size:13px;color:var(--g);line-height:1.5;font-weight:300;}
+
+  /* CTA */
+  .wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;background:#25D366;color:#fff;font-family:var(--n);font-size:15px;font-weight:700;padding:16px 24px;border-radius:var(--rm);text-decoration:none;transition:background .15s,transform .15s;}
+  .wa-btn:hover{background:#1ebe5d;transform:translateY(-2px);}
+  .wa-btn svg{width:20px;height:20px;fill:currentColor;flex-shrink:0;}
+  .wa-note{text-align:center;font-size:12px;color:var(--g);margin-top:14px;font-weight:300;}
+
+  /* Divider */
+  .divider{height:1px;background:var(--b);margin:32px 0;}
+
+  /* What you get */
+  .what-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g);margin-bottom:16px;}
+  .what-list{display:flex;flex-direction:column;gap:10px;}
+  .what-item{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--k);}
+  .what-item svg{width:16px;height:16px;stroke:#15803d;stroke-width:2.5;fill:none;flex-shrink:0;}
+
+  /* Error state */
+  .state-err{display:none;text-align:center;padding:12px 0;}
+  .state-err p{font-size:15px;color:var(--g);margin-bottom:20px;}
+  .back-btn{display:inline-block;background:var(--navy);color:#fff;padding:12px 28px;border-radius:var(--rm);text-decoration:none;font-size:14px;font-weight:600;}
+
+  /* Footer */
+  footer{background:var(--navy-d,#0F1E30);padding:20px clamp(20px,5vw,48px);text-align:center;}
+  footer p{font-size:12px;color:rgba(240,239,231,.4);}
+
+  @media(max-width:600px){
+    .card{padding:32px 24px;border-radius:16px;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <a href="/" class="nav-logo">Hot<span>Marcas</span></a>
+</nav>
+
+<main>
+  <div class="card">
+
+    <!-- Loading -->
+    <div class="state-loading" id="state-loading">
+      <div class="spinner"></div>
+      <p>Confirmando seu pagamento…</p>
+    </div>
+
+    <!-- Success -->
+    <div class="state-ok" id="state-ok">
+      <div class="success-badge">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        Pagamento confirmado
+      </div>
+      <h1>Bem-vindo à <em>HotMarcas</em>,<br><span id="customer-name"></span></h1>
+      <p class="subtitle">Seu plano <strong id="tier-name"></strong> está ativo. Siga os próximos passos para iniciar o registro da sua marca no INPI.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Separe seus documentos</strong>
+            <span>RG ou CNH do responsável · CPF · CNPJ (se empresa) · Nome exato da marca a registrar</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Envie seus dados via WhatsApp</strong>
+            <span>Clique no botão abaixo — a mensagem já vem pré-preenchida com seu plano e email.</span>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Aguarde o protocolo</strong>
+            <span>Protocolamos no INPI em até 10 dias úteis após receber seus dados. Você acompanha tudo por WhatsApp.</span>
+          </div>
+        </div>
+      </div>
+
+      <a href="#" class="wa-btn" id="wa-btn" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Enviar meus dados via WhatsApp
+      </a>
+      <p class="wa-note">Respondemos em horário comercial · Segunda a sexta, 9h–18h</p>
+
+      <div class="divider"></div>
+
+      <p class="what-title">O que está incluso no seu plano</p>
+      <div class="what-list" id="what-list"></div>
+    </div>
+
+    <!-- Error -->
+    <div class="state-err" id="state-err">
+      <p>Não foi possível confirmar seu pagamento.<br>Se você realizou o pagamento, entre em contato pelo WhatsApp.</p>
+      <a href="/#preco" class="back-btn">← Voltar para os planos</a>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <p>HotMarcas · CNPJ 61.405.919/0001-50 · Procurador Autorizado INPI</p>
+</footer>
+
+<script>
+const TIER_FEATURES = {
+  'Essencial': [
+    '1 classe de produto/serviço',
+    'Marca mista (nome + logo)',
+    'Pesquisa de viabilidade grátis',
+    'Acompanhamento por 12 meses',
+    'Suporte via WhatsApp',
+    'Garantia: reprotocolo grátis se indeferido por nossa responsabilidade',
+  ],
+  'Profissional': [
+    '2 classes de produto/serviço',
+    'Marca mista (nome + logo)',
+    'Pesquisa de viabilidade grátis',
+    'Estratégia avançada de classe',
+    'Monitoramento RPI estendido',
+    'Acompanhamento por 12 meses',
+    'Suporte prioritário via WhatsApp',
+    'Garantia: reprotocolo grátis',
+  ],
+  'Premium': [
+    '3 classes de produto/serviço',
+    'Marca mista (nome + logo)',
+    'Pesquisa de viabilidade grátis',
+    'Defesa em oposições inclusa',
+    'Acompanhamento por 24 meses',
+    'Suporte via WhatsApp + e-mail dedicado',
+    'Garantia: reprotocolo grátis + renovação inclusa',
+  ],
+};
+
+const checkSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+
+async function init() {
+  const params = new URLSearchParams(location.search);
+  const sessionId = params.get('session_id');
+
+  if (!sessionId || !sessionId.startsWith('cs_')) {
+    return showError();
+  }
+
+  try {
+    const res = await fetch(`/api/verify-session?id=${encodeURIComponent(sessionId)}`);
+    const data = await res.json();
+
+    if (!data.paid) return showError();
+
+    showSuccess(data);
+  } catch {
+    showError();
+  }
+}
+
+function showSuccess({ tierName, email, name }) {
+  document.getElementById('state-loading').style.display = 'none';
+  document.getElementById('state-ok').style.display = 'block';
+
+  const displayName = name ? name.split(' ')[0] : '';
+  document.getElementById('customer-name').textContent = displayName;
+  document.getElementById('tier-name').textContent = tierName;
+
+  // WhatsApp button
+  const msg = `Olá! Acabei de pagar o Plano ${tierName} da HotMarcas. Meu email é ${email}. Quero iniciar o registro da minha marca.`;
+  document.getElementById('wa-btn').href = `https://wa.me/5548984283696?text=${encodeURIComponent(msg)}`;
+
+  // Features list
+  const features = TIER_FEATURES[tierName] || TIER_FEATURES['Essencial'];
+  document.getElementById('what-list').innerHTML = features
+    .map(f => `<div class="what-item">${checkSvg}<span>${f}</span></div>`)
+    .join('');
+}
+
+function showError() {
+  document.getElementById('state-loading').style.display = 'none';
+  document.getElementById('state-err').style.display = 'block';
+}
+
+init();
+</script>
+</body>
+</html>

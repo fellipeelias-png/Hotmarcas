@@ -25,11 +25,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://www.hotmarcas.com.br/">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"O que é o registro de marca no INPI?","acceptedAnswer":{"@type":"Answer","text":"O registro de marca no INPI garante ao titular o direito de uso exclusivo da marca em todo o território nacional, dentro das classes registradas, por 10 anos renováveis. Quem deposita primeiro tem o direito de prioridade."}},{"@type":"Question","name":"Quanto custa registrar uma marca no INPI?","acceptedAnswer":{"@type":"Answer","text":"O valor base é R$ 1.697 por classe. Parcele em até 12x via Hotmart. Inclui taxas do INPI, pesquisa de viabilidade, protocolo e acompanhamento por 12 meses."}},{"@type":"Question","name":"Quanto tempo leva para o INPI aprovar o registro?","acceptedAnswer":{"@type":"Answer","text":"O prazo médio é de 18 a 36 meses. A proteção começa na data do depósito."}},{"@type":"Question","name":"MEI pode registrar marca no INPI?","acceptedAnswer":{"@type":"Answer","text":"Sim. MEI, ME, EPP e pessoas físicas têm 50% de desconto nas taxas do INPI. Esse desconto já está incorporado no valor apresentado."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"O que é o registro de marca no INPI?","acceptedAnswer":{"@type":"Answer","text":"O registro de marca no INPI garante ao titular o direito de uso exclusivo da marca em todo o território nacional, dentro das classes registradas, por 10 anos renováveis. Quem deposita primeiro tem o direito de prioridade."}},{"@type":"Question","name":"Quanto custa registrar uma marca no INPI?","acceptedAnswer":{"@type":"Answer","text":"O valor base é R$ 1.697 por classe. Parcele em até 12x via cartão de crédito. Inclui taxas do INPI, pesquisa de viabilidade, protocolo e acompanhamento por 12 meses."}},{"@type":"Question","name":"Quanto tempo leva para o INPI aprovar o registro?","acceptedAnswer":{"@type":"Answer","text":"O prazo médio é de 18 a 36 meses. A proteção começa na data do depósito."}},{"@type":"Question","name":"MEI pode registrar marca no INPI?","acceptedAnswer":{"@type":"Answer","text":"Sim. MEI, ME, EPP e pessoas físicas têm 50% de desconto nas taxas do INPI. Esse desconto já está incorporado no valor apresentado."}}]}
 </script>
-  
-<link rel="stylesheet" type="text/css" href="https://static.hotmart.com/css/hotmart-fb.min.css">
-<script src="https://static.hotmart.com/checkout/widget.min.js"></script>
+
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -587,19 +585,6 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
   .modal-box{border-radius:var(--rl);max-height:80vh;}
 }
 
-  /* ── FORCE HOTMART BUTTONS VISIBLE ── */
-a.hotmart-fb.nav-cta,
-a.hotmart-fb.bp,
-a.hotmart-fb.bc {
-  display: inline-flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: relative !important;
-  width: auto !important;
-  height: auto !important;
-  overflow: visible !important;
-  clip: auto !important;
-}
 
 /* ── INPI SEAL ── */
 .inpi-seal{display:inline-flex;align-items:center;gap:10px;background:var(--w);border:1.5px solid var(--b);border-radius:var(--rm);padding:8px 14px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
@@ -706,7 +691,7 @@ a.hotmart-fb.bc {
   </ul>
   <div class="drawer-sep"></div>
   <div class="drawer-ctas">
-    <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="drawer-cta-primary hotmart-fb" target="_blank" rel="noopener" data-hotmart-widget="checkout" onclick="closeDrawer()">Iniciar meu registro →</a>
+    <button class="drawer-cta-primary" onclick="closeDrawer();iniciarCheckout('profissional',this)">Iniciar meu registro →</button>
     <a href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" class="drawer-cta-wa" target="_blank" rel="noopener" onclick="closeDrawer()">💬 Falar pelo WhatsApp</a>
   </div>
   <div class="drawer-trust">
@@ -821,7 +806,7 @@ a.hotmart-fb.bc {
           <div class="tier-classes">1 classe · Marca mista</div>
         </div>
         <div class="tier-cta-wrap">
-          <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="tier-cta hotmart-fb" target="_blank" rel="noopener" data-hotmart-widget="checkout">Iniciar registro →</a>
+          <button class="tier-cta" onclick="iniciarCheckout('essencial',this)">Iniciar registro →</button>
         </div>
         <ul class="tier-feats">
           <li>Pesquisa de viabilidade no INPI</li>
@@ -844,7 +829,7 @@ a.hotmart-fb.bc {
           <div class="tier-classes">2 classes · Marca mista</div>
         </div>
         <div class="tier-cta-wrap">
-          <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="tier-cta hotmart-fb" target="_blank" rel="noopener" data-hotmart-widget="checkout">Iniciar registro →</a>
+          <button class="tier-cta" onclick="iniciarCheckout('profissional',this)">Iniciar registro →</button>
         </div>
         <ul class="tier-feats">
           <li>Pesquisa de viabilidade no INPI</li>
@@ -867,7 +852,7 @@ a.hotmart-fb.bc {
           <div class="tier-classes">3 classes · Marca mista</div>
         </div>
         <div class="tier-cta-wrap">
-          <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="tier-cta hotmart-fb" target="_blank" rel="noopener" data-hotmart-widget="checkout">Iniciar registro →</a>
+          <button class="tier-cta" onclick="iniciarCheckout('premium',this)">Iniciar registro →</button>
         </div>
         <ul class="tier-feats">
           <li>Pesquisa de viabilidade no INPI</li>
@@ -891,7 +876,7 @@ a.hotmart-fb.bc {
     <div class="checkout-next rv">
       <div class="checkout-next-title">O que acontece após o clique</div>
       <div class="checkout-next-steps">
-        <div class="checkout-next-step"><div class="checkout-next-step-num">1</div><span>Você é direcionado ao <strong>checkout seguro da Hotmart</strong> — SSL e PCI-DSS.</span></div>
+        <div class="checkout-next-step"><div class="checkout-next-step-num">1</div><span>Você é direcionado ao <strong>checkout seguro da Stripe</strong> — SSL e PCI-DSS.</span></div>
         <div class="checkout-next-step"><div class="checkout-next-step-num">2</div><span>Após o pagamento, recebe por e-mail o <strong>Kit de Boas-Vindas</strong> com procuração e checklist.</span></div>
         <div class="checkout-next-step"><div class="checkout-next-step-num">3</div><span>Nossa equipe entra em contato pelo <strong>WhatsApp em até 2 horas</strong> para iniciar o processo.</span></div>
       </div>
@@ -965,7 +950,7 @@ a.hotmart-fb.bc {
       </table>
     </div>
     <div class="comp-cta-row rv">
-      <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="comp-cta hotmart-fb" target="_blank" rel="noopener" data-hotmart-widget="checkout">Quero proteger minha marca →</a>
+      <button class="comp-cta" onclick="iniciarCheckout('profissional',this)">Quero proteger minha marca →</button>
     </div>
   </div>
 </section>
@@ -1276,9 +1261,9 @@ a.hotmart-fb.bc {
           </div>
           <div class="fg" data-cat="custo">
             <div class="fg-lbl">Custos e pagamento</div>
-            <div class="fe popular"><button class="ft"><span class="ft-tx">Quanto custa registrar uma marca com a HotMarcas?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">O valor base é <strong>R$ 1.697 por classe</strong>. Parcele em até 12× via Hotmart. Classes extras têm desconto cumulativo de 5%.</p></div></div></div>
+            <div class="fe popular"><button class="ft"><span class="ft-tx">Quanto custa registrar uma marca com a HotMarcas?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">O valor base é <strong>R$ 1.697 por classe</strong>. Parcele em até 12× no cartão. Classes extras têm desconto cumulativo de 5%.</p></div></div></div>
             <div class="fe"><button class="ft"><span class="ft-tx">As taxas do INPI estão inclusas?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Sim. As taxas do INPI para o <strong>pedido inicial de 1 classe</strong> estão incluídas. Desde setembro de 2025, uma taxa única na entrada já cobre o pedido, análise, certificado e os primeiros 10 anos de vigência.</p></div></div></div>
-            <div class="fe"><button class="ft"><span class="ft-tx">Quais formas de pagamento são aceitas?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Cartão de crédito em até <strong>12× via Hotmart</strong>, boleto bancário e Pix. Pagamento processado pela Hotmart com segurança PCI-DSS.</p></div></div></div>
+            <div class="fe"><button class="ft"><span class="ft-tx">Quais formas de pagamento são aceitas?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Cartão de crédito em até <strong>12×</strong>, boleto bancário e Pix. Pagamento processado pela Stripe com segurança PCI-DSS.</p></div></div></div>
             <div class="fe popular"><button class="ft"><span class="ft-tx">Se o pedido for indeferido, tenho reembolso?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Taxas pagas ao INPI não são reembolsáveis. Nossa <strong>garantia contratual</strong>: se o pedido for indeferido por motivos dentro do nosso escopo, entramos com um novo pedido sem cobrar honorários. Você paga apenas a nova taxa do INPI.</p></div></div></div>
           </div>
           <div class="fg" data-cat="tecnico">
@@ -1318,7 +1303,7 @@ a.hotmart-fb.bc {
     <h2 class="rv">Cada dia sem registro é<br>um dia de <em>risco desnecessário.</em></h2>
     <p class="rv d1">Verificação gratuita, sem compromisso. Retorno em até 2 horas.</p>
     <div class="final-btns rv d2">
-      <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="hotmart-fb bc" target="_blank" rel="noopener" data-hotmart-widget="checkout">Iniciar meu registro agora →</a>
+      <button class="bc" onclick="iniciarCheckout('profissional',this)">Iniciar meu registro agora →</button>
 
       <a href="https://wa.me/5548984283696" target="_blank" rel="noopener" class="boc">💬 WhatsApp</a>
     </div>
@@ -1479,6 +1464,19 @@ const ham=document.getElementById('ham');
 const drawer=document.getElementById('drawer');
 ham.addEventListener('click',()=>{ham.classList.toggle('open');drawer.classList.toggle('open');document.body.style.overflow=drawer.classList.contains('open')?'hidden':'';});
 function closeDrawer(){ham.classList.remove('open');drawer.classList.remove('open');document.body.style.overflow='';}
+async function iniciarCheckout(tier,btn){
+  const origText=btn.textContent;
+  btn.disabled=true;btn.textContent='Aguarde…';
+  try{
+    const r=await fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tier})});
+    if(!r.ok)throw new Error('server error');
+    const{url}=await r.json();
+    window.location.href=url;
+  }catch{
+    btn.disabled=false;btn.textContent=origText;
+    alert('Erro ao iniciar o pagamento. Tente novamente ou fale pelo WhatsApp.');
+  }
+}
 const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:0.10});
 document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>revObs.observe(el));
 document.querySelectorAll('.acc-hd').forEach(hd=>{hd.addEventListener('click',()=>{const item=hd.closest('.acc-item');const isOpen=item.classList.contains('open');document.querySelectorAll('.cr-acc .acc-item.open').forEach(i=>i.classList.remove('open'));if(!isOpen){item.classList.add('open');}hd.setAttribute('aria-expanded',(!isOpen).toString());});});
@@ -1645,7 +1643,7 @@ document.querySelectorAll('.ft').forEach(ft=>{ft.addEventListener('click',()=>{c
       <h5>4. Base legal</h5><p>O tratamento é fundamentado no <strong>legítimo interesse</strong> (art. 7º, IX da LGPD) e no <strong>consentimento</strong> expresso ao submeter o formulário.</p>
       <h5>5. Armazenamento</h5><p>Os dados chegam diretamente ao WhatsApp do responsável e não são armazenados em servidores próprios. Dados de clientes são mantidos pelo período necessário à execução do contrato (mínimo 5 anos após o encerramento).</p>
       <h5>6. Seus direitos</h5><p>Você tem direito a acessar, corrigir ou solicitar exclusão dos seus dados a qualquer momento via WhatsApp: <strong>+55 48 98428-3696</strong>.</p>
-      <h5>7. Segurança</h5><p>O site utiliza HTTPS com certificado SSL. Transações são processadas pela Hotmart (PCI-DSS).</p>
+      <h5>7. Segurança</h5><p>O site utiliza HTTPS com certificado SSL. Transações são processadas pela Stripe (PCI-DSS).</p>
       <p class="modal-updated">Última atualização: Abril de 2026 · CNPJ 61.405.919/0001-50</p>
     </div>
   </div>
@@ -1659,7 +1657,7 @@ document.querySelectorAll('.ft').forEach(ft=>{ft.addEventListener('click',()=>{c
       <h5>1. Aceitação</h5><p>Ao utilizar o site hotmarcas.com.br e contratar os serviços da HotMarcas (CNPJ 61.405.919/0001-50), você concorda com estes Termos.</p>
       <h5>2. Descrição do serviço</h5><p>A HotMarcas presta assessoria para registro de marcas junto ao INPI, incluindo pesquisa de viabilidade, elaboração e protocolo do pedido e acompanhamento. O serviço é executado por procurador autorizado pelo INPI e não constitui advocacia nos termos do Estatuto da OAB.</p>
       <h5>3. Escopo e limitações</h5><p>O serviço padrão inclui o protocolo do pedido inicial e acompanhamento pelo prazo contratado. <strong>Não estão incluídos</strong>: resposta a exigências do INPI, defesa em oposições, interposição de recursos, classes adicionais não previstas no contrato e representação judicial.</p>
-      <h5>4. Pagamento</h5><p>Os valores incluem honorários e taxas iniciais do INPI. Custos adicionais são informados previamente por escrito. Pagamento processado pela Hotmart.</p>
+      <h5>4. Pagamento</h5><p>Os valores incluem honorários e taxas iniciais do INPI. Custos adicionais são informados previamente por escrito. Pagamento processado pela Stripe.</p>
       <h5>5. Garantia contratual</h5><p>Se o pedido for indeferido por motivos dentro do nosso escopo, um novo pedido será protocolado sem honorários adicionais. O cliente arca apenas com a nova taxa do INPI. A garantia não se aplica a indeferimentos por informações incorretas do cliente, oposições de terceiros ou mudanças regulatórias.</p>
       <h5>6. Foro</h5><p>Estes termos são regidos pelas leis brasileiras. Foro da Comarca de Juiz de Fora/MG.</p>
       <p class="modal-updated">Última atualização: Abril de 2026 · CNPJ 61.405.919/0001-50</p>
