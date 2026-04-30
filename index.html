@@ -256,12 +256,13 @@ nav{position:fixed;inset:34px 0 auto;z-index:300;height:64px;display:grid;grid-t
 .acr{display:flex;flex-direction:column;gap:9px;margin:24px 0;}
 .acri{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--m);font-weight:500;}
 .acrd{width:5px;height:5px;border-radius:50%;background:var(--a);flex-shrink:0;}
-.cr{background:var(--k);padding:80px var(--pp);position:relative;overflow:hidden;}
+.cr{background:var(--navy);padding:80px var(--pp);position:relative;overflow:hidden;}
 .cr::before{content:'';position:absolute;top:-200px;right:-100px;width:600px;height:600px;background:radial-gradient(ellipse,rgba(192,80,40,.20) 0%,transparent 60%);pointer-events:none;}
 .cr::after{content:'';position:absolute;bottom:-150px;left:-100px;width:450px;height:450px;background:radial-gradient(ellipse,rgba(192,80,40,.12) 0%,transparent 60%);pointer-events:none;}
 .cr-in{max-width:var(--mw);margin:0 auto;position:relative;z-index:1;}
 .cr-urg{background:rgba(192,80,40,.18);border:1.5px solid rgba(192,80,40,.35);border-radius:var(--rm);padding:18px 24px;margin-bottom:56px;display:flex;align-items:flex-start;gap:14px;}
-.cr-urg-ic{font-size:22px;flex-shrink:0;margin-top:2px;}
+.cr-urg-ic{width:28px;height:28px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;}
+.cr-urg-ic svg{width:22px;height:22px;stroke:var(--al);stroke-width:2;fill:none;}
 .cr-urg p{font-size:14.5px;color:var(--c);line-height:1.55;}
 .cr-urg strong{color:var(--al);font-weight:700;}
 .cr-hd{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-bottom:56px;}
@@ -275,14 +276,16 @@ nav{position:fixed;inset:34px 0 auto;z-index:300;height:64px;display:grid;grid-t
 .cr-stat span{font-size:11.5px;color:rgba(240,239,231,.40);font-weight:300;}
 .cr-offer{background:rgba(192,80,40,.14);border:1.5px solid rgba(192,80,40,.32);border-radius:var(--rl);padding:28px;display:flex;flex-direction:column;gap:14px;}
 .cr-offer-top{display:flex;align-items:center;gap:11px;}
-.co-ic{width:44px;height:44px;background:var(--a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.co-ic{width:44px;height:44px;background:var(--a);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.co-ic svg{width:20px;height:20px;stroke:#fff;stroke-width:2;fill:none;}
 .co-tx strong{display:block;font-size:15px;font-weight:700;color:var(--c);}
 .co-tx span{font-size:12px;color:rgba(240,239,231,.50);}
 .cr-offer p{font-size:13.5px;color:rgba(240,239,231,.60);line-height:1.6;font-weight:300;}
 .cr-ng{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:56px;}
 .nc{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:var(--rm);padding:22px 18px;transition:background .2s,border-color .2s,transform .25s;}
 .nc:hover{background:rgba(255,255,255,.08);border-color:rgba(192,80,40,.38);transform:translateY(-3px);}
-.nc-ic{font-size:26px;margin-bottom:12px;display:block;}
+.nc-ic{margin-bottom:12px;display:block;}
+.nc-ic svg{width:28px;height:28px;stroke:var(--al);stroke-width:1.5;fill:none;}
 .nc h4{font-family:var(--f);font-size:14.5px;font-weight:600;color:var(--c);margin-bottom:7px;}
 .nc p{font-size:12px;color:rgba(240,239,231,.48);line-height:1.55;font-weight:300;}
 .nc-tag{display:inline-block;margin-top:10px;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--al);background:rgba(192,80,40,.15);border-radius:100px;padding:3px 9px;}
@@ -292,12 +295,12 @@ nav{position:fixed;inset:34px 0 auto;z-index:300;height:64px;display:grid;grid-t
 .rc{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.07);border-radius:var(--rm);padding:24px;transition:border-color .2s,background .2s;}
 .rc:hover{border-color:rgba(192,80,40,.28);background:rgba(255,255,255,.07);}
 .rc-top{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
-.rc-av{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.rc-av{width:42px;height:42px;border-radius:50%;background:rgba(192,80,40,.20);border:1.5px solid rgba(192,80,40,.35);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--al);flex-shrink:0;font-family:var(--n);}
 .rc-m strong{display:block;font-size:13.5px;font-weight:600;color:var(--c);}
 .rc-m span{font-size:11.5px;color:rgba(240,239,231,.38);}
 .rc p{font-size:13px;color:rgba(240,239,231,.58);line-height:1.65;font-weight:300;}
 .ro{display:flex;align-items:flex-start;gap:8px;margin-top:12px;padding:10px 13px;background:rgba(192,80,40,.12);border-radius:var(--r);font-size:12px;color:var(--al);font-weight:500;line-height:1.5;}
-.ro::before{content:'⚠️';flex-shrink:0;}
+.ro::before{content:'▲';flex-shrink:0;font-size:9px;opacity:.75;}
 .how{background:var(--c);}
 .sr{display:grid;grid-template-columns:repeat(4,1fr);border:1.5px solid var(--b);border-radius:var(--rl);overflow:hidden;}
 .sc{padding:32px 24px;border-right:1.5px solid var(--bs);transition:background .2s;}
@@ -1052,7 +1055,7 @@ a.hotmart-fb.bc {
 <section class="cr" id="criadores">
   <div class="cr-in">
     <div class="cr-urg rv">
-      <div class="cr-urg-ic">🚨</div>
+      <div class="cr-urg-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
       <p>Você tem <strong>seguidores, audiência e autoridade</strong> — mas se sua marca não está registrada no INPI, qualquer pessoa pode depositar o nome antes de você. E aí você perde o direito de usar o que construiu.</p>
     </div>
     <div class="cr-hd">
@@ -1068,33 +1071,33 @@ a.hotmart-fb.bc {
       </div>
       <div class="cr-offer rvr">
         <div class="cr-offer-top">
-          <div class="co-ic">🎯</div>
+          <div class="co-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></div>
           <div class="co-tx">
-            <strong>Condição especial para criadores</strong>
-            <span>Consulte via WhatsApp antes de contratar</span>
+            <strong>Até 50% de desconto para criadores</strong>
+            <span>Condição exclusiva — confirme via WhatsApp</span>
           </div>
         </div>
-        <p>Youtubers, influenciadores, coaches, podcasters e criadores de cursos têm acesso a uma condição exclusiva. Fale com nossa equipe.</p>
-        <a href="https://wa.me/5548984283696?text=Ol%C3%A1%21+Sou+criador+de+conte%C3%BAdo+e+quero+saber+sobre+a+condi%C3%A7%C3%A3o+especial." target="_blank" rel="noopener" class="ba">💬 Quero a condição especial →</a>
+        <p>Youtubers, influenciadores, coaches, podcasters e criadores de cursos têm acesso a desconto de até 50% no registro. Disponível por tempo limitado — vagas restritas por mês.</p>
+        <a href="https://wa.me/5548984283696?text=Ol%C3%A1%21+Sou+criador+de+conte%C3%BAdo+e+quero+o+desconto+de+at%C3%A9+50%25+no+registro." target="_blank" rel="noopener" class="ba">Quero 50% de desconto →</a>
       </div>
     </div>
     <div class="cr-ng">
-      <div class="nc rv d1"><span class="nc-ic">📺</span><h4>Youtubers</h4><p>Proteja o canal antes de viralizar. Impede cópias e fortalece parcerias.</p><span class="nc-tag">Canal protegido</span></div>
-      <div class="nc rv d2"><span class="nc-ic">📸</span><h4>Influenciadores</h4><p>Sua marca pessoal vale muito. Proteja antes de assinar com agências.</p><span class="nc-tag">Marca pessoal</span></div>
-      <div class="nc rv d3"><span class="nc-ic">🎓</span><h4>Criadores de Cursos</h4><p>Registre antes de lançar. Concorrentes copiam após seu sucesso.</p><span class="nc-tag">Metodologia protegida</span></div>
-      <div class="nc rv d4"><span class="nc-ic">🎙️</span><h4>Podcasters e Coaches</h4><p>Nome do podcast, método ou programa — tudo registrável antes de escalar.</p><span class="nc-tag">Programa registrado</span></div>
-      <div class="nc rv d1"><span class="nc-ic">🧘</span><h4>Meditação e Espiritualidade</h4><p>Métodos, nomes de práticas e comunidades precisam de proteção jurídica.</p><span class="nc-tag">Método protegido</span></div>
-      <div class="nc rv d2"><span class="nc-ic">💪</span><h4>Fitness e Saúde</h4><p>Método de treino, programa de alimentação ou marca pessoal — proteja antes de escalar.</p><span class="nc-tag">Marca protegida</span></div>
-      <div class="nc rv d3"><span class="nc-ic">💰</span><h4>Finanças e Investimentos</h4><p>Canais de educação financeira crescem rápido e atraem concorrentes.</p><span class="nc-tag">Canal protegido</span></div>
-      <div class="nc rv d4"><span class="nc-ic">🎮</span><h4>Streamers e Gamers</h4><p>Nicknames, personagens e marcas do universo gamer também são registráveis.</p><span class="nc-tag">Nome protegido</span></div>
+      <div class="nc rv d1"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><h4>Youtubers</h4><p>Proteja o canal antes de viralizar. Impede cópias e fortalece parcerias.</p><span class="nc-tag">Canal protegido</span></div>
+      <div class="nc rv d2"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span><h4>Influenciadores</h4><p>Sua marca pessoal vale muito. Proteja antes de assinar com agências.</p><span class="nc-tag">Marca pessoal</span></div>
+      <div class="nc rv d3"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 0 3-3h7z"/></svg></span><h4>Criadores de Cursos</h4><p>Registre antes de lançar. Concorrentes copiam após seu sucesso.</p><span class="nc-tag">Metodologia protegida</span></div>
+      <div class="nc rv d4"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span><h4>Podcasters e Coaches</h4><p>Nome do podcast, método ou programa — tudo registrável antes de escalar.</p><span class="nc-tag">Programa registrado</span></div>
+      <div class="nc rv d1"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><h4>Meditação e Espiritualidade</h4><p>Métodos, nomes de práticas e comunidades precisam de proteção jurídica.</p><span class="nc-tag">Método protegido</span></div>
+      <div class="nc rv d2"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span><h4>Fitness e Saúde</h4><p>Método de treino, programa de alimentação ou marca pessoal — proteja antes de escalar.</p><span class="nc-tag">Marca protegida</span></div>
+      <div class="nc rv d3"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><h4>Finanças e Investimentos</h4><p>Canais de educação financeira crescem rápido e atraem concorrentes.</p><span class="nc-tag">Canal protegido</span></div>
+      <div class="nc rv d4"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></span><h4>Streamers e Gamers</h4><p>Nicknames, personagens e marcas do universo gamer também são registráveis.</p><span class="nc-tag">Nome protegido</span></div>
     </div>
     <div class="rv">
       <div class="risk-lbl">Casos de criadores que não registraram a tempo</div>
       <div class="rg">
-        <div class="rc"><div class="rc-top"><div class="rc-av">📺</div><div class="rc-m"><strong>Criadora de finanças pessoais</strong><span>200k seguidores · YouTube e Instagram</span></div></div><p>Construiu autoridade em 3 anos. Ao lançar produtos, descobriu que outra empresa havia registrado o nome do canal no INPI. Foi obrigada a rebrandear tudo — canal, domínio e redes sociais.</p><div class="ro">Rebranding completo, perda de SEO e 4 meses de trabalho interrompido.</div></div>
-        <div class="rc"><div class="rc-top"><div class="rc-av">🎓</div><div class="rc-m"><strong>Coach com método proprietário</strong><span>R$ 50k/mês em cursos online</span></div></div><p>Escalou para R$ 50 mil por mês. Seis meses depois, outra empresa havia registrado o mesmo nome. Precisou retirar o produto do ar durante a disputa administrativa.</p><div class="ro">Produto retirado do ar. Meses sem faturar. Processo administrativo custoso.</div></div>
-        <div class="rc"><div class="rc-top"><div class="rc-av">👗</div><div class="rc-m"><strong>Influenciadora de moda</strong><span>Parceria com grande marca nacional</span></div></div><p>Selecionada para parceria com grande varejista. No due diligence, descobriram que ela não tinha o registro do próprio nome. O contrato ficou suspenso por 8 meses.</p><div class="ro">Parceria suspensa por 8 meses. Risco real de perda do contrato.</div></div>
-        <div class="rc"><div class="rc-top"><div class="rc-av">🧘</div><div class="rc-m"><strong>Criador de meditação e espiritualidade</strong><span>150k seguidores · Comunidade ativa</span></div></div><p>Ao lançar app e cursos, descobriu que um concorrente havia registrado o nome do método no INPI. Todo o material, domínio e redes sociais precisaram ser renomeados do zero.</p><div class="ro">App cancelado. Domínio perdido. Renomeação forçada de toda a comunidade.</div></div>
+        <div class="rc"><div class="rc-top"><div class="rc-av">FP</div><div class="rc-m"><strong>Criadora de finanças pessoais</strong><span>200k seguidores · YouTube e Instagram</span></div></div><p>Construiu autoridade em 3 anos. Ao lançar produtos, descobriu que outra empresa havia registrado o nome do canal no INPI. Foi obrigada a rebrandear tudo — canal, domínio e redes sociais.</p><div class="ro">Rebranding completo, perda de SEO e 4 meses de trabalho interrompido.</div></div>
+        <div class="rc"><div class="rc-top"><div class="rc-av">CO</div><div class="rc-m"><strong>Coach com método proprietário</strong><span>R$ 50k/mês em cursos online</span></div></div><p>Escalou para R$ 50 mil por mês. Seis meses depois, outra empresa havia registrado o mesmo nome. Precisou retirar o produto do ar durante a disputa administrativa.</p><div class="ro">Produto retirado do ar. Meses sem faturar. Processo administrativo custoso.</div></div>
+        <div class="rc"><div class="rc-top"><div class="rc-av">MO</div><div class="rc-m"><strong>Influenciadora de moda</strong><span>Parceria com grande marca nacional</span></div></div><p>Selecionada para parceria com grande varejista. No due diligence, descobriram que ela não tinha o registro do próprio nome. O contrato ficou suspenso por 8 meses.</p><div class="ro">Parceria suspensa por 8 meses. Risco real de perda do contrato.</div></div>
+        <div class="rc"><div class="rc-top"><div class="rc-av">ME</div><div class="rc-m"><strong>Criador de meditação e espiritualidade</strong><span>150k seguidores · Comunidade ativa</span></div></div><p>Ao lançar app e cursos, descobriu que um concorrente havia registrado o nome do método no INPI. Todo o material, domínio e redes sociais precisaram ser renomeados do zero.</p><div class="ro">App cancelado. Domínio perdido. Renomeação forçada de toda a comunidade.</div></div>
       </div>
     </div>
   </div>
