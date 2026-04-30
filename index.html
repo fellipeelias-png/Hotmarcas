@@ -32,8 +32,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="https://static.hotmart.com/css/hotmart-fb.min.css">
-<script src="https://static.hotmart.com/checkout/widget.min.js"></script>
+<script>
+(function(){
+  var s=document.createElement('script');
+  s.src='https://static.hotmart.com/checkout/widget.min.js';
+  document.head.appendChild(s);
+  var l=document.createElement('link');
+  l.rel='stylesheet';l.type='text/css';
+  l.href='https://static.hotmart.com/css/hotmart-fb.min.css';
+  document.head.appendChild(l);
+})();
+</script>
 <style>
 :root{
   --c:#F0EFE7;--cd:#E8E6DC;--cdd:#DEDAD0;--p:#D4CFC3;--s:#AEA898;
@@ -347,6 +356,9 @@ nav{position:fixed;inset:34px 0 auto;z-index:300;height:64px;display:grid;grid-t
 .tier-price{font-family:var(--f);font-size:42px;font-weight:700;color:var(--k);letter-spacing:-.03em;line-height:1;}
 .tier-price sup{font-size:17px;vertical-align:super;font-family:var(--n);font-weight:600;}
 .tier-per{font-size:11.5px;color:var(--g);margin-top:6px;font-weight:300;}
+.tier-pay-badge{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;opacity:.45;}
+.tier-pay-badge-logo{height:13px;color:var(--g);}
+.tier-pay-badge span{font-size:10.5px;color:var(--g);font-weight:400;}
 .tier-classes{font-size:12.5px;font-weight:600;color:var(--m);margin-top:12px;padding-top:12px;border-top:1px solid var(--bs);}
 .tier-cta-wrap{padding:0 20px 18px;}
 .tier-cta{display:block;padding:13px;background:var(--k);color:var(--c);border-radius:100px;font-size:14px;font-weight:600;font-family:var(--n);text-align:center;text-decoration:none;transition:opacity .15s;width:100%;}
@@ -807,6 +819,10 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
         <div class="tier-cta-wrap">
           <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="tier-cta hotmart-fb" data-hotmart-widget="checkout">Iniciar registro →</a>
         </div>
+        <div class="tier-pay-badge">
+          <svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" class="tier-pay-badge-logo" aria-label="Hotmart"><text x="0" y="15" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="currentColor">hotmart</text></svg>
+          <span>Pagamento 100% seguro</span>
+        </div>
         <ul class="tier-feats">
           <li>Pesquisa de viabilidade no INPI</li>
           <li>Taxas do INPI inclusas (1 classe)</li>
@@ -828,7 +844,11 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
           <div class="tier-classes">2 classes · Marca mista</div>
         </div>
         <div class="tier-cta-wrap">
-          <a href="https://pay.hotmart.com/Y105626898Q" class="tier-cta hotmart-fb" data-hotmart-widget="checkout">Iniciar registro →</a>
+          <a href="https://pay.hotmart.com/Y105626898Q?checkoutMode=2" class="tier-cta hotmart-fb" data-hotmart-widget="checkout">Iniciar registro →</a>
+        </div>
+        <div class="tier-pay-badge">
+          <svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" class="tier-pay-badge-logo" aria-label="Hotmart"><text x="0" y="15" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="currentColor">hotmart</text></svg>
+          <span>Pagamento 100% seguro</span>
         </div>
         <ul class="tier-feats">
           <li>Pesquisa de viabilidade no INPI</li>
@@ -851,7 +871,11 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
           <div class="tier-classes">3 classes · Marca mista</div>
         </div>
         <div class="tier-cta-wrap">
-          <a href="https://pay.hotmart.com/X105626999V" class="tier-cta hotmart-fb" data-hotmart-widget="checkout">Iniciar registro →</a>
+          <a href="https://pay.hotmart.com/X105626999V?checkoutMode=2" class="tier-cta hotmart-fb" data-hotmart-widget="checkout">Iniciar registro →</a>
+        </div>
+        <div class="tier-pay-badge">
+          <svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" class="tier-pay-badge-logo" aria-label="Hotmart"><text x="0" y="15" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="currentColor">hotmart</text></svg>
+          <span>Pagamento 100% seguro</span>
         </div>
         <ul class="tier-feats">
           <li>Pesquisa de viabilidade no INPI</li>
