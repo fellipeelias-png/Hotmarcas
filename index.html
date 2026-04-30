@@ -532,6 +532,22 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
 }
 @media(max-width:768px){
   .sec{padding:52px var(--pp);}
+  /* hide heavy sections on mobile */
+  .lw{display:none;}
+  .fw{display:none;}
+  .err-sec{display:none;}
+  .transp-sec{display:none;}
+  /* testimonials: 1 visible on mobile */
+  .tg{grid-template-columns:1fr;}
+  .tc.rv.d2,.tc.rv.d3{display:none;}
+  /* FAQ: compact */
+  .fg-lbl{display:none;}
+  .ft{padding:16px 0;font-size:13.5px;}
+  .fan-in{font-size:13px;}
+  /* account for sticky bar */
+  .final{padding-bottom:100px;}
+  /* criadores: hide risk cases on mobile */
+  .rg{display:none;}
   .trust-bar{display:none;}
   nav{inset:0 0 auto;display:flex;justify-content:space-between;}
   .drawer{inset:64px 0 0 0;}
@@ -569,9 +585,6 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
   .faq-lay{grid-template-columns:1fr;gap:32px;}
   .faq-sb{position:static;}
   .faq-cats{display:none;}
-  .fe{padding:0;}
-  .ft{font-size:13.5px;padding:14px 16px;}
-  .fan-in{padding:0 16px 14px;font-size:13px;}
   .faq-cats-mobile{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:24px;-webkit-overflow-scrolling:touch;}
   .faq-cats-mobile::-webkit-scrollbar{display:none;}
   .faq-cm-btn{flex-shrink:0;padding:8px 16px;border-radius:100px;font-size:12px;font-weight:600;color:var(--g);background:var(--cd);border:1.5px solid transparent;cursor:pointer;font-family:var(--n);white-space:nowrap;}
