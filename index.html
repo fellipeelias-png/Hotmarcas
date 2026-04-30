@@ -32,17 +32,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script>
-(function(){
-  var s=document.createElement('script');
-  s.src='https://static.hotmart.com/checkout/widget.min.js';
-  document.head.appendChild(s);
-  var l=document.createElement('link');
-  l.rel='stylesheet';l.type='text/css';
-  l.href='https://static.hotmart.com/css/hotmart-fb.min.css';
-  document.head.appendChild(l);
-})();
-</script>
+
 <style>
 :root{
   --c:#F0EFE7;--cd:#E8E6DC;--cdd:#DEDAD0;--p:#D4CFC3;--s:#AEA898;
@@ -56,7 +46,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
-body{font-family:var(--n);background:var(--c);color:var(--k);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--n);background:var(--c);color:var(--k);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
 img{display:block;max-width:100%;}
 .wrap{max-width:var(--mw);margin:0 auto;padding:0 var(--pp);}
 .rv{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease;}
@@ -384,6 +374,7 @@ nav{position:fixed;inset:34px 0 auto;z-index:300;height:64px;display:grid;grid-t
 /* Comparativo */
 .comp-sec{background:var(--w);}
 .comp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:8px;}
+.comp-scroll-hint{display:none;text-align:center;font-size:11px;color:var(--g);padding:6px 0 2px;letter-spacing:.04em;}
 .comp-table{width:100%;border-collapse:separate;border-spacing:0;max-width:1000px;margin:0 auto;}
 .comp-table th,.comp-table td{padding:14px 20px;font-size:13.5px;text-align:left;border-bottom:1px solid var(--bs);}
 .comp-table thead th{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--g);background:var(--c);padding-top:16px;padding-bottom:16px;}
@@ -540,6 +531,7 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
   .fm-box{border-radius:var(--rl);max-height:85vh;}
 }
 @media(max-width:768px){
+  .sec{padding:52px var(--pp);}
   .trust-bar{display:none;}
   nav{inset:0 0 auto;display:flex;justify-content:space-between;}
   .drawer{inset:64px 0 0 0;}
@@ -573,9 +565,13 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
   .tg{grid-template-columns:1fr;}
   .pb-items{grid-template-columns:1fr;}
   .pb-top,.pb-items,.pb-ft,.pb-note{padding-left:24px;padding-right:24px;}
+  .comp-scroll-hint{display:block;}
   .faq-lay{grid-template-columns:1fr;gap:32px;}
   .faq-sb{position:static;}
   .faq-cats{display:none;}
+  .fe{padding:0;}
+  .ft{font-size:13.5px;padding:14px 16px;}
+  .fan-in{padding:0 16px 14px;font-size:13px;}
   .faq-cats-mobile{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:24px;-webkit-overflow-scrolling:touch;}
   .faq-cats-mobile::-webkit-scrollbar{display:none;}
   .faq-cm-btn{flex-shrink:0;padding:8px 16px;border-radius:100px;font-size:12px;font-weight:600;color:var(--g);background:var(--cd);border:1.5px solid transparent;cursor:pointer;font-family:var(--n);white-space:nowrap;}
@@ -702,7 +698,7 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
   </ul>
   <div class="drawer-sep"></div>
   <div class="drawer-ctas">
-    <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="drawer-cta-primary hotmart-fb" data-hotmart-widget="checkout" onclick="closeDrawer()">Iniciar meu registro →</a>
+    <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="drawer-cta-primary" target="_blank" rel="noopener" onclick="closeDrawer()">Iniciar meu registro →</a>
     <a href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" class="drawer-cta-wa" target="_blank" rel="noopener" onclick="closeDrawer()">💬 Falar pelo WhatsApp</a>
   </div>
   <div class="drawer-trust">
@@ -817,7 +813,7 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
           <div class="tier-classes">1 classe · Marca mista</div>
         </div>
         <div class="tier-cta-wrap">
-          <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="tier-cta hotmart-fb" data-hotmart-widget="checkout">Iniciar registro →</a>
+          <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="tier-cta" target="_blank" rel="noopener">Iniciar registro →</a>
         </div>
         <div class="tier-pay-badge">
           <svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" class="tier-pay-badge-logo" aria-label="Hotmart"><text x="0" y="15" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="currentColor">hotmart</text></svg>
@@ -844,7 +840,7 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
           <div class="tier-classes">2 classes · Marca mista</div>
         </div>
         <div class="tier-cta-wrap">
-          <a href="https://pay.hotmart.com/Y105626898Q?checkoutMode=2" class="tier-cta hotmart-fb" data-hotmart-widget="checkout">Iniciar registro →</a>
+          <a href="https://pay.hotmart.com/Y105626898Q?checkoutMode=2" class="tier-cta" target="_blank" rel="noopener">Iniciar registro →</a>
         </div>
         <div class="tier-pay-badge">
           <svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" class="tier-pay-badge-logo" aria-label="Hotmart"><text x="0" y="15" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="currentColor">hotmart</text></svg>
@@ -871,7 +867,7 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
           <div class="tier-classes">3 classes · Marca mista</div>
         </div>
         <div class="tier-cta-wrap">
-          <a href="https://pay.hotmart.com/X105626999V?checkoutMode=2" class="tier-cta hotmart-fb" data-hotmart-widget="checkout">Iniciar registro →</a>
+          <a href="https://pay.hotmart.com/X105626999V?checkoutMode=2" class="tier-cta" target="_blank" rel="noopener">Iniciar registro →</a>
         </div>
         <div class="tier-pay-badge">
           <svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" class="tier-pay-badge-logo" aria-label="Hotmart"><text x="0" y="15" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="currentColor">hotmart</text></svg>
@@ -916,6 +912,7 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
       <h2 class="st">Por que a HotMarcas é a escolha certa?</h2>
       <p class="ss">Veja como nos comparamos com as alternativas que você está considerando.</p>
     </div>
+    <div class="comp-scroll-hint">← deslize para ver tudo →</div>
     <div class="comp-table-wrap rv">
       <table class="comp-table">
         <thead>
@@ -973,7 +970,7 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
       </table>
     </div>
     <div class="comp-cta-row rv">
-      <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="comp-cta hotmart-fb" data-hotmart-widget="checkout">Quero proteger minha marca →</a>
+      <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="comp-cta" target="_blank" rel="noopener">Quero proteger minha marca →</a>
     </div>
   </div>
 </section>
@@ -1323,7 +1320,7 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
     <h2 class="rv">Cada dia sem registro é<br>um dia de <em>risco desnecessário.</em></h2>
     <p class="rv d1">Verificação gratuita, sem compromisso. Retorno em até 2 horas.</p>
     <div class="final-btns rv d2">
-      <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="bc hotmart-fb" data-hotmart-widget="checkout">Iniciar meu registro agora →</a>
+      <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="bc">Iniciar meu registro agora →</a>
 
       <a href="https://wa.me/5548984283696" target="_blank" rel="noopener" class="boc">💬 WhatsApp</a>
     </div>
