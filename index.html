@@ -265,7 +265,16 @@ nav{position:fixed;inset:34px 0 auto;z-index:300;height:64px;display:grid;grid-t
 .cr-urg-ic svg{width:22px;height:22px;stroke:var(--al);stroke-width:2;fill:none;}
 .cr-urg p{font-size:14.5px;color:var(--c);line-height:1.55;}
 .cr-urg strong{color:var(--al);font-weight:700;}
-.cr-hd{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-bottom:56px;}
+.cr-split{display:grid;grid-template-columns:340px 1fr;gap:52px;align-items:start;margin-bottom:56px;}
+.cr-img-col{position:sticky;top:106px;}
+.cr-img{border-radius:var(--rl);overflow:hidden;aspect-ratio:3/4;background:rgba(255,255,255,.06);position:relative;}
+.cr-img img{width:100%;height:100%;object-fit:cover;display:block;}
+.cr-img-fb{position:absolute;inset:0;display:none;align-items:center;justify-content:center;color:rgba(240,239,231,.25);}
+.cr-img-fb svg{width:48px;height:48px;stroke:currentColor;stroke-width:1;fill:none;}
+.cr-img-badge{position:absolute;bottom:16px;left:16px;right:16px;background:rgba(15,30,48,.85);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:var(--rm);padding:12px 16px;display:flex;align-items:center;gap:14px;}
+.cr-img-badge strong{font-family:var(--f);font-size:24px;font-weight:700;color:var(--al);line-height:1;}
+.cr-img-badge span{font-size:11px;color:rgba(240,239,231,.62);font-weight:300;line-height:1.35;}
+.cr-content{display:flex;flex-direction:column;gap:18px;}
 .cr-ey{display:inline-flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--al);margin-bottom:14px;}
 .cr-ey::before{content:'';width:16px;height:2px;background:var(--al);}
 .cr h2{font-family:var(--f);font-size:clamp(26px,2.8vw,42px);font-weight:700;color:var(--c);letter-spacing:-.025em;line-height:1.1;margin-bottom:14px;}
@@ -281,14 +290,22 @@ nav{position:fixed;inset:34px 0 auto;z-index:300;height:64px;display:grid;grid-t
 .co-tx strong{display:block;font-size:15px;font-weight:700;color:var(--c);}
 .co-tx span{font-size:12px;color:rgba(240,239,231,.50);}
 .cr-offer p{font-size:13.5px;color:rgba(240,239,231,.60);line-height:1.6;font-weight:300;}
-.cr-ng{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:56px;}
-.nc{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.08);border-radius:var(--rm);padding:22px 18px;transition:background .2s,border-color .2s,transform .25s;}
-.nc:hover{background:rgba(255,255,255,.08);border-color:rgba(192,80,40,.38);transform:translateY(-3px);}
-.nc-ic{margin-bottom:12px;display:block;}
-.nc-ic svg{width:28px;height:28px;stroke:var(--al);stroke-width:1.5;fill:none;}
-.nc h4{font-family:var(--f);font-size:14.5px;font-weight:600;color:var(--c);margin-bottom:7px;}
-.nc p{font-size:12px;color:rgba(240,239,231,.48);line-height:1.55;font-weight:300;}
-.nc-tag{display:inline-block;margin-top:10px;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--al);background:rgba(192,80,40,.15);border-radius:100px;padding:3px 9px;}
+.cr-acc{display:flex;flex-direction:column;gap:3px;}
+.acc-item{border:1.5px solid rgba(255,255,255,.07);border-radius:var(--rm);overflow:hidden;transition:border-color .2s,background .2s;}
+.acc-item:hover{background:rgba(255,255,255,.03);}
+.acc-item.open{border-color:rgba(192,80,40,.38);background:rgba(192,80,40,.06);}
+.acc-hd{width:100%;display:flex;align-items:center;gap:11px;padding:12px 14px;cursor:pointer;background:none;border:none;text-align:left;}
+.acc-ic{width:30px;height:30px;background:rgba(192,80,40,.14);border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+.acc-item.open .acc-ic{background:rgba(192,80,40,.30);}
+.acc-ic svg{width:14px;height:14px;stroke:var(--al);stroke-width:1.5;fill:none;}
+.acc-title{font-size:13.5px;font-weight:600;color:var(--c);flex:1;font-family:var(--n);}
+.acc-badge{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--al);background:rgba(192,80,40,.18);border-radius:100px;padding:2px 8px;margin-left:6px;white-space:nowrap;}
+.acc-chev{width:15px;height:15px;flex-shrink:0;stroke:rgba(240,239,231,.30);stroke-width:2;fill:none;transition:transform .25s;}
+.acc-item.open .acc-chev{transform:rotate(180deg);stroke:var(--al);}
+.acc-bd{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease;}
+.acc-item.open .acc-bd{grid-template-rows:1fr;}
+.acc-bd-in{overflow:hidden;font-size:12.5px;color:rgba(240,239,231,.52);line-height:1.65;font-weight:300;padding:0 14px 0 55px;}
+.acc-item.open .acc-bd-in{padding-bottom:14px;}
 .risk-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,239,231,.32);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
 .risk-lbl::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.07);}
 .rg{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
@@ -535,8 +552,10 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
   .eg{grid-template-columns:1fr;gap:10px;}
   .about-in{grid-template-columns:1fr;gap:44px;}
   .asb{right:0;bottom:-14px;}
-  .cr-hd{grid-template-columns:1fr;}
-  .cr-ng{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .cr-split{grid-template-columns:1fr;gap:32px;}
+  .cr-img-col{position:static;}
+  .cr-img{aspect-ratio:16/9;border-radius:var(--rm);}
+  .acc-bd-in{padding-left:41px;}
   .rg{grid-template-columns:1fr;}
   .sr{grid-template-columns:1fr 1fr;}
   .sc{border-right:none;border-bottom:1.5px solid var(--bs);}
@@ -1058,38 +1077,109 @@ a.hotmart-fb.bc {
       <div class="cr-urg-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
       <p>Você tem <strong>seguidores, audiência e autoridade</strong> — mas se sua marca não está registrada no INPI, qualquer pessoa pode depositar o nome antes de você. E aí você perde o direito de usar o que construiu.</p>
     </div>
-    <div class="cr-hd">
-      <div class="rvl">
-        <div class="cr-ey">Para criadores de conteúdo</div>
-        <h2>Sua audiência é sua.<br>Sua marca também<br>precisa <em>ser.</em></h2>
-        <p class="cr-sub">Você investe anos construindo uma comunidade em torno do seu nome, método ou canal. Sem registro no INPI, esse ativo não tem proteção jurídica. Qualquer concorrente pode depositar antes de você.</p>
-        <div class="cr-stats">
-          <div class="cr-stat"><strong>+800</strong><span>criadores atendidos</span></div>
-          <div class="cr-stat"><strong>10 dias</strong><span>para protocolar</span></div>
-          <div class="cr-stat"><strong>100%</strong><span>online</span></div>
-        </div>
-      </div>
-      <div class="cr-offer rvr">
-        <div class="cr-offer-top">
-          <div class="co-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></div>
-          <div class="co-tx">
-            <strong>Até 50% de desconto para criadores</strong>
-            <span>Condição exclusiva — confirme via WhatsApp</span>
+    <div class="cr-split">
+      <!-- Coluna esquerda: imagem tall + badge -->
+      <div class="cr-img-col rvl">
+        <div class="cr-img">
+          <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?w=680&h=900&fit=crop&crop=center&auto=format&q=80" alt="Criadora de conteúdo" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <div class="cr-img-fb"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
+          <div class="cr-img-badge">
+            <div><strong>+800</strong><span>criadores<br>atendidos</span></div>
           </div>
         </div>
-        <p>Youtubers, influenciadores, coaches, podcasters e criadores de cursos têm acesso a desconto de até 50% no registro. Disponível por tempo limitado — vagas restritas por mês.</p>
-        <a href="https://wa.me/5548984283696?text=Ol%C3%A1%21+Sou+criador+de+conte%C3%BAdo+e+quero+o+desconto+de+at%C3%A9+50%25+no+registro." target="_blank" rel="noopener" class="ba">Quero 50% de desconto →</a>
       </div>
-    </div>
-    <div class="cr-ng">
-      <div class="nc rv d1"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><h4>Youtubers</h4><p>Proteja o canal antes de viralizar. Impede cópias e fortalece parcerias.</p><span class="nc-tag">Canal protegido</span></div>
-      <div class="nc rv d2"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span><h4>Influenciadores</h4><p>Sua marca pessoal vale muito. Proteja antes de assinar com agências.</p><span class="nc-tag">Marca pessoal</span></div>
-      <div class="nc rv d3"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 0 3-3h7z"/></svg></span><h4>Criadores de Cursos</h4><p>Registre antes de lançar. Concorrentes copiam após seu sucesso.</p><span class="nc-tag">Metodologia protegida</span></div>
-      <div class="nc rv d4"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span><h4>Podcasters e Coaches</h4><p>Nome do podcast, método ou programa — tudo registrável antes de escalar.</p><span class="nc-tag">Programa registrado</span></div>
-      <div class="nc rv d1"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><h4>Meditação e Espiritualidade</h4><p>Métodos, nomes de práticas e comunidades precisam de proteção jurídica.</p><span class="nc-tag">Método protegido</span></div>
-      <div class="nc rv d2"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span><h4>Fitness e Saúde</h4><p>Método de treino, programa de alimentação ou marca pessoal — proteja antes de escalar.</p><span class="nc-tag">Marca protegida</span></div>
-      <div class="nc rv d3"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><h4>Finanças e Investimentos</h4><p>Canais de educação financeira crescem rápido e atraem concorrentes.</p><span class="nc-tag">Canal protegido</span></div>
-      <div class="nc rv d4"><span class="nc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></span><h4>Streamers e Gamers</h4><p>Nicknames, personagens e marcas do universo gamer também são registráveis.</p><span class="nc-tag">Nome protegido</span></div>
+      <!-- Coluna direita: conteúdo + accordion -->
+      <div class="cr-content rvr">
+        <div>
+          <div class="cr-ey">Para criadores de conteúdo</div>
+          <h2>Sua audiência é sua.<br>Sua marca também<br>precisa <em>ser.</em></h2>
+          <p class="cr-sub">Você investe anos construindo uma comunidade em torno do seu nome, método ou canal. Sem registro no INPI, esse ativo não tem proteção jurídica. Qualquer concorrente pode depositar antes de você.</p>
+          <div class="cr-stats">
+            <div class="cr-stat"><strong>10 dias</strong><span>para protocolar</span></div>
+            <div class="cr-stat"><strong>99,8%</strong><span>de aprovação</span></div>
+            <div class="cr-stat"><strong>100%</strong><span>online</span></div>
+          </div>
+        </div>
+        <!-- Oferta -->
+        <div class="cr-offer">
+          <div class="cr-offer-top">
+            <div class="co-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></div>
+            <div class="co-tx">
+              <strong>Até 50% de desconto para criadores</strong>
+              <span>Condição exclusiva — confirme via WhatsApp</span>
+            </div>
+          </div>
+          <p>Disponível por tempo limitado. Vagas restritas por mês — confirme antes de contratar.</p>
+          <a href="https://wa.me/5548984283696?text=Ol%C3%A1%21+Sou+criador+de+conte%C3%BAdo+e+quero+o+desconto+de+at%C3%A9+50%25+no+registro." target="_blank" rel="noopener" class="ba">Quero 50% de desconto →</a>
+        </div>
+        <!-- Accordion de nichos -->
+        <div class="cr-acc">
+          <div class="acc-item open">
+            <button class="acc-hd" aria-expanded="true">
+              <span class="acc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+              <span class="acc-title">Youtubers<span class="acc-badge">Canal protegido</span></span>
+              <svg class="acc-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="acc-bd"><div class="acc-bd-in">Proteja o canal antes de viralizar. Impede cópias, fortalece parcerias com marcas e garante que o nome do canal seja exclusivamente seu.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-hd" aria-expanded="false">
+              <span class="acc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>
+              <span class="acc-title">Influenciadores<span class="acc-badge">Marca pessoal</span></span>
+              <svg class="acc-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="acc-bd"><div class="acc-bd-in">Sua marca pessoal vale muito. Proteja antes de assinar contratos com agências — sem registro, você pode perder o direito ao próprio nome.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-hd" aria-expanded="false">
+              <span class="acc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 0 3-3h7z"/></svg></span>
+              <span class="acc-title">Criadores de Cursos<span class="acc-badge">Método protegido</span></span>
+              <svg class="acc-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="acc-bd"><div class="acc-bd-in">Registre antes de lançar. Concorrentes copiam metodologias e nomes após seu sucesso — a proteção precisa vir antes, não depois.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-hd" aria-expanded="false">
+              <span class="acc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span>
+              <span class="acc-title">Podcasters e Coaches<span class="acc-badge">Programa registrado</span></span>
+              <svg class="acc-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="acc-bd"><div class="acc-bd-in">Nome do podcast, método ou programa de coaching — tudo registrável antes de escalar. Proteja antes de assinar com plataformas.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-hd" aria-expanded="false">
+              <span class="acc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+              <span class="acc-title">Meditação e Espiritualidade<span class="acc-badge">Método protegido</span></span>
+              <svg class="acc-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="acc-bd"><div class="acc-bd-in">Métodos, nomes de práticas e comunidades espirituais precisam de proteção jurídica antes de escalar para cursos e assinaturas.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-hd" aria-expanded="false">
+              <span class="acc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+              <span class="acc-title">Fitness e Saúde<span class="acc-badge">Marca protegida</span></span>
+              <svg class="acc-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="acc-bd"><div class="acc-bd-in">Método de treino, programa de alimentação ou marca pessoal — proteja antes de escalar para apps, franquias ou parcerias com academias.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-hd" aria-expanded="false">
+              <span class="acc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+              <span class="acc-title">Finanças e Investimentos<span class="acc-badge">Canal protegido</span></span>
+              <svg class="acc-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="acc-bd"><div class="acc-bd-in">Canais de educação financeira crescem rápido e atraem concorrentes. Registre antes de lançar produtos, cursos ou assinaturas premium.</div></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-hd" aria-expanded="false">
+              <span class="acc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></span>
+              <span class="acc-title">Streamers e Gamers<span class="acc-badge">Nome protegido</span></span>
+              <svg class="acc-chev" viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="acc-bd"><div class="acc-bd-in">Nicknames, personagens e marcas do universo gamer também são registráveis no INPI — antes que um concorrente ou troll o faça por você.</div></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="rv">
       <div class="risk-lbl">Casos de criadores que não registraram a tempo</div>
@@ -1391,6 +1481,7 @@ ham.addEventListener('click',()=>{ham.classList.toggle('open');drawer.classList.
 function closeDrawer(){ham.classList.remove('open');drawer.classList.remove('open');document.body.style.overflow='';}
 const revObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});},{threshold:0.10});
 document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>revObs.observe(el));
+document.querySelectorAll('.acc-hd').forEach(hd=>{hd.addEventListener('click',()=>{const item=hd.closest('.acc-item');const isOpen=item.classList.contains('open');document.querySelectorAll('.cr-acc .acc-item.open').forEach(i=>i.classList.remove('open'));if(!isOpen){item.classList.add('open');}hd.setAttribute('aria-expanded',(!isOpen).toString());});});
 const cntEl=document.getElementById('cnt-marcas');
 if(cntEl){const cntObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;let n=0;const T=3000;const t=setInterval(()=>{n=Math.min(n+60,T);cntEl.textContent='+'+n.toLocaleString('pt-BR');if(n>=T)clearInterval(t);},18);cntObs.unobserve(cntEl);});},{threshold:0.5});cntObs.observe(cntEl);}
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();closeDrawer();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
