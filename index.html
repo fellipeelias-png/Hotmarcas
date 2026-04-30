@@ -134,7 +134,16 @@ nav{position:fixed;inset:34px 0 auto;z-index:300;height:64px;display:grid;grid-t
 .sbox input::placeholder{color:var(--s);}
 .sbox button{background:var(--a);color:#fff;border:none;padding:11px 20px;font-size:13px;font-weight:600;font-family:var(--n);cursor:pointer;white-space:nowrap;transition:background .15s;}
 .sbox button:hover{background:var(--ad);}
-.sres{margin-top:14px;padding:14px 16px;border-radius:var(--rm);font-size:13.5px;font-weight:500;display:none;text-align:left;line-height:1.55;}
+.sres{margin-top:14px;padding:16px 18px;border-radius:var(--rm);font-size:13.5px;font-weight:500;display:none;text-align:left;line-height:1.55;}
+.sres-score{display:flex;align-items:center;gap:10px;margin-top:10px;}
+.sres-bar-wrap{flex:1;height:6px;background:rgba(0,0,0,.08);border-radius:3px;overflow:hidden;}
+.sres-bar{height:100%;border-radius:3px;transition:width .6s ease;}
+.sres-score-num{font-size:12px;font-weight:700;white-space:nowrap;}
+.sres-detail{font-size:12px;margin-top:8px;opacity:.8;line-height:1.5;}
+.sres-loading{margin-top:14px;padding:16px 18px;border-radius:var(--rm);background:var(--cd);display:none;align-items:center;gap:12px;font-size:13.5px;color:var(--g);}
+.sres-loading.on{display:flex;}
+.sres-spin{width:18px;height:18px;border:2px solid var(--b);border-top-color:var(--a);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+@keyframes spin{to{transform:rotate(360deg);}}
 .sres a{font-weight:700;text-decoration:underline;cursor:pointer;}
 .sres.ok{background:rgba(34,197,94,.10);border:1.5px solid rgba(34,197,94,.28);color:#15803d;}
 .sres.warn{background:rgba(234,179,8,.10);border:1.5px solid rgba(234,179,8,.28);color:#92400e;}
@@ -147,6 +156,7 @@ nav{position:fixed;inset:34px 0 auto;z-index:300;height:64px;display:grid;grid-t
 .sgate-lbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g);margin-bottom:7px;}
 .sgate p{font-size:12.5px;color:var(--m);line-height:1.55;margin-bottom:10px;font-weight:300;}
 .sgate-row{display:flex;gap:8px;flex-wrap:wrap;}
+.sgate-row input[type=text]{flex:1;min-width:110px;}
 .sgate-row input{flex:1;min-width:120px;padding:9px 13px;background:var(--w);border:1.5px solid var(--b);border-radius:100px;font-size:13px;font-family:var(--n);color:var(--k);outline:none;transition:border-color .15s;}
 .sgate-row input::placeholder{color:var(--s);}
 .sgate-row input:focus{border-color:var(--a);}
@@ -754,16 +764,18 @@ footer{background:var(--navy-d);padding:32px var(--pp);border-top:1px solid rgba
           <option value="Outro (especificar no WhatsApp)|">Outro (especificar no WhatsApp)</option>
         </select>
       </div>
+      <div class="sres-loading" id="sres-loading"><div class="sres-spin"></div><span id="sres-loading-txt">Consultando critérios do INPI…</span></div>
       <div class="sres" id="sres"></div>
       <div class="sgate" id="sgate">
-        <div class="sgate-lbl">Próximo passo</div>
-        <p>Quer verificar se <strong id="sgate-brand-name"></strong> já está registrado na base oficial do INPI? Deixe seu WhatsApp — verificamos gratuitamente.</p>
+        <div class="sgate-lbl">Busca de anterioridade gratuita</div>
+        <p><strong id="sgate-brand-name"></strong> passou na análise preliminar. Para confirmar se está livre na base oficial do INPI, fale agora com nosso especialista.</p>
         <div class="sgate-row">
+          <input type="text" id="sgate-name" placeholder="Seu nome" maxlength="60" autocomplete="given-name">
           <input type="tel" id="sgate-whats" placeholder="(11) 99999-9999" inputmode="numeric" maxlength="15" autocomplete="tel">
-          <button type="button" onclick="sgateSubmit()">Verificar no INPI →</button>
+          <button type="button" onclick="sgateSubmit()">Falar no WhatsApp →</button>
         </div>
         <div class="sgate-err" id="sgate-err">⚠ Informe um WhatsApp válido</div>
-        <div class="sgate-thanks" id="sgate-thanks">✅ Enviado! Retornamos em breve.</div>
+        <div class="sgate-thanks" id="sgate-thanks">✅ Abrindo WhatsApp…</div>
       </div>
       <p class="hero-microcopy">✓ Análise 100% gratuita &nbsp;·&nbsp; ✓ Suporte 24/7 via WhatsApp &nbsp;·&nbsp; ✓ Gerente de contas exclusivo</p>
     </div>
@@ -1600,45 +1612,136 @@ function resetForm(){
   document.getElementById('fc-success').style.display='none';
   fcGoTo(1);
 }
-const genericTerms=['empresa','brasil','store','shop','digital','online','tech','solutions','group','service','serviços','comercio','comercial','nacional','internacional','global','universal','geral','central','prime','plus','pro','max','top','super','mega','ultra','brazil'];
-var _lastBrandAnalysis={name:'',result:''};
+const genericTerms=['empresa','brasil','store','shop','digital','online','tech','solutions','group','service','serviços','comercio','comercial','nacional','internacional','global','universal','geral','central','prime','plus','pro','max','top','super','mega','ultra','brazil','click','web','net','info','br','ltda','eireli','mei'];
+const famousMarks=['nike','adidas','apple','google','amazon','microsoft','samsung','sony','netflix','uber','ifood','magalu','natura','boticario','havaianas','hering','reserva','arezzo','vivo','claro','tim','bradesco','itau','nubank','inter','xp','ambev','brahma','skol','coca','pepsi','mcdonalds','burger','starbucks','disney','facebook','instagram','tiktok','youtube','whatsapp','spotify','mercadolivre','shopee','shein'];
+var _lastBrandAnalysis={name:'',result:'',score:0,area:''};
+var _searchDebounce=null;
+
+function analyzeBrand(v){
+  var lo=v.toLowerCase().replace(/[àáâãä]/g,'a').replace(/[èéêë]/g,'e').replace(/[ìíîï]/g,'i').replace(/[òóôõö]/g,'o').replace(/[ùúûü]/g,'u').replace(/[ç]/g,'c');
+  var words=lo.split(/\s+/);
+  var score=100;
+  var issues=[];
+  var outcome='ok';
+
+  if(/^\d+$/.test(v)){return{score:5,outcome:'bad',msg:'Só números — o INPI não registra marcas exclusivamente numéricas.',detail:'Entre em contato para avaliar alternativas com nosso especialista.'};}
+  if(v.length<3){return{score:10,outcome:'bad',msg:'Nome muito curto — o INPI exige distintividade mínima.',detail:'Nomes com menos de 3 caracteres raramente são aceitos sem estudo específico.'};}
+
+  // famous mark similarity
+  var hasFamous=famousMarks.some(function(m){return lo.includes(m)||m.includes(lo.replace(/\s/g,''));});
+  if(hasFamous){score-=60;issues.push('semelhante a marca famosa registrada');}
+
+  // pure acronym (2-3 all-caps letters)
+  if(/^[A-Z]{2,3}$/.test(v)){score-=30;issues.push('sigla pura — alta concorrência na base do INPI');}
+
+  // too long
+  if(v.length>40){score-=20;issues.push('nome muito longo ('+v.length+' caracteres)');}
+
+  // special chars
+  if(/[!@#$%^&*()\[\]{}|\\<>\/]/.test(v)){score-=20;issues.push('contém caracteres especiais questionáveis');}
+
+  // all generic
+  var allGeneric=words.every(function(w){return genericTerms.includes(w);});
+  if(allGeneric){score-=50;issues.push('composto apenas por termos genéricos');}
+  else{
+    var hasGeneric=words.some(function(w){return genericTerms.includes(w);});
+    if(hasGeneric){score-=20;issues.push('contém termos de uso comum');}
+  }
+
+  // sector-specific generic check
+  var areaSel=document.getElementById('search-area');
+  var areaVal=areaSel?areaSel.value:'';
+  if(areaVal){
+    var sectorGenerics={
+      '41':['escola','curso','aula','ensino','treino','training','academy','edu'],
+      '44':['clinica','saude','medico','farma','care','health','wellness'],
+      '35':['marketing','agencia','solucoes','consultoria','business'],
+      '42':['tech','software','digital','app','sistemas','data'],
+      '36':['investimento','financas','bank','capital','credito']
+    };
+    var ncl=(areaVal.split('|')[1]||'').split(',');
+    ncl.forEach(function(cl){
+      var sg=sectorGenerics[cl.trim()];
+      if(sg&&words.some(function(w){return sg.includes(w);})){score-=15;issues.push('termo genérico no setor selecionado');}
+    });
+  }
+
+  score=Math.max(5,Math.min(100,score));
+  if(score>=75)outcome='ok';
+  else if(score>=45)outcome='warn';
+  else outcome='bad';
+
+  var detail='';
+  if(issues.length)detail='Pontos de atenção: '+issues.join('; ')+'.';
+
+  var msg='';
+  if(outcome==='ok')msg='<strong>"'+v+'"</strong> tem boa distintividade. Próximo passo: verificar anterioridade na base oficial do INPI.';
+  else if(outcome==='warn')msg='<strong>"'+v+'"</strong> tem distintividade moderada — é registrável, mas exige estratégia específica na especificação.';
+  else msg='<strong>"'+v+'"</strong> pode ter dificuldades no INPI. Recomendamos consulta antes do protocolo.';
+
+  if(areaVal){var parts=areaVal.split('|');var ncl2=parts[1];var areaName=parts[0];if(ncl2)detail+=(detail?' ':'')+' Classe NCL sugerida: <strong>'+ncl2+'</strong>.';}
+
+  return{score:score,outcome:outcome,msg:msg,detail:detail};
+}
+
+var _loadingMsgs=['Verificando comprimento e estrutura…','Checando termos genéricos…','Analisando distintividade…','Consultando critérios INPI…'];
 function buscarMarca(){
   var v=document.getElementById('search-input').value.trim();
   var r=document.getElementById('sres');
+  var loading=document.getElementById('sres-loading');
+  var loadingTxt=document.getElementById('sres-loading-txt');
   var gate=document.getElementById('sgate');
   var brandSpan=document.getElementById('sgate-brand-name');
   gate.classList.remove('sg-visible');
   document.getElementById('sgate-thanks').classList.remove('show');
   document.getElementById('sgate-err').classList.remove('show');
-  var sgw=document.getElementById('sgate-whats');if(sgw)sgw.value='';
-  if(!v){r.className='sres';return;}
-  var lo=v.toLowerCase();
-  var words=lo.split(/\s+/);
-  var isNum=/^\d+$/.test(v);
-  var hasSpec=/[!@#$%^&*()\[\]{}|\\<>\/]/.test(v);
-  var allGeneric=words.every(function(w){return genericTerms.includes(w);});
-  var hasGeneric=words.some(function(w){return genericTerms.includes(w);});
-  r.classList.add('on');
-  var outcome='';
-  if(isNum){outcome='bad';r.className='sres bad on';r.innerHTML='🔴 <strong>"'+v+'"</strong> é composto apenas por números — o INPI não registra marcas exclusivamente numéricas. <a href="#form">Falar com especialista →</a>';}
-  else if(v.length<3){outcome='bad';r.className='sres bad on';r.innerHTML='🔴 <strong>"'+v+'"</strong> é muito curto. O INPI exige distintividade mínima. <a href="#form">Falar com especialista →</a>';}
-  else if(v.length>50){outcome='warn';r.className='sres warn on';r.innerHTML='🟡 <strong>"'+v+'"</strong> é muito longo ('+v.length+' caracteres). Considere uma versão mais concisa.';}
-  else if(hasSpec){outcome='warn';r.className='sres warn on';r.innerHTML='🟡 <strong>"'+v+'"</strong> contém caracteres especiais que o INPI pode questionar.';}
-  else if(allGeneric){outcome='bad';r.className='sres bad on';r.innerHTML='🔴 <strong>"'+v+'"</strong> é composto apenas por termos genéricos. O INPI tende a indeferir marcas sem distintividade. <a href="#form">Falar com especialista →</a>';}
-  else if(hasGeneric){outcome='warn';r.className='sres warn on';r.innerHTML='🟡 <strong>"'+v+'"</strong> contém termos de uso comum. Exige estratégia específica na especificação.';}
-  else{outcome='ok';r.className='sres ok on';r.innerHTML='✅ <strong>"'+v+'"</strong> tem boa distintividade e comprimento adequado. A verificação de anterioridade completa é o próximo passo.';}
-  var areaSel=document.getElementById('search-area');
-  var areaVal=areaSel?areaSel.value:'';
-  if(areaVal){var parts=areaVal.split('|');var ncl=parts[1];var areaName=parts[0];var nclTxt=ncl?(' Classe NCL sugerida: <strong>'+ncl+'</strong>.'):'';r.innerHTML+='<br><span style="font-size:12px;opacity:.85">📂 Ramo: '+areaName+'.'+nclTxt+'</span>';}
-  _lastBrandAnalysis.name=v;_lastBrandAnalysis.result=outcome;_lastBrandAnalysis.area=areaVal;
-  if(outcome==='ok'||outcome==='warn'){
-    if(brandSpan)brandSpan.textContent='"'+v+'"';
-    gate.classList.add('sg-visible');
-    if(sgw&&!sgw._masked){sgw._masked=true;sgw.addEventListener('input',function(){this.value=maskPhone(this.value);});}
-  }
+  var sgw=document.getElementById('sgate-whats');if(sgw){sgw.value='';sgw.disabled=false;}
+  var sgn=document.getElementById('sgate-name');if(sgn){sgn.value='';sgn.disabled=false;}
+  var btn2=document.querySelector('#sgate .sgate-row button');if(btn2)btn2.disabled=false;
+  if(!v){r.className='sres';loading.classList.remove('on');return;}
+
+  // show loading animation
+  r.className='sres';
+  loading.classList.add('on');
+  var msgIdx=0;
+  var msgInterval=setInterval(function(){msgIdx=(msgIdx+1)%_loadingMsgs.length;if(loadingTxt)loadingTxt.textContent=_loadingMsgs[msgIdx];},400);
+
+  setTimeout(function(){
+    clearInterval(msgInterval);
+    loading.classList.remove('on');
+    var res=analyzeBrand(v);
+    _lastBrandAnalysis.name=v;_lastBrandAnalysis.result=res.outcome;_lastBrandAnalysis.score=res.score;_lastBrandAnalysis.area=document.getElementById('search-area').value;
+
+    var barColor=res.score>=75?'#16a34a':res.score>=45?'#d97706':'#dc2626';
+    var scoreLabel=res.score>=75?'Alta':'res.score>=45'?'Média':'Baixa';
+    if(res.score>=75)scoreLabel='Alta distintividade';
+    else if(res.score>=45)scoreLabel='Distintividade moderada';
+    else scoreLabel='Baixa distintividade';
+
+    r.className='sres '+(res.outcome==='ok'?'ok':res.outcome==='warn'?'warn':'bad')+' on';
+    r.innerHTML=res.msg
+      +'<div class="sres-score"><div class="sres-bar-wrap"><div class="sres-bar" style="width:'+res.score+'%;background:'+barColor+'"></div></div><span class="sres-score-num" style="color:'+barColor+'">'+res.score+'/100</span></div>'
+      +(res.detail?'<div class="sres-detail">'+res.detail+'</div>':'');
+
+    if(res.outcome==='ok'||res.outcome==='warn'){
+      if(brandSpan)brandSpan.textContent='"'+v+'"';
+      gate.classList.add('sg-visible');
+      if(sgw&&!sgw._masked){sgw._masked=true;sgw.addEventListener('input',function(){this.value=maskPhone(this.value);});}
+    }
+  },1600);
 }
+
+// debounce on input
+document.getElementById('search-input').addEventListener('input',function(){
+  clearTimeout(_searchDebounce);
+  var v=this.value.trim();
+  if(v.length<2){document.getElementById('sres').className='sres';document.getElementById('sres-loading').classList.remove('on');document.getElementById('sgate').classList.remove('sg-visible');return;}
+  _searchDebounce=setTimeout(buscarMarca,700);
+});
+
 function sgateSubmit(){
   var whatsEl=document.getElementById('sgate-whats');
+  var nameEl=document.getElementById('sgate-name');
   var errEl=document.getElementById('sgate-err');
   var thanksEl=document.getElementById('sgate-thanks');
   var whats=whatsEl.value.trim();
@@ -1646,15 +1749,18 @@ function sgateSubmit(){
   if(!whats||wErr){errEl.textContent='⚠ '+(wErr||'Informe seu WhatsApp');errEl.classList.add('show');return;}
   errEl.classList.remove('show');
   var brandName=_lastBrandAnalysis.name;
-  var resultTxt=_lastBrandAnalysis.result==='ok'?'Boa distintividade':'Atenção: termos genéricos/comprimento';
+  var score=_lastBrandAnalysis.score;
   var areaInfo=_lastBrandAnalysis.area?(' | Ramo: '+_lastBrandAnalysis.area.split('|')[0]):'';
-  var msg='🔍 [BUSCA] Nome: '+brandName+' | WhatsApp: '+whats+' | Resultado: '+resultTxt+areaInfo;
+  var nameInfo=nameEl&&nameEl.value.trim()?nameEl.value.trim():'';
+  var intro=nameInfo?'Olá, sou '+nameInfo+'! ':'Olá! ';
+  var msg=intro+'Analisei a marca "'+brandName+'" (score '+score+'/100'+areaInfo+') e quero fazer a busca de anterioridade no INPI. Pode me ajudar?';
   window.open('https://wa.me/5548984283696?text='+encodeURIComponent(msg),'_blank');
-  whatsEl.disabled=true;
+  if(whatsEl){whatsEl.disabled=true;}
+  if(nameEl){nameEl.disabled=true;}
   var btn=document.querySelector('#sgate .sgate-row button');if(btn)btn.disabled=true;
   thanksEl.classList.add('show');
 }
-document.getElementById('search-input').addEventListener('keydown',function(e){if(e.key==='Enter')buscarMarca();});
+document.getElementById('search-input').addEventListener('keydown',function(e){if(e.key==='Enter'){clearTimeout(_searchDebounce);buscarMarca();}});
 (function(){var brands=['Müsy','Pangea','Café On TV','Soletra+','Helpers Education','QStarts','IACES Brasil','Capeia Azul','Mináguas','Bless Music','Musy Records','Agathos Editora','AGT Produtora','Grupo Agathos','Auset','BizuCash','Capoeira D\'Tomé','Djiele','Liquida Itaperuna','Agathos Play','Beer Beard Club','Art\'s Empire','Angion Clínica','Futura Supermercados'];for(var i=brands.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=brands[i];brands[i]=brands[j];brands[j]=tmp;}var html='';var set=brands.concat(brands);set.forEach(function(b){html+='<span class="lw-item">'+b+'</span><span class="lw-dot">·</span>';});document.getElementById('lw-track').innerHTML=html;})();
 function setupFaq(btnSelector,filterSync){document.querySelectorAll(btnSelector).forEach(btn=>{btn.addEventListener('click',()=>{const cat=btn.dataset.cat;document.querySelectorAll(btnSelector).forEach(b=>b.classList.remove('on'));btn.classList.add('on');if(filterSync)filterSync(cat);document.querySelectorAll('#faq-acc .fg').forEach(g=>{g.style.display=(cat==='all'||g.dataset.cat===cat)?'':'none';});document.querySelectorAll('.fe.on').forEach(e=>e.classList.remove('on'));});});}
 setupFaq('#faq-cats-desktop .faq-cb',cat=>{document.querySelectorAll('.faq-cm-btn').forEach(b=>b.classList.toggle('on',b.dataset.cat===cat));});
