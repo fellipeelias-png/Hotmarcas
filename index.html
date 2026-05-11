@@ -57,9 +57,17 @@
   <a href="/" class="nav-logo">Hot<span>Marcas</span></a>
   <ul class="nav-mid">
     <li><a href="#inicio" onclick="document.getElementById('search-input').focus();return false;">Verificar marca</a></li>
+    <li class="nav-dd">
+      <a href="#" class="nav-dd-trigger">Para quem é <svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,2 6,7 11,2"/></svg></a>
+      <div class="nav-dd-menu">
+        <a href="/lp/criadores"><span class="dd-emoji">🎥</span>Criadores de conteúdo</a>
+        <a href="/lp/criadores-espirituais"><span class="dd-emoji">✨</span>Criadores espirituais</a>
+        <a href="/lp/ecommerce"><span class="dd-emoji">🛒</span>E-commerce e sellers</a>
+        <a href="/lp/saas"><span class="dd-emoji">💻</span>SaaS e startups</a>
+        <a href="/lp/mei"><span class="dd-emoji">🏪</span>MEI e pequenos negócios</a>
+      </div>
+    </li>
     <li><a href="#preco">Preços</a></li>
-    <li><a href="#garantia">Garantia</a></li>
-    <li><a href="#comparativo">Comparativo</a></li>
     <li><a href="#faq">Dúvidas</a></li>
   </ul>
   <div class="nav-right">
@@ -76,11 +84,19 @@
     <li><a href="#inicio" onclick="closeDrawer();setTimeout(()=>document.getElementById('search-input').focus(),300)">🔍 Verificar minha marca</a></li>
     <li><a href="#preco" onclick="closeDrawer()">💰 Preços</a></li>
     <li><a href="#garantia" onclick="closeDrawer()">🛡️ Garantia</a></li>
-    <li><a href="#comparativo" onclick="closeDrawer()">📊 Comparativo</a></li>
-    <li><a href="#para-quem" onclick="closeDrawer()">Para quem é</a></li>
     <li><a href="#faq" onclick="closeDrawer()">Dúvidas frequentes</a></li>
     <li><a href="#sobre" onclick="closeDrawer()">Sobre a HotMarcas</a></li>
   </ul>
+  <div class="drawer-aud">
+    <div class="drawer-aud-lbl">Para quem é</div>
+    <ul>
+      <li><a href="/lp/criadores">🎥 Criadores de conteúdo</a></li>
+      <li><a href="/lp/criadores-espirituais">✨ Criadores espirituais</a></li>
+      <li><a href="/lp/ecommerce">🛒 E-commerce e sellers</a></li>
+      <li><a href="/lp/saas">💻 SaaS e startups</a></li>
+      <li><a href="/lp/mei">🏪 MEI e pequenos negócios</a></li>
+    </ul>
+  </div>
   <div class="drawer-sep"></div>
   <div class="drawer-ctas">
     <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="drawer-cta-primary" target="_blank" rel="noopener" onclick="closeDrawer()">Iniciar meu registro →</a>
