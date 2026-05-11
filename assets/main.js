@@ -46,6 +46,24 @@ function closeDrawer(){
   document.body.style.overflow = '';
 }
 
+// ── "Para quem é" dropdown (desktop nav) ───────────────────────────────────
+(function(){
+  var dd = document.querySelector('.nav-dd');
+  if (!dd) return;
+  var trigger = dd.querySelector('.nav-dd-trigger');
+  if (!trigger) return;
+  trigger.addEventListener('click', function(e){
+    e.preventDefault(); e.stopPropagation();
+    dd.classList.toggle('open');
+  });
+  document.addEventListener('click', function(e){
+    if (!dd.contains(e.target)) dd.classList.remove('open');
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') dd.classList.remove('open');
+  });
+})();
+
 // ── Stripe checkout (envia tier + audience + UTMs) ─────────────────────────
 async function iniciarCheckout(tier, btn){
   var origText = btn.textContent;
