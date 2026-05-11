@@ -50,7 +50,7 @@
 <nav>
   <a href="/" class="nav-logo">Hot<span>Marcas</span></a>
   <ul class="nav-mid">
-    <li><a href="#inicio" onclick="document.getElementById('search-input').focus();return false;">Verificar marca</a></li>
+    <li><a href="/verificar-marca">Verificar marca</a></li>
     <li class="nav-dd">
       <a href="#" class="nav-dd-trigger">Para quem é <svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,2 6,7 11,2"/></svg></a>
       <div class="nav-dd-menu">
@@ -66,14 +66,14 @@
   </ul>
   <div class="nav-right">
     <a href="https://wa.me/5548984283696?text=Sou%20criador%20de%20conte%C3%BAdo%20e%20quero%20registrar%20minha%20marca" class="nav-wa" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg> WhatsApp</a>
-    <a href="#inicio" onclick="document.getElementById('search-input').focus();return false;" class="nav-cta">Verificar grátis →</a>
+    <a href="/verificar-marca" class="nav-cta">Verificar grátis →</a>
   </div>
   <button class="hamburger" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 
 <div class="drawer" id="drawer">
   <ul>
-    <li><a href="#inicio" onclick="closeDrawer();setTimeout(()=>document.getElementById('search-input').focus(),300)">🔍 Verificar minha marca</a></li>
+    <li><a href="/verificar-marca" onclick="closeDrawer()">🔍 Verificar minha marca</a></li>
     <li><a href="#preco" onclick="closeDrawer()">💰 Preços</a></li>
     <li><a href="#faq" onclick="closeDrawer()">Dúvidas frequentes</a></li>
     <li><a href="/" onclick="closeDrawer()">Voltar à home</a></li>
@@ -105,9 +105,8 @@
       <div class="lp-urg-line">INPI aceita marcas de canal/influencer · janela aberta antes da disputa por nomes populares</div>
       <div class="lp-hero-ctas">
         <a href="#preco" class="ba">Ver meu plano →</a>
-        <a href="#" onclick="document.getElementById('search-input').focus();return false;" class="bp">🔍 Verificar marca grátis</a>
+        <a href="/verificar-marca" class="bp">🔍 Verificar marca grátis</a>
       </div>
-      <p class="lp-hero-microcopy">✓ Pesquisa 100% gratuita &nbsp;·&nbsp; ✓ Protocolo em 10 dias &nbsp;·&nbsp; ✓ 99,8% de aprovação</p>
       <div class="lp-trust-row">
         <div class="lpt"><strong>+3.000</strong><span>Marcas registradas</span></div>
         <div class="lpt"><strong>99,8%</strong><span>Aprovação*</span></div>
@@ -124,37 +123,6 @@
     </div>
   </div>
   <!-- Widget de busca (mantido em todas as LPs como conversão secundária) -->
-  <div class="wrap" style="margin-top:48px;">
-    <div class="hero-search">
-      <div class="sbox">
-        <input type="text" id="search-input" placeholder="Digite o nome da sua marca ou canal..." maxlength="60" autocomplete="off">
-        <button onclick="buscarMarca()">Analisar →</button>
-      </div>
-      <div class="hero-select">
-        <select id="search-area" onchange="this.classList.toggle('has-value',this.value!=='');this.classList.remove('invalid-select')">
-          <option value="">Ramo de atividade...</option>
-          <option value="Criador de conteúdo / influenciador|41,35" selected>Criador de conteúdo / influenciador</option>
-          <option value="Educação, cursos e treinamentos|41">Educação, cursos e treinamentos</option>
-          <option value="Fitness, bem-estar e meditação|41,44">Fitness, bem-estar e meditação</option>
-          <option value="Moda, roupas e acessórios|25">Moda, roupas e acessórios</option>
-          <option value="Outro (especificar no WhatsApp)|">Outro (especificar no WhatsApp)</option>
-        </select>
-      </div>
-      <div class="sres-loading" id="sres-loading"><div class="sres-spin"></div><span id="sres-loading-txt">Consultando critérios do INPI…</span></div>
-      <div class="sres" id="sres"></div>
-      <div class="sgate" id="sgate">
-        <div class="sgate-lbl">Busca de anterioridade gratuita</div>
-        <p><strong id="sgate-brand-name"></strong> passou na análise preliminar. Para confirmar se está livre na base oficial do INPI, fale agora com nosso especialista.</p>
-        <div class="sgate-row">
-          <input type="text" id="sgate-name" placeholder="Seu nome" maxlength="60" autocomplete="given-name">
-          <input type="tel" id="sgate-whats" placeholder="(11) 99999-9999" inputmode="numeric" maxlength="15" autocomplete="tel">
-          <button type="button" onclick="sgateSubmit()">Falar no WhatsApp →</button>
-        </div>
-        <div class="sgate-err" id="sgate-err">⚠ Informe um WhatsApp válido</div>
-        <div class="sgate-thanks" id="sgate-thanks">✅ Abrindo WhatsApp…</div>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- 3 VALUE PROPS específicos para criadores -->
@@ -184,10 +152,10 @@
   </div>
 </section>
 
-<!-- TOP 3 NCL -->
+<!-- TOP 3 CATEGORIAS -->
 <section class="ncl-top3" id="classes-ncl">
   <div class="wrap">
-    <p class="eyebrow">Classes NCL para criadores</p>
+    <p class="eyebrow">Categorias para criadores</p>
     <h2>O que você pode proteger</h2>
   </div>
   <div class="ncl-grid">
@@ -238,34 +206,98 @@
 </section>
 
 <!-- PRICING SIMPLIFICADO -->
-<section class="lp-pricing" id="preco">
+<section class="sec pricing" id="preco">
   <div class="wrap">
     <div class="sh rv">
-      <div class="sey">Plano recomendado para criadores</div>
-      <h2 class="st">Proteja canal + método num único processo</h2>
+      <div class="sey">Investimento</div>
+      <h2 class="st">Escolha o plano ideal para criadores</h2>
+      <p class="ss">Todos os planos incluem marca mista (nome + logo) e taxas do INPI. Sem letras miúdas.</p>
     </div>
-  </div>
-  <div class="lp-tier-single rv">
-    <div class="lp-tier-card">
-      <div class="lp-tier-rec">★ Recomendado para criadores</div>
-      <div class="lp-tier-name">Profissional · 2 classes</div>
-      <div class="lp-tier-price"><sup>R$</sup>2.497</div>
-      <div class="lp-tier-per">à vista · ou 12× de R$ 208,08 sem juros</div>
-      <div class="lp-tier-classes">Marca mista (nome + logo) · Classes 41 + 35</div>
-      <ul class="lp-tier-feats">
-        <li>Pesquisa de viabilidade no INPI</li>
-        <li>Taxas do INPI inclusas (2 classes)</li>
-        <li>Protocolo em até 10 dias úteis</li>
-        <li>Número de processo INPI em mãos</li>
-        <li>Acompanhamento por 12 meses</li>
-        <li>Suporte WhatsApp prioritário</li>
-        <li>Garantia: reprotocolo se negado por nossa falha</li>
-      </ul>
-      <a href="https://pay.hotmart.com/Y105626898Q?checkoutMode=2" target="_blank" rel="noopener" class="lp-tier-cta">Iniciar meu registro →</a>
-      <div class="lp-tier-pay"><svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" style="width:48px;height:12px;"><text x="0" y="15" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="currentColor">hotmart</text></svg><span>Pagamento 100% seguro</span></div>
+    <div class="tier-grid rv">
+      <!-- Essencial (Recomendado) -->
+      <div class="tier tier-pop">
+        <div class="tier-pop-badge">★ Recomendado para criadores</div>
+        <div class="tier-head">
+          <div class="tier-name">Essencial</div>
+          <div class="tier-price"><sup>R$</sup>1.697</div>
+          <div class="tier-per">à vista · ou parcele em até 12×</div>
+          <div class="tier-classes">1 categoria · Marca mista</div>
+        </div>
+        <div class="tier-cta-wrap">
+          <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" class="tier-cta" target="_blank" rel="noopener">Iniciar registro →</a>
+        </div>
+        <div class="tier-pay-badge">
+          <svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" class="tier-pay-badge-logo" aria-label="Hotmart"><text x="0" y="15" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="currentColor">hotmart</text></svg>
+          <span>Pagamento 100% seguro</span>
+        </div>
+        <ul class="tier-feats">
+          <li>Pesquisa de viabilidade no INPI</li>
+          <li>Taxas do INPI inclusas (1 categoria)</li>
+          <li>Protocolo em até 10 dias úteis</li>
+          <li>Elaboração completa do pedido</li>
+          <li>Número de processo INPI em mãos</li>
+          <li>Acompanhamento por 12 meses</li>
+          <li>Suporte via WhatsApp</li>
+          <li>Garantia: reprotocolo se negado por nossa falha</li>
+        </ul>
+      </div>
+      <!-- Profissional -->
+      <div class="tier">
+        <div class="tier-head">
+          <div class="tier-name">Profissional</div>
+          <div class="tier-price"><sup>R$</sup>2.497</div>
+          <div class="tier-per">à vista · ou parcele em até 12×</div>
+          <div class="tier-classes">2 categorias · Marca mista</div>
+        </div>
+        <div class="tier-cta-wrap">
+          <a href="https://pay.hotmart.com/Y105626898Q?checkoutMode=2" class="tier-cta" target="_blank" rel="noopener">Iniciar registro →</a>
+        </div>
+        <div class="tier-pay-badge">
+          <svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" class="tier-pay-badge-logo" aria-label="Hotmart"><text x="0" y="15" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="currentColor">hotmart</text></svg>
+          <span>Pagamento 100% seguro</span>
+        </div>
+        <ul class="tier-feats">
+          <li>Pesquisa de viabilidade no INPI</li>
+          <li>Taxas do INPI inclusas (2 categorias)</li>
+          <li>Protocolo em até 10 dias úteis</li>
+          <li>Elaboração completa do pedido</li>
+          <li>Número de processo INPI em mãos</li>
+          <li>Acompanhamento por 12 meses</li>
+          <li>Suporte WhatsApp prioritário</li>
+          <li>Estratégia de 2 categorias por especialista</li>
+        </ul>
+      </div>
+      <!-- Premium -->
+      <div class="tier">
+        <div class="tier-head">
+          <div class="tier-name">Premium</div>
+          <div class="tier-price"><sup>R$</sup>3.997</div>
+          <div class="tier-per">à vista · ou parcele em até 12×</div>
+          <div class="tier-classes">3 categorias · Marca mista</div>
+        </div>
+        <div class="tier-cta-wrap">
+          <a href="https://pay.hotmart.com/X105626999V?checkoutMode=2" class="tier-cta" target="_blank" rel="noopener">Iniciar registro →</a>
+        </div>
+        <div class="tier-pay-badge">
+          <svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" class="tier-pay-badge-logo" aria-label="Hotmart"><text x="0" y="15" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="currentColor">hotmart</text></svg>
+          <span>Pagamento 100% seguro</span>
+        </div>
+        <ul class="tier-feats">
+          <li>Pesquisa de viabilidade no INPI</li>
+          <li>Taxas do INPI inclusas (3 categorias)</li>
+          <li>Protocolo em até 10 dias úteis</li>
+          <li>Elaboração completa do pedido</li>
+          <li>Número de processo INPI em mãos</li>
+          <li>Acompanhamento por 24 meses</li>
+          <li>Suporte WhatsApp prioritário</li>
+          <li>Estratégia de 3 categorias por especialista</li>
+        </ul>
+      </div>
     </div>
-    <p class="lp-tier-alts">Só canal? Veja o <a href="https://pay.hotmart.com/S105391582U?checkoutMode=2" target="_blank" rel="noopener">Essencial (1 classe, R$ 1.697)</a>. Canal + merchandising + curso? <a href="https://pay.hotmart.com/X105626999V?checkoutMode=2" target="_blank" rel="noopener">Premium (3 classes, R$ 3.997)</a>.</p>
-    <div class="lp-tier-guarantee">🛡️ <span><strong>Garantia contratual:</strong> se indeferirmos por nossa falha, reprotocolamos sem cobrar honorários.</span></div>
+    <div class="tier-guarantee rv">
+      <div class="tier-guarantee-icon">🛡️</div>
+      <p><strong>Garantia HotMarcas:</strong> se o INPI indeferir por erro de categoria, especificação ou pesquisa da nossa parte, protocolamos um novo pedido sem cobrar honorários. Você paga apenas a nova taxa do INPI. Está no contrato.</p>
+    </div>
   </div>
 </section>
 
@@ -290,7 +322,7 @@
     </div>
     <div id="faq-acc" style="max-width:780px;margin:0 auto;">
       <div class="fg" data-cat="all">
-        <div class="fe popular"><button class="ft"><span class="ft-tx">Posso registrar o nome do meu canal do YouTube ou TikTok?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Sim. Nome de canal é registrável nas classes <strong>41</strong> (entretenimento e educação) e <strong>35</strong> (publicidade e merchandising). Não precisa ser monetizado nem ter CNPJ — pessoas físicas registram normalmente, com 50% de desconto nas taxas do INPI já incluso no plano.</p></div></div></div>
+        <div class="fe popular"><button class="ft"><span class="ft-tx">Posso registrar o nome do meu canal do YouTube ou TikTok?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Sim. Nome de canal é registrável nas classes <strong>41</strong> (entretenimento e educação) e <strong>35</strong> (publicidade e merchandising). Não precisa ser monetizado nem ter CNPJ — pessoas físicas registram normalmente.</p></div></div></div>
         <div class="fe"><button class="ft"><span class="ft-tx">Influenciador precisa registrar o próprio nome pessoal?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Sim — especialmente antes de fechar com agência ou plataforma. Agências fazem due diligence e travam parcerias sem comprovação de marca. Recomendamos registrar como <strong>marca nominativa</strong> (só o nome) na classe 35 e/ou 41.</p></div></div></div>
         <div class="fe"><button class="ft"><span class="ft-tx">Em quanto tempo a marca fica protegida?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">A <strong>proteção começa na data do depósito</strong> — em até 10 dias após contratar. O exame e concessão oficial levam 18-36 meses, mas a partir do protocolo você já tem prioridade legal e pode usar ™.</p></div></div></div>
         <div class="fe"><button class="ft"><span class="ft-tx">Por que o Profissional (2 classes) é o mais escolhido por criadores?</span><span class="fchev"><svg viewBox="0 0 12 8"><polyline points="1,2 6,7 11,2"/></svg></span></button><div class="fan"><div class="fan-in"><p class="fan-bd">Porque cobre o conteúdo (classe 41) e a operação de marca (classe 35). Permite vender curso, mentoria, mídia paga, parcerias e linha de produtos oficiais — tudo num único processo, sem precisar adicionar classe depois.</p></div></div></div>
