@@ -489,3 +489,73 @@ function exitSubmit(){
   window.open('https://wa.me/5548984283696?text='+encodeURIComponent(msg),'_blank');
   closeExitPopup();
 }
+
+// ── Testimonials slider ───────────────────────────────────────────────────
+(function(){
+  var root=document.getElementById('ts'); if (!root) return;
+  var track=document.getElementById('ts-track');
+  var prev=document.getElementById('ts-prev');
+  var next=document.getElementById('ts-next');
+  var dotsWrap=document.getElementById('ts-dots');
+  if (!track||!prev||!next||!dotsWrap) return;
+  var slides=Array.prototype.slice.call(track.children);
+  if (!slides.length) return;
+  var idx=0; var timer=null; var paused=false;
+  function perPage(){ return window.innerWidth<=768 ? 1 : 3; }
+  function maxIdx(){ return Math.max(0, slides.length - perPage()); }
+  function buildDots(){
+    dotsWrap.innerHTML='';
+    var total=maxIdx()+1;
+    for (var i=0;i<total;i++){
+      var b=document.createElement('button');
+      b.type='button'; b.className='ts-dot'; b.setAttribute('role','tab');
+      b.setAttribute('aria-label','Ir para depoimento '+(i+1));
+      (function(j){ b.addEventListener('click', function(){ goTo(j); restart(); }); })(i);
+      dotsWrap.appendChild(b);
+    }
+  }
+  function update(){
+    var gap=14;
+    var vp=track.parentElement.getBoundingClientRect().width;
+    var slideW=(vp - gap*(perPage()-1))/perPage();
+    var offset=idx*(slideW+gap);
+    track.style.transform='translateX('+(-offset)+'px)';
+    // sync dot state
+    var dots=dotsWrap.querySelectorAll('.ts-dot');
+    dots.forEach(function(d,i){ d.classList.toggle('on', i===idx); d.setAttribute('aria-selected', i===idx?'true':'false'); });
+    prev.disabled=(idx===0);
+    next.disabled=(idx>=maxIdx());
+  }
+  function goTo(n){
+    var mx=maxIdx();
+    if (n<0) n=mx; else if (n>mx) n=0;
+    idx=n; update();
+  }
+  function nextSlide(){ goTo(idx+1); }
+  function prevSlide(){ goTo(idx-1); }
+  function startAuto(){ stopAuto(); timer=setInterval(function(){ if (!paused && !document.hidden) nextSlide(); }, 6000); }
+  function stopAuto(){ if (timer){ clearInterval(timer); timer=null; } }
+  function restart(){ startAuto(); }
+  prev.addEventListener('click', function(){ prevSlide(); restart(); });
+  next.addEventListener('click', function(){ nextSlide(); restart(); });
+  root.addEventListener('mouseenter', function(){ paused=true; });
+  root.addEventListener('mouseleave', function(){ paused=false; });
+  // touch swipe
+  var sx=null;
+  track.addEventListener('touchstart', function(e){ sx=e.touches[0].clientX; paused=true; }, {passive:true});
+  track.addEventListener('touchend', function(e){
+    if (sx==null) return;
+    var dx=(e.changedTouches[0].clientX)-sx; sx=null; paused=false;
+    if (Math.abs(dx)>40){ if (dx<0) nextSlide(); else prevSlide(); restart(); }
+  });
+  // rebuild on resize
+  var rzT=null;
+  window.addEventListener('resize', function(){
+    clearTimeout(rzT);
+    rzT=setTimeout(function(){
+      var mx=maxIdx(); if (idx>mx) idx=mx;
+      buildDots(); update();
+    }, 120);
+  });
+  buildDots(); update(); startAuto();
+})();
