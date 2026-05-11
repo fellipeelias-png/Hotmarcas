@@ -1,0 +1,177 @@
+/* ============================================================================
+   HotMarcas — lp-shared.css
+   Componentes exclusivos das landing pages por público (não usados na home).
+   ============================================================================ */
+
+/* ── Pílula UVP (sob a H1) ────────────────────────────────────────────────── */
+.uvp-pill{
+  display:inline-block;
+  margin:18px auto 0;
+  padding:10px 22px;
+  background:rgba(192,80,40,.08);
+  border:1px solid rgba(192,80,40,.22);
+  border-radius:100px;
+  font-family:var(--f);
+  font-style:italic;
+  font-size:15px;
+  line-height:1.45;
+  color:var(--m);
+  max-width:620px;
+}
+.uvp-pill strong{font-weight:600;color:var(--a);font-style:normal;}
+@media(max-width:640px){
+  .uvp-pill{font-size:13.5px;padding:9px 18px;margin-top:14px;}
+}
+
+/* ── Eyebrow do hero com gatilho de urgência calibrado ────────────────────── */
+.hero-eyebrow-urg{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:6px 14px;
+  background:var(--navy-l);
+  border:1px solid rgba(26,52,84,.18);
+  border-radius:100px;
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.01em;
+  color:var(--navy);
+  margin-bottom:18px;
+}
+.hero-eyebrow-urg::before{content:'📈';font-size:13px;}
+
+/* ── Top 3 classes NCL ────────────────────────────────────────────────────── */
+.ncl-top3{padding:64px 0 56px;background:var(--c);}
+.ncl-top3 .eyebrow{
+  text-align:center;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--a);
+  margin-bottom:10px;
+}
+.ncl-top3 h2{
+  text-align:center;
+  font-family:var(--f);
+  font-size:clamp(26px,4vw,38px);
+  font-weight:600;
+  line-height:1.15;
+  color:var(--k);
+  margin-bottom:36px;
+  max-width:720px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.ncl-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+.ncl-card{
+  background:#fff;
+  border:1px solid var(--bs);
+  border-radius:var(--rl);
+  padding:28px 24px;
+  position:relative;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.ncl-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(15,14,11,.07);}
+.ncl-num{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:54px;
+  height:54px;
+  background:var(--a);
+  color:#fff;
+  font-family:var(--f);
+  font-size:22px;
+  font-weight:700;
+  border-radius:50%;
+  margin-bottom:16px;
+  letter-spacing:-.02em;
+}
+.ncl-card h3{
+  font-family:var(--n);
+  font-size:16px;
+  font-weight:600;
+  color:var(--k);
+  margin-bottom:8px;
+  letter-spacing:-.01em;
+}
+.ncl-card p{
+  font-size:14px;
+  line-height:1.55;
+  color:var(--g);
+}
+.ncl-note{
+  text-align:center;
+  margin-top:26px;
+  font-size:13px;
+  color:var(--g);
+  font-style:italic;
+}
+@media(max-width:760px){
+  .ncl-grid{grid-template-columns:1fr;gap:14px;}
+  .ncl-top3{padding:48px 0 40px;}
+  .ncl-card{padding:22px 20px;}
+  .ncl-num{width:46px;height:46px;font-size:19px;margin-bottom:12px;}
+}
+
+/* ── Bloco "Dores do público" (compacto, sem cards de risco) ──────────────── */
+.pain-block{padding:56px 0;background:var(--cd);}
+.pain-block h2{
+  font-family:var(--f);
+  font-size:clamp(24px,3.5vw,34px);
+  font-weight:600;
+  line-height:1.2;
+  color:var(--k);
+  text-align:center;
+  max-width:780px;
+  margin:0 auto 14px;
+}
+.pain-block .pain-sub{
+  text-align:center;
+  color:var(--g);
+  font-size:15px;
+  margin-bottom:34px;
+  max-width:620px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.pain-list{
+  max-width:760px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.pain-item{
+  display:flex;
+  gap:14px;
+  background:#fff;
+  border:1px solid var(--bs);
+  border-radius:var(--rm);
+  padding:18px 20px;
+}
+.pain-item .pain-icon{
+  flex:0 0 32px;
+  height:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(192,80,40,.10);
+  color:var(--a);
+  border-radius:50%;
+  font-weight:700;
+  font-size:14px;
+}
+.pain-item .pain-txt{
+  font-size:14.5px;
+  line-height:1.55;
+  color:var(--m);
+  flex:1;
+}
+.pain-item .pain-txt strong{color:var(--k);font-weight:600;}
+@media(max-width:640px){.pain-item{padding:14px 16px;gap:10px;}}
