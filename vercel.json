@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/sucesso", "destination": "/sucesso.html" },
+    { "source": "/verificar-marca", "destination": "/verificar-marca.html" },
     { "source": "/lp/:slug", "destination": "/lp/:slug.html" }
   ],
   "headers": [
