@@ -34,6 +34,12 @@ module.exports = async function handler(req, res) {
     const email = session.customer_details?.email || 'não informado';
     const name = session.customer_details?.name || 'não informado';
     const tierName = session.metadata?.tierName || session.metadata?.tier || 'não informado';
+    const audience = session.metadata?.audience || 'home';
+    const utmSource = session.metadata?.utm_source || '';
+    const utmCampaign = session.metadata?.utm_campaign || '';
+    const utmLine = utmSource || utmCampaign
+      ? `${utmSource}${utmSource && utmCampaign ? ' · ' : ''}${utmCampaign}`
+      : '—';
     const amount = ((session.amount_total || 0) / 100).toLocaleString('pt-BR', {
       style: 'currency', currency: 'BRL',
     });
@@ -56,6 +62,8 @@ module.exports = async function handler(req, res) {
               <tr><td style="padding:8px 0;color:#6b7280;font-size:13px;">Valor</td><td style="padding:8px 0;font-weight:700;color:#C05028;">${amount}</td></tr>
               <tr><td style="padding:8px 0;color:#6b7280;font-size:13px;">Nome</td><td style="padding:8px 0;">${name}</td></tr>
               <tr><td style="padding:8px 0;color:#6b7280;font-size:13px;">Email</td><td style="padding:8px 0;"><a href="mailto:${email}" style="color:#1A3454;">${email}</a></td></tr>
+              <tr><td style="padding:8px 0;color:#6b7280;font-size:13px;">Origem</td><td style="padding:8px 0;font-weight:600;">${audience}</td></tr>
+              <tr><td style="padding:8px 0;color:#6b7280;font-size:13px;">UTM</td><td style="padding:8px 0;color:#6b7280;font-size:13px;">${utmLine}</td></tr>
               <tr><td style="padding:8px 0;color:#6b7280;font-size:13px;">Data/hora</td><td style="padding:8px 0;">${date}</td></tr>
             </table>
             <div style="margin-top:24px;">

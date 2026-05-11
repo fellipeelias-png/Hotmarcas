@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/sucesso", "destination": "/sucesso.html" }
+    { "source": "/sucesso", "destination": "/sucesso.html" },
+    { "source": "/lp/:slug", "destination": "/lp/:slug.html" }
   ],
   "headers": [
     {
