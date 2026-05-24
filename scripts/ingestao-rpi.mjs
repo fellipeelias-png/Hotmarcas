@@ -76,7 +76,15 @@ function parseArgs() {
 
 async function baixarZip(rpiNumero) {
   const url = INPI_RPI_URL(rpiNumero);
-  const res = await fetch(url, { signal: AbortSignal.timeout(120_000) });
+  const res = await fetch(url, {
+    signal: AbortSignal.timeout(120_000),
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      'Accept': 'application/zip, application/octet-stream, */*',
+      'Accept-Language': 'pt-BR,pt;q=0.9',
+      'Referer': 'https://revistas.inpi.gov.br/',
+    },
+  });
   if (!res.ok) throw new Error(`HTTP ${res.status} ao baixar ${url}`);
   const buf = await res.arrayBuffer();
   return Buffer.from(buf);
