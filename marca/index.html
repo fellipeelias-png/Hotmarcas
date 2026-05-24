@@ -38,7 +38,10 @@
 .md-hero {
   background: var(--c);
   border-bottom: 1px solid var(--b);
-  padding: clamp(32px, 5vw, 56px) var(--pp) 0;
+  padding: calc(98px + clamp(16px, 3vw, 28px)) var(--pp) 0;
+}
+@media (max-width: 768px) {
+  .md-hero { padding-top: 80px; }
 }
 .md-hero-inner {
   max-width: var(--mw);
