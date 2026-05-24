@@ -14,7 +14,8 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { parse } from "csv-parse";
-import { Readable } from "stream";
+import https from "https";
+import http from "http";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
@@ -36,20 +37,45 @@ const LOTE = 300;
 const args = process.argv.slice(2);
 const comDespachos = args.includes("--com-despachos");
 
+// ── HTTP GET com suporte a redirecionamentos ──────────────────────
+// Usa https/http nativos em vez de fetch/undici para evitar o bug
+// em que erros de socket TCP são lançados fora da cadeia de promises
+// causando TypeError: terminated não capturável.
+function httpGetStream(urlStr, redirects = 5) {
+  return new Promise((resolve, reject) => {
+    const parsed = new URL(urlStr);
+    const lib = parsed.protocol === "https:" ? https : http;
+    const req = lib.get(urlStr, {
+      headers: { "User-Agent": "HotMarcas/1.0 (hotmarcas.com.br)" },
+    }, (res) => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        res.destroy();
+        if (redirects <= 0) { reject(new Error("Muitos redirecionamentos")); return; }
+        const loc = new URL(res.headers.location, urlStr).toString();
+        httpGetStream(loc, redirects - 1).then(resolve, reject);
+        return;
+      }
+      resolve(res);
+    });
+    // Inatividade de 30 min: captura hang sem dados (socket idle)
+    req.setTimeout(1_800_000, () => req.destroy(new Error("timeout: sem dados por 30min")));
+    req.on("error", reject);
+  });
+}
+
 // ── Stream + upsert genérico ──────────────────────────────────────
 async function streamCSV(label, url, mapRow, onBatch) {
   console.log(`\n▶ ${label}`);
-  const res = await fetch(url, {
-    headers: { "User-Agent": "HotMarcas/1.0 (hotmarcas.com.br)" },
-    signal: AbortSignal.timeout(7_200_000),
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status} em ${url}`);
+  const res = await httpGetStream(url);
+  if (res.statusCode !== 200) {
+    res.destroy();
+    throw new Error(`HTTP ${res.statusCode} em ${url}`);
+  }
 
-  const source = Readable.fromWeb(res.body);
   const parser = parse({ columns: true, trim: true, skip_empty_lines: true, bom: true, relax_column_count: true });
-  // .pipe() não propaga erros — encaminhamos manualmente
-  source.on("error", (err) => parser.destroy(err));
-  source.pipe(parser);
+  // Erros de socket chegam via res.on("error") — propagamos ao parser
+  res.on("error", (err) => { if (!parser.destroyed) parser.destroy(err); });
+  res.pipe(parser);
 
   let batch = [], total = 0, erros = 0;
   const t0 = Date.now();
@@ -76,7 +102,7 @@ async function streamCSV(label, url, mapRow, onBatch) {
       }
     }
   } finally {
-    source.destroy();
+    if (!res.destroyed) res.destroy();
   }
 
   if (batch.length > 0) {

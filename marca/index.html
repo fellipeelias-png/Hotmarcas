@@ -152,36 +152,29 @@
   border-bottom: 1px solid var(--bs);
 }
 
-/* ── Grid de dados (2 colunas) ── */
-.md-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-@media (max-width: 480px) {
-  .md-grid { grid-template-columns: 1fr; }
-}
-.md-field {}
-.md-field-label {
+/* ── Ficha de dados (estilo tabela INPI) ── */
+.md-ficha {
+  width: 100%;
+  border-collapse: collapse;
   font-family: var(--n);
-  font-size: 11px;
+  font-size: 13.5px;
+}
+.md-ficha tr { border-bottom: 1px solid var(--bs); }
+.md-ficha tr:last-child { border-bottom: none; }
+.md-ficha td { padding: 9px 10px; vertical-align: middle; }
+.md-ficha-label {
+  width: 38%;
+  font-size: 11.5px;
   font-weight: 600;
   color: var(--g);
-  margin-bottom: 3px;
   text-transform: uppercase;
   letter-spacing: .04em;
+  white-space: nowrap;
+  background: var(--cd);
 }
-.md-field-value {
-  font-family: var(--n);
-  font-size: 14px;
-  color: var(--k);
-  font-weight: 500;
-}
-.md-field-value.mono {
-  font-family: monospace;
-  font-size: 13px;
-}
-.md-field-value.empty { color: var(--s); font-weight: 400; }
+.md-ficha-value { color: var(--k); font-weight: 500; }
+.md-ficha-value.mono { font-family: monospace; font-size: 13px; }
+.md-ficha-value.empty { color: var(--s); font-weight: 400; }
 
 /* ── Classes NCL ── */
 .md-ncl-list { display: flex; flex-direction: column; gap: 10px; }
@@ -584,13 +577,17 @@ function corSituacao(sit) {
   return 'cinza';
 }
 
-function campo(label, valor, mono) {
+function ficha(label, valor, mono) {
   const v = valor || '—';
   const vazio = !valor ? ' empty' : '';
-  return `<div class="md-field">
-    <div class="md-field-label">${esc(label)}</div>
-    <div class="md-field-value${mono ? ' mono' : ''}${vazio}">${esc(v)}</div>
-  </div>`;
+  return `<tr>
+    <td class="md-ficha-label">${esc(label)}</td>
+    <td class="md-ficha-value${mono ? ' mono' : ''}${vazio}">${typeof valor === 'string' ? esc(v) : (valor || '—')}</td>
+  </tr>`;
+}
+
+function fichaRaw(label, html) {
+  return `<tr><td class="md-ficha-label">${esc(label)}</td><td class="md-ficha-value">${html}</td></tr>`;
 }
 
 // ── Render do hero ────────────────────────────────────────────────
@@ -620,19 +617,23 @@ function renderHero(m) {
 
 // ── Render seção dados ────────────────────────────────────────────
 function renderDados(m) {
+  const cor = corSituacao(m.situacao);
   return `
     <div class="md-section">
-      <div class="md-section-title">Dados do processo</div>
-      <div class="md-grid">
-        ${campo('Número do processo', m.processo, true)}
-        ${campo('Situação', m.situacao)}
-        ${campo('Data de depósito', fmtData(m.data_deposito))}
-        ${campo('Data de concessão', fmtData(m.data_concessao))}
-        ${campo('Data de vencimento', fmtData(m.data_vencimento))}
-        ${campo('Apresentação', m.apresentacao)}
-        ${campo('Natureza', m.natureza)}
-        ${campo('Tipo', m.tipo)}
-      </div>
+      <div class="md-section-title">Dados bibliográficos</div>
+      <table class="md-ficha">
+        <tbody>
+          ${ficha('Número do processo', m.processo, true)}
+          ${ficha('Nome da marca', m.nome)}
+          ${ficha('Tipo', m.tipo)}
+          ${ficha('Apresentação', m.apresentacao)}
+          ${ficha('Natureza', m.natureza)}
+          ${fichaRaw('Situação', `<span class="md-badge-sit ${cor}">${esc(m.situacao || 'Desconhecida')}</span>`)}
+          ${ficha('Data de depósito', fmtData(m.data_deposito))}
+          ${ficha('Data de concessão', fmtData(m.data_concessao))}
+          ${ficha('Data de vencimento', fmtData(m.data_vencimento))}
+        </tbody>
+      </table>
     </div>`;
 }
 
@@ -641,11 +642,13 @@ function renderTitular(m) {
   return `
     <div class="md-section">
       <div class="md-section-title">Titular</div>
-      <div class="md-grid">
-        ${campo('Nome / Razão social', m.titular)}
-        ${campo('CNPJ / CPF', fmtCnpjCpf(m.cnpj_cpf))}
-        ${m.procurador ? campo('Procurador', m.procurador) : ''}
-      </div>
+      <table class="md-ficha">
+        <tbody>
+          ${ficha('Nome / Razão social', m.titular)}
+          ${ficha('CNPJ / CPF', fmtCnpjCpf(m.cnpj_cpf))}
+          ${m.procurador ? ficha('Procurador', m.procurador) : ''}
+        </tbody>
+      </table>
     </div>`;
 }
 
@@ -670,7 +673,7 @@ function renderClasses(m) {
 
   return `
     <div class="md-section">
-      <div class="md-section-title">Proteção registrada</div>
+      <div class="md-section-title">Classes de proteção</div>
       <div class="md-ncl-list">${itens}</div>
       ${espec}
     </div>`;

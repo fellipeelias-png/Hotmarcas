@@ -179,68 +179,82 @@
 }
 .bm-results-count strong { color: var(--k); font-weight: 600; }
 
-/* ── Cards de resultado ── */
-.bm-cards {
+/* ── Tabela de resultados ── */
+.bm-table-wrap {
   max-width: var(--mw);
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--bm-gap);
-}
-.bm-card {
-  background: #fff;
-  border: 1px solid var(--b);
+  overflow-x: auto;
   border-radius: var(--rm);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: box-shadow .2s, transform .2s;
+  border: 1px solid var(--b);
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(15,14,11,.04);
 }
-.bm-card:hover {
-  box-shadow: 0 4px 16px rgba(15,14,11,.08);
-  transform: translateY(-2px);
-}
-.bm-card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-}
-.bm-card-nome {
-  font-family: var(--f);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--k);
-  line-height: 1.25;
-  word-break: break-word;
-}
-.bm-card-processo {
-  font-family: monospace;
-  font-size: 11px;
-  color: var(--g);
-  background: var(--cd);
-  padding: 2px 7px;
-  border-radius: 4px;
-  white-space: nowrap;
-  margin-top: 2px;
-}
-.bm-card-titular {
+table.bm-table {
+  width: 100%;
+  border-collapse: collapse;
   font-family: var(--n);
   font-size: 13px;
-  color: var(--g);
 }
-.bm-card-titular strong {
-  color: var(--m);
+table.bm-table thead tr {
+  background: var(--navy);
+}
+table.bm-table th {
+  text-align: left;
+  padding: 11px 14px;
+  font-size: 11px;
   font-weight: 600;
-  display: block;
-  font-size: 13px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(240,239,231,.80);
 }
-.bm-card-meta {
-  display: flex;
+table.bm-table tbody tr {
+  border-top: 1px solid var(--b);
+  transition: background .12s;
+}
+table.bm-table tbody tr:hover { background: var(--cd); }
+table.bm-table td {
+  padding: 11px 14px;
+  vertical-align: middle;
+  color: var(--k);
+}
+.bm-td-processo {
+  font-family: monospace;
+  font-size: 11.5px;
+  color: var(--g);
+  white-space: nowrap;
+}
+.bm-td-nome { font-weight: 600; }
+.bm-td-tipo { color: var(--g); font-size: 12px; white-space: nowrap; }
+.bm-td-titular {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--m);
+}
+.bm-td-data { color: var(--g); font-size: 12px; white-space: nowrap; }
+.bm-td-ver { white-space: nowrap; }
+.bm-td-ver a {
+  font-weight: 600;
+  color: var(--a);
+  text-decoration: none;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 3px;
+  transition: gap .15s;
+}
+.bm-td-ver a:hover { gap: 6px; }
+.bm-class-tag {
+  display: inline-block;
+  font-family: var(--n);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--navy);
+  background: rgba(26,52,84,.08);
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin: 1px;
 }
 .bm-badge-sit {
   font-family: var(--n);
@@ -249,63 +263,26 @@
   padding: 3px 9px;
   border-radius: 100px;
   letter-spacing: .03em;
+  white-space: nowrap;
 }
-.bm-badge-sit.verde  { color: #1a7a4a; background: #e8f5ee; }
+.bm-badge-sit.verde   { color: #1a7a4a; background: #e8f5ee; }
 .bm-badge-sit.amarelo { color: #7a5a1a; background: #f5f0e8; }
-.bm-badge-sit.vermelho { color: #7a1a1a; background: #f5e8e8; }
-.bm-badge-sit.cinza  { color: var(--g); background: var(--cd); }
-.bm-card-data {
-  font-family: var(--n);
-  font-size: 12px;
-  color: var(--g);
-  margin-left: auto;
-}
-.bm-classes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-.bm-class-tag {
-  font-family: var(--n);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--navy);
-  background: rgba(26,52,84,.08);
-  padding: 2px 7px;
-  border-radius: 4px;
-}
-.bm-card-link {
-  font-family: var(--n);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--a);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 4px;
-  align-self: flex-start;
-  transition: gap .15s;
-}
-.bm-card-link:hover { gap: 7px; }
+.bm-badge-sit.vermelho{ color: #7a1a1a; background: #f5e8e8; }
+.bm-badge-sit.cinza   { color: var(--g); background: var(--cd); }
 
 /* ── Skeleton loading ── */
-.bm-skeleton-grid {
+.bm-skeleton-table {
   max-width: var(--mw);
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--bm-gap);
-}
-.bm-skeleton-card {
-  background: #fff;
-  border: 1px solid var(--b);
+  overflow-x: auto;
   border-radius: var(--rm);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  border: 1px solid var(--b);
+  background: #fff;
 }
+.bm-skeleton-table table { width: 100%; border-collapse: collapse; }
+.bm-skeleton-table thead tr { background: var(--navy); }
+.bm-skeleton-table th { padding: 11px 14px; }
+.bm-skeleton-table td { padding: 13px 14px; border-top: 1px solid var(--b); }
 .bm-skel {
   background: linear-gradient(90deg, var(--cd) 25%, var(--cdd) 50%, var(--cd) 75%);
   background-size: 200% 100%;
@@ -416,9 +393,8 @@
   .bm-form-row input[type="text"] { width: 100%; }
   .bm-search-btn { width: 100%; justify-content: center; }
   .bm-filters select { min-width: 100%; }
-  .bm-cards { grid-template-columns: 1fr; }
-  .bm-skeleton-grid { grid-template-columns: 1fr; }
-  .bm-card-data { margin-left: 0; }
+  table.bm-table th, table.bm-table td { padding: 9px 10px; font-size: 12px; }
+  .bm-td-titular { max-width: 130px; }
 }
 </style>
 </head>
@@ -581,11 +557,27 @@
 
 <!-- Loading skeletons (oculto por padrão) -->
 <section class="bm-results-sec" id="bm-loading-sec" style="display:none">
-  <div class="bm-skeleton-grid">
-    <div class="bm-skeleton-card"><div class="bm-skel bm-skel-s"></div><div class="bm-skel bm-skel-h"></div><div class="bm-skel bm-skel-m"></div><div class="bm-skel bm-skel-sm"></div></div>
-    <div class="bm-skeleton-card"><div class="bm-skel bm-skel-s"></div><div class="bm-skel bm-skel-h"></div><div class="bm-skel bm-skel-m"></div><div class="bm-skel bm-skel-sm"></div></div>
-    <div class="bm-skeleton-card"><div class="bm-skel bm-skel-s"></div><div class="bm-skel bm-skel-h"></div><div class="bm-skel bm-skel-m"></div><div class="bm-skel bm-skel-sm"></div></div>
-    <div class="bm-skeleton-card"><div class="bm-skel bm-skel-s"></div><div class="bm-skel bm-skel-h"></div><div class="bm-skel bm-skel-m"></div><div class="bm-skel bm-skel-sm"></div></div>
+  <div class="bm-skeleton-table">
+    <table>
+      <thead><tr>
+        <th><div class="bm-skel" style="height:11px;width:70px;background:rgba(255,255,255,.15);"></div></th>
+        <th><div class="bm-skel" style="height:11px;width:50px;background:rgba(255,255,255,.15);"></div></th>
+        <th><div class="bm-skel" style="height:11px;width:40px;background:rgba(255,255,255,.15);"></div></th>
+        <th><div class="bm-skel" style="height:11px;width:60px;background:rgba(255,255,255,.15);"></div></th>
+        <th><div class="bm-skel" style="height:11px;width:60px;background:rgba(255,255,255,.15);"></div></th>
+        <th><div class="bm-skel" style="height:11px;width:55px;background:rgba(255,255,255,.15);"></div></th>
+        <th><div class="bm-skel" style="height:11px;width:50px;background:rgba(255,255,255,.15);"></div></th>
+        <th></th>
+      </tr></thead>
+      <tbody>
+        <tr><td><div class="bm-skel bm-skel-s" style="width:90px"></div></td><td><div class="bm-skel bm-skel-h" style="width:110px"></div></td><td><div class="bm-skel bm-skel-s" style="width:75px"></div></td><td><div class="bm-skel bm-skel-m" style="width:150px"></div></td><td><div class="bm-skel" style="height:22px;width:95px;border-radius:100px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td><div class="bm-skel" style="height:18px;width:30px;border-radius:3px"></div></td><td></td></tr>
+        <tr><td><div class="bm-skel bm-skel-s" style="width:90px"></div></td><td><div class="bm-skel bm-skel-h" style="width:140px"></div></td><td><div class="bm-skel bm-skel-s" style="width:55px"></div></td><td><div class="bm-skel bm-skel-m" style="width:170px"></div></td><td><div class="bm-skel" style="height:22px;width:85px;border-radius:100px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td></td></tr>
+        <tr><td><div class="bm-skel bm-skel-s" style="width:90px"></div></td><td><div class="bm-skel bm-skel-h" style="width:95px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td><div class="bm-skel bm-skel-m" style="width:130px"></div></td><td><div class="bm-skel" style="height:22px;width:110px;border-radius:100px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td></td></tr>
+        <tr><td><div class="bm-skel bm-skel-s" style="width:90px"></div></td><td><div class="bm-skel bm-skel-h" style="width:120px"></div></td><td><div class="bm-skel bm-skel-s" style="width:80px"></div></td><td><div class="bm-skel bm-skel-m" style="width:160px"></div></td><td><div class="bm-skel" style="height:22px;width:90px;border-radius:100px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td></td></tr>
+        <tr><td><div class="bm-skel bm-skel-s" style="width:90px"></div></td><td><div class="bm-skel bm-skel-h" style="width:130px"></div></td><td><div class="bm-skel bm-skel-s" style="width:70px"></div></td><td><div class="bm-skel bm-skel-m" style="width:145px"></div></td><td><div class="bm-skel" style="height:22px;width:100px;border-radius:100px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td></td></tr>
+        <tr><td><div class="bm-skel bm-skel-s" style="width:90px"></div></td><td><div class="bm-skel bm-skel-h" style="width:105px"></div></td><td><div class="bm-skel bm-skel-s" style="width:60px"></div></td><td><div class="bm-skel bm-skel-m" style="width:155px"></div></td><td><div class="bm-skel" style="height:22px;width:88px;border-radius:100px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td></td></tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
@@ -662,28 +654,20 @@ function fmtData(d) {
   return `${dia}/${m}/${y}`;
 }
 
-// ── Render de um card ─────────────────────────────────────────────
-function renderCard(m) {
-  const classes = (m.classes_ncl || []).map(c => `<span class="bm-class-tag">${c}</span>`).join('');
+// ── Render de uma linha da tabela ────────────────────────────────
+function renderRow(m) {
   const cor = corSituacao(m.situacao);
-  return `
-    <div class="bm-card">
-      <div class="bm-card-top">
-        <div>
-          <div class="bm-card-nome">${esc(m.nome)}</div>
-          <div class="bm-card-processo">${esc(m.processo)}</div>
-        </div>
-      </div>
-      <div class="bm-card-titular">
-        <strong>${esc(m.titular || '—')}</strong>
-      </div>
-      <div class="bm-card-meta">
-        <span class="bm-badge-sit ${cor}">${esc(m.situacao || 'Desconhecida')}</span>
-        ${m.data_deposito ? `<span class="bm-card-data">Depósito: ${fmtData(m.data_deposito)}</span>` : ''}
-      </div>
-      ${classes ? `<div class="bm-classes">${classes}</div>` : ''}
-      <a href="/marca/?p=${encodeURIComponent(m.processo)}" class="bm-card-link">Ver processo completo →</a>
-    </div>`;
+  const classes = (m.classes_ncl || []).map(c => `<span class="bm-class-tag">${esc(c)}</span>`).join('');
+  return `<tr>
+    <td class="bm-td-processo">${esc(m.processo)}</td>
+    <td class="bm-td-nome">${esc(m.nome)}</td>
+    <td class="bm-td-tipo">${esc(m.tipo || '—')}</td>
+    <td class="bm-td-titular" title="${esc(m.titular || '—')}">${esc(m.titular || '—')}</td>
+    <td><span class="bm-badge-sit ${cor}">${esc(m.situacao || 'Desconhecida')}</span></td>
+    <td class="bm-td-data">${fmtData(m.data_deposito)}</td>
+    <td>${classes || '<span style="color:var(--s)">—</span>'}</td>
+    <td class="bm-td-ver"><a href="/marca/?p=${encodeURIComponent(m.processo)}">Ver →</a></td>
+  </tr>`;
 }
 
 // Escapa HTML para evitar XSS
@@ -771,7 +755,22 @@ function renderResultados(data, termo) {
   }
 
   totalCards = data.length;
-  wrap.innerHTML = `<div class="bm-cards">${data.map(renderCard).join('')}</div>`;
+  wrap.innerHTML = `
+    <div class="bm-table-wrap">
+      <table class="bm-table">
+        <thead><tr>
+          <th>Processo</th>
+          <th>Marca</th>
+          <th>Tipo</th>
+          <th>Titular</th>
+          <th>Situação</th>
+          <th>Depósito</th>
+          <th>Classes</th>
+          <th></th>
+        </tr></thead>
+        <tbody>${data.map(renderRow).join('')}</tbody>
+      </table>
+    </div>`;
   count.innerHTML = `<strong>${data.length}</strong> resultado${data.length !== 1 ? 's' : ''} encontrado${data.length !== 1 ? 's' : ''}`;
 
   // Mostra "carregar mais" se retornou o limite (pode haver mais)
@@ -792,8 +791,8 @@ function appendResultados(data) {
     return;
   }
 
-  const grid = document.querySelector('#bm-cards-wrap .bm-cards');
-  if (grid) grid.insertAdjacentHTML('beforeend', data.map(renderCard).join(''));
+  const tbody = document.querySelector('#bm-cards-wrap .bm-table tbody');
+  if (tbody) tbody.insertAdjacentHTML('beforeend', data.map(renderRow).join(''));
 
   totalCards += data.length;
   document.getElementById('bm-results-count').innerHTML =
