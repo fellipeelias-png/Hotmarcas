@@ -245,6 +245,17 @@ table.bm-table td {
   transition: gap .15s;
 }
 .bm-td-ver a:hover { gap: 6px; }
+.bm-class-tag {
+  display: inline-block;
+  font-family: var(--n);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--navy);
+  background: rgba(26,52,84,.08);
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin: 1px;
+}
 .bm-badge-sit {
   font-family: var(--n);
   font-size: 11px;
@@ -555,10 +566,11 @@ table.bm-table td {
         <th><div class="bm-skel" style="height:11px;width:60px;background:rgba(255,255,255,.15);"></div></th>
         <th><div class="bm-skel" style="height:11px;width:60px;background:rgba(255,255,255,.15);"></div></th>
         <th><div class="bm-skel" style="height:11px;width:55px;background:rgba(255,255,255,.15);"></div></th>
+        <th><div class="bm-skel" style="height:11px;width:50px;background:rgba(255,255,255,.15);"></div></th>
         <th></th>
       </tr></thead>
       <tbody>
-        <tr><td><div class="bm-skel bm-skel-s" style="width:90px"></div></td><td><div class="bm-skel bm-skel-h" style="width:110px"></div></td><td><div class="bm-skel bm-skel-s" style="width:75px"></div></td><td><div class="bm-skel bm-skel-m" style="width:150px"></div></td><td><div class="bm-skel" style="height:22px;width:95px;border-radius:100px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td></td></tr>
+        <tr><td><div class="bm-skel bm-skel-s" style="width:90px"></div></td><td><div class="bm-skel bm-skel-h" style="width:110px"></div></td><td><div class="bm-skel bm-skel-s" style="width:75px"></div></td><td><div class="bm-skel bm-skel-m" style="width:150px"></div></td><td><div class="bm-skel" style="height:22px;width:95px;border-radius:100px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td><div class="bm-skel" style="height:18px;width:30px;border-radius:3px"></div></td><td></td></tr>
         <tr><td><div class="bm-skel bm-skel-s" style="width:90px"></div></td><td><div class="bm-skel bm-skel-h" style="width:140px"></div></td><td><div class="bm-skel bm-skel-s" style="width:55px"></div></td><td><div class="bm-skel bm-skel-m" style="width:170px"></div></td><td><div class="bm-skel" style="height:22px;width:85px;border-radius:100px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td></td></tr>
         <tr><td><div class="bm-skel bm-skel-s" style="width:90px"></div></td><td><div class="bm-skel bm-skel-h" style="width:95px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td><div class="bm-skel bm-skel-m" style="width:130px"></div></td><td><div class="bm-skel" style="height:22px;width:110px;border-radius:100px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td></td></tr>
         <tr><td><div class="bm-skel bm-skel-s" style="width:90px"></div></td><td><div class="bm-skel bm-skel-h" style="width:120px"></div></td><td><div class="bm-skel bm-skel-s" style="width:80px"></div></td><td><div class="bm-skel bm-skel-m" style="width:160px"></div></td><td><div class="bm-skel" style="height:22px;width:90px;border-radius:100px"></div></td><td><div class="bm-skel bm-skel-s" style="width:65px"></div></td><td></td></tr>
@@ -645,6 +657,7 @@ function fmtData(d) {
 // ── Render de uma linha da tabela ────────────────────────────────
 function renderRow(m) {
   const cor = corSituacao(m.situacao);
+  const classes = (m.classes_ncl || []).map(c => `<span class="bm-class-tag">${esc(c)}</span>`).join('');
   return `<tr>
     <td class="bm-td-processo">${esc(m.processo)}</td>
     <td class="bm-td-nome">${esc(m.nome)}</td>
@@ -652,6 +665,7 @@ function renderRow(m) {
     <td class="bm-td-titular" title="${esc(m.titular || '—')}">${esc(m.titular || '—')}</td>
     <td><span class="bm-badge-sit ${cor}">${esc(m.situacao || 'Desconhecida')}</span></td>
     <td class="bm-td-data">${fmtData(m.data_deposito)}</td>
+    <td>${classes || '<span style="color:var(--s)">—</span>'}</td>
     <td class="bm-td-ver"><a href="/marca/?p=${encodeURIComponent(m.processo)}">Ver →</a></td>
   </tr>`;
 }
@@ -751,6 +765,7 @@ function renderResultados(data, termo) {
           <th>Titular</th>
           <th>Situação</th>
           <th>Depósito</th>
+          <th>Classes</th>
           <th></th>
         </tr></thead>
         <tbody>${data.map(renderRow).join('')}</tbody>
