@@ -1,0 +1,14 @@
+{
+  "name": "hotmarcas-ingestao",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "ingerir": "node ingestao-rpi.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2",
+    "fast-xml-parser": "^4",
+    "adm-zip": "^0.5",
+    "dotenv": "^16"
+  }
+}

@@ -1,0 +1,35 @@
+name: Ingestão Histórica RPI
+
+on:
+  workflow_dispatch:
+    inputs:
+      rpi_inicio:
+        description: "RPI início (ex: 2870)"
+        required: true
+      rpi_fim:
+        description: "RPI fim (ex: 2820)"
+        required: true
+
+jobs:
+  ingerir:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Instalar dependências
+        run: npm install
+        working-directory: scripts
+
+      - name: Executar ingestão
+        run: node ingestao-rpi.mjs --inicio ${{ inputs.rpi_inicio }} --fim ${{ inputs.rpi_fim }}
+        working-directory: scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        # Erros parciais de RPI são tratados no script e não cancelam o workflow

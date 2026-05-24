@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BL366L12GR"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-BL366L12GR');</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buscar Marcas no INPI — Base Oficial Atualizada | HotMarcas</title>
+<meta name="description" content="Pesquise marcas registradas diretamente na base do INPI. Filtros por classe NCL e situação. Dados atualizados semanalmente.">
+<meta property="og:title" content="Buscar Marcas Registradas no INPI — HotMarcas">
+<meta property="og:description" content="Base de dados oficial do INPI. Pesquise qualquer marca por nome, classe ou situação.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.hotmarcas.com.br/buscar-marcas">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://www.hotmarcas.com.br/buscar-marcas">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+
+<!-- Supabase JS via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" crossorigin></script>
+
+<style>
+/* ── Configuração Supabase ── */
+/* Substitua pelos valores reais do seu projeto Supabase */
+:root {
+  --bm-gap: 24px;
+}
+
+/* ── Hero da busca ── */
+.bm-hero {
+  background: var(--c);
+  padding: clamp(48px, 8vw, 80px) var(--pp) clamp(32px, 5vw, 56px);
+  text-align: center;
+  border-bottom: 1px solid var(--b);
+}
+.bm-hero h1 {
+  font-family: var(--f);
+  font-size: clamp(26px, 4vw, 44px);
+  font-weight: 700;
+  color: var(--k);
+  margin: 12px 0 14px;
+  line-height: 1.15;
+}
+.bm-hero h1 em { font-style: italic; color: var(--a); }
+.bm-hero-sub {
+  font-family: var(--n);
+  font-size: clamp(14px, 1.8vw, 17px);
+  color: var(--g);
+  max-width: 620px;
+  margin: 0 auto 20px;
+  line-height: 1.55;
+}
+.bm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--navy);
+  color: rgba(240,239,231,.85);
+  font-family: var(--n);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 100px;
+  margin-bottom: 12px;
+}
+.bm-badge svg { opacity: .7; }
+
+/* ── Formulário de busca ── */
+.bm-form-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+}
+.bm-form-row {
+  display: flex;
+  gap: 8px;
+  background: #fff;
+  border: 1.5px solid var(--b);
+  border-radius: var(--rm);
+  padding: 6px 6px 6px 14px;
+  box-shadow: 0 2px 8px rgba(15,14,11,.06), 0 8px 32px rgba(15,14,11,.04);
+}
+.bm-form-row input[type="text"] {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--n);
+  font-size: 16px;
+  color: var(--k);
+  background: transparent;
+  min-width: 0;
+}
+.bm-form-row input[type="text"]::placeholder { color: var(--s); }
+.bm-search-btn {
+  background: var(--a);
+  color: #fff;
+  border: none;
+  border-radius: var(--r);
+  font-family: var(--n);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background .2s, transform .15s;
+}
+.bm-search-btn:hover { background: var(--ad); transform: translateY(-1px); }
+.bm-search-btn:active { transform: translateY(0); }
+.bm-search-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+.bm-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: bm-spin .7s linear infinite;
+  display: none;
+}
+.bm-search-btn.loading .bm-spinner { display: block; }
+.bm-search-btn.loading .bm-btn-txt { display: none; }
+@keyframes bm-spin { to { transform: rotate(360deg); } }
+
+.bm-filters {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.bm-filters select {
+  flex: 1;
+  min-width: 180px;
+  border: 1.5px solid var(--b);
+  border-radius: var(--r);
+  background: #fff;
+  font-family: var(--n);
+  font-size: 13px;
+  color: var(--k);
+  padding: 9px 12px;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpolyline points='1,1 6,7 11,1' fill='none' stroke='%23524F48' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+.bm-filters select:focus { border-color: var(--a); }
+
+/* ── Área de resultados ── */
+.bm-results-sec {
+  background: var(--cd);
+  min-height: 300px;
+  padding: clamp(24px, 4vw, 48px) var(--pp);
+}
+.bm-results-header {
+  max-width: var(--mw);
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.bm-results-count {
+  font-family: var(--n);
+  font-size: 13px;
+  color: var(--g);
+}
+.bm-results-count strong { color: var(--k); font-weight: 600; }
+
+/* ── Cards de resultado ── */
+.bm-cards {
+  max-width: var(--mw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--bm-gap);
+}
+.bm-card {
+  background: #fff;
+  border: 1px solid var(--b);
+  border-radius: var(--rm);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow .2s, transform .2s;
+}
+.bm-card:hover {
+  box-shadow: 0 4px 16px rgba(15,14,11,.08);
+  transform: translateY(-2px);
+}
+.bm-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+.bm-card-nome {
+  font-family: var(--f);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--k);
+  line-height: 1.25;
+  word-break: break-word;
+}
+.bm-card-processo {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--g);
+  background: var(--cd);
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+.bm-card-titular {
+  font-family: var(--n);
+  font-size: 13px;
+  color: var(--g);
+}
+.bm-card-titular strong {
+  color: var(--m);
+  font-weight: 600;
+  display: block;
+  font-size: 13px;
+}
+.bm-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.bm-badge-sit {
+  font-family: var(--n);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 100px;
+  letter-spacing: .03em;
+}
+.bm-badge-sit.verde  { color: #1a7a4a; background: #e8f5ee; }
+.bm-badge-sit.amarelo { color: #7a5a1a; background: #f5f0e8; }
+.bm-badge-sit.vermelho { color: #7a1a1a; background: #f5e8e8; }
+.bm-badge-sit.cinza  { color: var(--g); background: var(--cd); }
+.bm-card-data {
+  font-family: var(--n);
+  font-size: 12px;
+  color: var(--g);
+  margin-left: auto;
+}
+.bm-classes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.bm-class-tag {
+  font-family: var(--n);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--navy);
+  background: rgba(26,52,84,.08);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.bm-card-link {
+  font-family: var(--n);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--a);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  align-self: flex-start;
+  transition: gap .15s;
+}
+.bm-card-link:hover { gap: 7px; }
+
+/* ── Skeleton loading ── */
+.bm-skeleton-grid {
+  max-width: var(--mw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--bm-gap);
+}
+.bm-skeleton-card {
+  background: #fff;
+  border: 1px solid var(--b);
+  border-radius: var(--rm);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.bm-skel {
+  background: linear-gradient(90deg, var(--cd) 25%, var(--cdd) 50%, var(--cd) 75%);
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: bm-shimmer 1.4s infinite;
+}
+@keyframes bm-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.bm-skel-h { height: 22px; width: 70%; }
+.bm-skel-s { height: 13px; width: 40%; }
+.bm-skel-m { height: 13px; width: 55%; }
+.bm-skel-sm { height: 13px; width: 30%; }
+
+/* ── Estados: vazio / erro ── */
+.bm-empty, .bm-error {
+  max-width: 560px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px 20px;
+}
+.bm-empty-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+.bm-empty h3, .bm-error h3 {
+  font-family: var(--f);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--k);
+  margin-bottom: 10px;
+}
+.bm-empty p, .bm-error p {
+  font-family: var(--n);
+  font-size: 14px;
+  color: var(--g);
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+.bm-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: #fff;
+  font-family: var(--n);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 22px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: background .2s, transform .15s;
+}
+.bm-wa-btn:hover { background: #1da853; transform: translateY(-1px); }
+
+/* ── Paginação ── */
+.bm-pagination {
+  max-width: var(--mw);
+  margin: 32px auto 0;
+  text-align: center;
+  display: none;
+}
+.bm-load-more {
+  background: #fff;
+  border: 1.5px solid var(--b);
+  border-radius: 100px;
+  font-family: var(--n);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--k);
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, transform .15s;
+}
+.bm-load-more:hover { border-color: var(--a); color: var(--a); transform: translateY(-1px); }
+.bm-load-more:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+/* ── CTA após resultados ── */
+.bm-cta-bar {
+  background: var(--navy);
+  padding: clamp(32px, 5vw, 56px) var(--pp);
+  text-align: center;
+  display: none;
+}
+.bm-cta-bar h2 {
+  font-family: var(--f);
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 700;
+  color: var(--c);
+  margin-bottom: 12px;
+}
+.bm-cta-bar p {
+  font-family: var(--n);
+  font-size: 15px;
+  color: rgba(240,239,231,.7);
+  margin-bottom: 24px;
+}
+
+/* ── Responsivo ── */
+@media (max-width: 600px) {
+  .bm-form-row { flex-wrap: wrap; padding: 10px; gap: 8px; }
+  .bm-form-row input[type="text"] { width: 100%; }
+  .bm-search-btn { width: 100%; justify-content: center; }
+  .bm-filters select { min-width: 100%; }
+  .bm-cards { grid-template-columns: 1fr; }
+  .bm-skeleton-grid { grid-template-columns: 1fr; }
+  .bm-card-data { margin-left: 0; }
+}
+</style>
+</head>
+<body data-lp="buscar-marcas">
+
+<!-- Trust bar -->
+<div class="trust-bar" role="banner">
+  <div class="trust-bar-in">
+    <a href="https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/cnpjreva_solicitacao.asp?cnpj=61405919000150" class="tb-link" target="_blank" rel="noopener"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> CNPJ 61.405.919/0001-50</a>
+    <span class="tb-sep">·</span><span class="tb-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Procurador Autorizado INPI</span>
+    <span class="tb-sep">·</span><span class="tb-item">+30 anos de atuação exclusiva</span>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav>
+  <a href="/" class="nav-logo">Hot<span>Marcas</span></a>
+  <ul class="nav-mid">
+    <li><a href="/verificar-marca">Verificar marca</a></li>
+    <li class="nav-dd">
+      <a href="#" class="nav-dd-trigger">Para quem é <svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,2 6,7 11,2"/></svg></a>
+      <div class="nav-dd-menu">
+        <a href="/lp/criadores"><span class="dd-emoji">🎥</span>Criadores de conteúdo</a>
+        <a href="/lp/criadores-espirituais"><span class="dd-emoji">✨</span>Criadores espirituais</a>
+        <a href="/lp/ecommerce"><span class="dd-emoji">🛒</span>E-commerce e sellers</a>
+        <a href="/lp/saas"><span class="dd-emoji">💻</span>SaaS e startups</a>
+        <a href="/lp/mei"><span class="dd-emoji">🏪</span>MEI e pequenos negócios</a>
+      </div>
+    </li>
+    <li><a href="/#preco">Preços</a></li>
+    <li><a href="/#faq">Dúvidas</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" class="nav-wa" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> WhatsApp</a>
+    <a href="/verificar-marca" class="nav-cta">Registrar marca →</a>
+  </div>
+  <button class="hamburger" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="drawer" id="drawer">
+  <ul>
+    <li><a href="/verificar-marca" onclick="closeDrawer()"><strong>🔍 Verificar minha marca</strong></a></li>
+    <li><a href="/buscar-marcas" onclick="closeDrawer()"><strong>🔎 Buscar marcas no INPI</strong></a></li>
+    <li><a href="/#preco" onclick="closeDrawer()">💰 Preços</a></li>
+    <li><a href="/#faq" onclick="closeDrawer()">Dúvidas frequentes</a></li>
+    <li><a href="/" onclick="closeDrawer()">Voltar à home</a></li>
+  </ul>
+  <div class="drawer-aud">
+    <div class="drawer-aud-lbl">Para quem é</div>
+    <ul>
+      <li><a href="/lp/criadores">🎥 Criadores de conteúdo</a></li>
+      <li><a href="/lp/criadores-espirituais">✨ Criadores espirituais</a></li>
+      <li><a href="/lp/ecommerce">🛒 E-commerce e sellers</a></li>
+      <li><a href="/lp/saas">💻 SaaS e startups</a></li>
+      <li><a href="/lp/mei">🏪 MEI e pequenos negócios</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="bm-hero">
+  <div class="bm-form-wrap">
+    <div class="bm-badge">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>
+      Dados oficiais · Atualizado toda terça-feira
+    </div>
+    <h1>Busque marcas registradas <em>no INPI</em></h1>
+    <p class="bm-hero-sub">Base atualizada semanalmente. Mesma fonte oficial do INPI. Pesquise por nome, filtre por área e situação.</p>
+
+    <!-- Formulário -->
+    <div class="bm-form-row">
+      <input
+        type="text"
+        id="bm-input"
+        placeholder="Nome da marca..."
+        maxlength="80"
+        autocomplete="off"
+        aria-label="Nome da marca para busca"
+      >
+      <button class="bm-search-btn" id="bm-btn" onclick="buscar()" aria-label="Buscar marca">
+        <div class="bm-spinner" aria-hidden="true"></div>
+        <span class="bm-btn-txt">Buscar →</span>
+      </button>
+    </div>
+
+    <div class="bm-filters">
+      <!-- Todas as 45 classes NCL -->
+      <select id="bm-classe" aria-label="Filtrar por classe NCL">
+        <option value="">Todas as classes</option>
+        <option value="1">Classe 1 — Produtos químicos para indústria e ciência</option>
+        <option value="2">Classe 2 — Tintas, vernizes, lacas e preservativos</option>
+        <option value="3">Classe 3 — Cosméticos, limpeza e higiene pessoal</option>
+        <option value="4">Classe 4 — Lubrificantes, combustíveis e óleos industriais</option>
+        <option value="5">Classe 5 — Produtos farmacêuticos e preparações médicas</option>
+        <option value="6">Classe 6 — Metais comuns e materiais metálicos</option>
+        <option value="7">Classe 7 — Máquinas, ferramentas mecânicas e robótica</option>
+        <option value="8">Classe 8 — Ferramentas e instrumentos manuais; cutelaria</option>
+        <option value="9">Classe 9 — Equipamentos eletrônicos, informática e softwares</option>
+        <option value="10">Classe 10 — Aparelhos médicos, cirúrgicos e odontológicos</option>
+        <option value="11">Classe 11 — Iluminação, aquecimento, refrigeração e ventilação</option>
+        <option value="12">Classe 12 — Veículos e meios de transporte</option>
+        <option value="13">Classe 13 — Armas, munições e fogos de artifício</option>
+        <option value="14">Classe 14 — Metais preciosos, joias e relógios</option>
+        <option value="15">Classe 15 — Instrumentos musicais</option>
+        <option value="16">Classe 16 — Papel, papelaria, material impresso e escritório</option>
+        <option value="17">Classe 17 — Borracha, plásticos e materiais isolantes</option>
+        <option value="18">Classe 18 — Couro, malas, bolsas e guarda-chuvas</option>
+        <option value="19">Classe 19 — Materiais de construção não metálicos</option>
+        <option value="20">Classe 20 — Móveis, espelhos e artigos de madeira/plástico</option>
+        <option value="21">Classe 21 — Utensílios domésticos, vidros e porcelanas</option>
+        <option value="22">Classe 22 — Cordas, fios, redes, tendas e lonas</option>
+        <option value="23">Classe 23 — Fios para uso têxtil</option>
+        <option value="24">Classe 24 — Tecidos, coberturas de cama e mesa</option>
+        <option value="25">Classe 25 — Vestuário, calçados e chapelaria</option>
+        <option value="26">Classe 26 — Rendas, bordados, botões e acessórios de costura</option>
+        <option value="27">Classe 27 — Tapetes, revestimentos para pisos e papéis de parede</option>
+        <option value="28">Classe 28 — Jogos, brinquedos e artigos esportivos</option>
+        <option value="29">Classe 29 — Alimentos de origem animal, frutas e laticínios</option>
+        <option value="30">Classe 30 — Café, chá, farinha, pão, confeitaria e condimentos</option>
+        <option value="31">Classe 31 — Produtos agrícolas, hortícolas, animais e flores</option>
+        <option value="32">Classe 32 — Cervejas, águas minerais e bebidas não alcoólicas</option>
+        <option value="33">Classe 33 — Bebidas alcoólicas (exceto cervejas)</option>
+        <option value="34">Classe 34 — Tabaco e artigos para fumantes</option>
+        <option value="35">Classe 35 — Publicidade, gestão de negócios e escritório</option>
+        <option value="36">Classe 36 — Serviços financeiros, seguros e imobiliários</option>
+        <option value="37">Classe 37 — Serviços de construção e reparação</option>
+        <option value="38">Classe 38 — Telecomunicações</option>
+        <option value="39">Classe 39 — Transporte, armazenagem e organização de viagens</option>
+        <option value="40">Classe 40 — Tratamento de materiais e reciclagem</option>
+        <option value="41">Classe 41 — Educação, entretenimento e atividades culturais</option>
+        <option value="42">Classe 42 — Serviços de tecnologia, pesquisa e desenvolvimento</option>
+        <option value="43">Classe 43 — Serviços de alimentação e alojamento temporário</option>
+        <option value="44">Classe 44 — Serviços médicos, veterinários e beleza</option>
+        <option value="45">Classe 45 — Serviços jurídicos e de segurança pessoal</option>
+      </select>
+
+      <select id="bm-situacao" aria-label="Filtrar por situação da marca">
+        <option value="">Todas as situações</option>
+        <option value="Concedida">Vigente / Concedida</option>
+        <option value="Depositada">Depositada</option>
+        <option value="Em exame">Em exame</option>
+        <option value="Indeferida">Indeferida</option>
+        <option value="Arquivada">Arquivada</option>
+        <option value="Extinta">Extinta</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<!-- Área de resultados -->
+<section class="bm-results-sec" id="bm-results-sec" style="display:none">
+  <div class="bm-results-header" id="bm-results-header">
+    <div class="bm-results-count" id="bm-results-count"></div>
+  </div>
+  <div id="bm-cards-wrap"></div>
+  <div class="bm-pagination" id="bm-pagination">
+    <button class="bm-load-more" id="bm-load-more" onclick="carregarMais()">Carregar mais 20 resultados</button>
+  </div>
+</section>
+
+<!-- Loading skeletons (oculto por padrão) -->
+<section class="bm-results-sec" id="bm-loading-sec" style="display:none">
+  <div class="bm-skeleton-grid">
+    <div class="bm-skeleton-card"><div class="bm-skel bm-skel-s"></div><div class="bm-skel bm-skel-h"></div><div class="bm-skel bm-skel-m"></div><div class="bm-skel bm-skel-sm"></div></div>
+    <div class="bm-skeleton-card"><div class="bm-skel bm-skel-s"></div><div class="bm-skel bm-skel-h"></div><div class="bm-skel bm-skel-m"></div><div class="bm-skel bm-skel-sm"></div></div>
+    <div class="bm-skeleton-card"><div class="bm-skel bm-skel-s"></div><div class="bm-skel bm-skel-h"></div><div class="bm-skel bm-skel-m"></div><div class="bm-skel bm-skel-sm"></div></div>
+    <div class="bm-skeleton-card"><div class="bm-skel bm-skel-s"></div><div class="bm-skel bm-skel-h"></div><div class="bm-skel bm-skel-m"></div><div class="bm-skel bm-skel-sm"></div></div>
+  </div>
+</section>
+
+<!-- CTA após resultados -->
+<div class="bm-cta-bar" id="bm-cta-bar">
+  <h2>Essa marca está disponível para registro?</h2>
+  <p>Proteja antes que outra empresa o faça. Nosso especialista verifica e protocola em até 10 dias úteis.</p>
+  <a href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" class="bm-wa-btn" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Falar com especialista no WhatsApp
+  </a>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-in">
+    <span class="footer-logo">HotMarcas</span>
+    <div class="footer-meta">CNPJ: 61.405.919/0001-50 · Procurador Autorizado INPI · 30 anos de experiência</div>
+    <div class="footer-links" style="margin-bottom:8px;"><a href="/lp/criadores">Criadores</a><a href="/lp/criadores-espirituais">Espirituais</a><a href="/lp/ecommerce">E-commerce</a><a href="/lp/saas">SaaS</a><a href="/lp/mei">MEI</a></div>
+    <div class="footer-links"><a href="#" onclick="openModal('modal-termos');return false;">Termos</a><a href="#" onclick="openModal('modal-privacidade');return false;">Privacidade</a><a href="#" onclick="openModal('modal-cookies');return false;">Cookies</a></div>
+  </div>
+</footer>
+
+<!-- WhatsApp flutuante -->
+<div class="wa-float"><a class="wa-btn-f" href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a></div>
+
+<!-- Modais legais -->
+<div class="modal-overlay" id="modal-privacidade" onclick="closeModal(event,this)"><div class="modal-box"><div class="modal-head"><h4>Privacidade</h4><button class="modal-close" onclick="closeModalById('modal-privacidade')">✕</button></div><div class="modal-body"><h5>Quem somos</h5><p>HotMarcas (CNPJ 61.405.919/0001-50). Coletamos nome, WhatsApp e nome da marca via formulário. Não vendemos nem compartilhamos.</p><h5>Direitos</h5><p>Acesso/correção/exclusão via WhatsApp +55 48 98428-3696.</p><p class="modal-updated">Última atualização: Abril de 2026</p></div></div></div>
+<div class="modal-overlay" id="modal-termos" onclick="closeModal(event,this)"><div class="modal-box"><div class="modal-head"><h4>Termos</h4><button class="modal-close" onclick="closeModalById('modal-termos')">✕</button></div><div class="modal-body"><h5>Serviço</h5><p>Assessoria para registro de marcas no INPI. Procurador autorizado.</p><h5>Garantia</h5><p>Indeferimento dentro do nosso escopo = novo pedido sem honorários (cliente paga só a nova taxa INPI).</p><p class="modal-updated">Última atualização: Abril de 2026</p></div></div></div>
+<div class="modal-overlay" id="modal-cookies" onclick="closeModal(event,this)"><div class="modal-box"><div class="modal-head"><h4>Cookies</h4><button class="modal-close" onclick="closeModalById('modal-cookies')">✕</button></div><div class="modal-body"><p>Site sem cookies próprios. Usa Google Fonts e Google Analytics.</p><p class="modal-updated">Última atualização: Abril de 2026</p></div></div></div>
+
+<script>
+// ── Configuração Supabase ──────────────────────────────────────────
+// ATENÇÃO: substitua pelos valores reais do seu projeto Supabase
+const SUPABASE_URL  = 'https://SEU-PROJETO.supabase.co';
+const SUPABASE_ANON = 'sua-anon-key-aqui';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// ── Estado da busca ───────────────────────────────────────────────
+let termoAtual  = '';
+let classeAtual = '';
+let situAtual   = '';
+let offset      = 0;
+const LIMIT     = 20;
+let totalCards  = 0;
+
+// ── Cores dos badges de situação ─────────────────────────────────
+function corSituacao(sit) {
+  const s = (sit || '').toLowerCase();
+  if (/concedid|vigent|registrad/.test(s))       return 'verde';
+  if (/exam|deposit|aguard|public|deferi/.test(s)) return 'amarelo';
+  if (/extint|arquivad|indeferi|cancelad|caducan|caducad/.test(s)) return 'vermelho';
+  return 'cinza';
+}
+
+// ── Formatar data YYYY-MM-DD → DD/MM/AAAA ────────────────────────
+function fmtData(d) {
+  if (!d) return '—';
+  const [y, m, dia] = d.split('-');
+  return `${dia}/${m}/${y}`;
+}
+
+// ── Render de um card ─────────────────────────────────────────────
+function renderCard(m) {
+  const classes = (m.classes_ncl || []).map(c => `<span class="bm-class-tag">${c}</span>`).join('');
+  const cor = corSituacao(m.situacao);
+  return `
+    <div class="bm-card">
+      <div class="bm-card-top">
+        <div>
+          <div class="bm-card-nome">${esc(m.nome)}</div>
+          <div class="bm-card-processo">${esc(m.processo)}</div>
+        </div>
+      </div>
+      <div class="bm-card-titular">
+        <strong>${esc(m.titular || '—')}</strong>
+      </div>
+      <div class="bm-card-meta">
+        <span class="bm-badge-sit ${cor}">${esc(m.situacao || 'Desconhecida')}</span>
+        ${m.data_deposito ? `<span class="bm-card-data">Depósito: ${fmtData(m.data_deposito)}</span>` : ''}
+      </div>
+      ${classes ? `<div class="bm-classes">${classes}</div>` : ''}
+      <a href="/marca/?p=${encodeURIComponent(m.processo)}" class="bm-card-link">Ver processo completo →</a>
+    </div>`;
+}
+
+// Escapa HTML para evitar XSS
+function esc(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ── Busca principal ───────────────────────────────────────────────
+async function buscar(append) {
+  const input = document.getElementById('bm-input');
+  const termo = input.value.trim();
+  if (!termo) { input.focus(); return; }
+
+  if (!append) {
+    offset = 0;
+    totalCards = 0;
+    termoAtual  = termo;
+    classeAtual = document.getElementById('bm-classe').value;
+    situAtual   = document.getElementById('bm-situacao').value;
+    atualizarURL();
+  }
+
+  setLoading(true);
+
+  try {
+    const params = {
+      p_termo:  termoAtual,
+      p_limit:  LIMIT,
+      p_offset: offset,
+    };
+    if (classeAtual) params.p_classes = [classeAtual];
+    if (situAtual)   params.p_situacao = situAtual;
+
+    const { data, error } = await sb.rpc('buscar_marca', params);
+
+    setLoading(false);
+
+    if (error) throw error;
+
+    if (!append) {
+      renderResultados(data, termo);
+    } else {
+      appendResultados(data);
+    }
+  } catch (err) {
+    setLoading(false);
+    renderErro();
+    console.error('Erro na busca:', err);
+  }
+}
+
+// ── Renderiza resultados ──────────────────────────────────────────
+function renderResultados(data, termo) {
+  const sec = document.getElementById('bm-results-sec');
+  const wrap = document.getElementById('bm-cards-wrap');
+  const count = document.getElementById('bm-results-count');
+  const pag = document.getElementById('bm-pagination');
+  const cta = document.getElementById('bm-cta-bar');
+
+  sec.style.display = 'block';
+
+  if (!data || !data.length) {
+    wrap.innerHTML = `
+      <div class="bm-empty">
+        <div class="bm-empty-icon">🔍</div>
+        <h3>Nenhuma marca encontrada para "${esc(termo)}"</h3>
+        <p>Essa marca pode estar disponível para registro. Fale com nosso especialista para confirmar.</p>
+        <a href="https://wa.me/5548984283696?text=Quero%20verificar%20a%20disponibilidade%20da%20marca%20${encodeURIComponent(termo)}" class="bm-wa-btn" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Essa marca pode estar disponível. Fale com nosso especialista.
+        </a>
+      </div>`;
+    count.innerHTML = '';
+    pag.style.display = 'none';
+    cta.style.display = 'none';
+    return;
+  }
+
+  totalCards = data.length;
+  wrap.innerHTML = `<div class="bm-cards">${data.map(renderCard).join('')}</div>`;
+  count.innerHTML = `<strong>${data.length}</strong> resultado${data.length !== 1 ? 's' : ''} encontrado${data.length !== 1 ? 's' : ''}`;
+
+  // Mostra "carregar mais" se retornou o limite (pode haver mais)
+  if (data.length >= LIMIT) {
+    offset += LIMIT;
+    pag.style.display = 'block';
+    document.getElementById('bm-load-more').disabled = false;
+  } else {
+    pag.style.display = 'none';
+  }
+
+  cta.style.display = 'block';
+}
+
+function appendResultados(data) {
+  if (!data || !data.length) {
+    document.getElementById('bm-pagination').style.display = 'none';
+    return;
+  }
+
+  const grid = document.querySelector('#bm-cards-wrap .bm-cards');
+  if (grid) grid.insertAdjacentHTML('beforeend', data.map(renderCard).join(''));
+
+  totalCards += data.length;
+  document.getElementById('bm-results-count').innerHTML =
+    `<strong>${totalCards}</strong> resultado${totalCards !== 1 ? 's' : ''} carregado${totalCards !== 1 ? 's' : ''}`;
+
+  if (data.length >= LIMIT) {
+    offset += LIMIT;
+    document.getElementById('bm-load-more').disabled = false;
+  } else {
+    document.getElementById('bm-pagination').style.display = 'none';
+  }
+}
+
+function renderErro() {
+  const sec = document.getElementById('bm-results-sec');
+  const wrap = document.getElementById('bm-cards-wrap');
+  sec.style.display = 'block';
+  wrap.innerHTML = `
+    <div class="bm-error">
+      <div class="bm-empty-icon">⚠️</div>
+      <h3>Não foi possível conectar</h3>
+      <p>Houve um erro ao buscar os dados. Verifique sua conexão e tente novamente.</p>
+      <button class="bm-load-more" onclick="buscar()" style="display:inline-block">Tentar novamente</button>
+    </div>`;
+}
+
+// ── Carregar mais ─────────────────────────────────────────────────
+function carregarMais() {
+  document.getElementById('bm-load-more').disabled = true;
+  buscar(true);
+}
+
+// ── Loading state ─────────────────────────────────────────────────
+function setLoading(on) {
+  const btn = document.getElementById('bm-btn');
+  const loadingSec = document.getElementById('bm-loading-sec');
+  const resultsSec = document.getElementById('bm-results-sec');
+
+  btn.classList.toggle('loading', on);
+  btn.disabled = on;
+
+  if (on && offset === 0) {
+    loadingSec.style.display = 'block';
+    resultsSec.style.display = 'none';
+    document.getElementById('bm-cta-bar').style.display = 'none';
+  } else {
+    loadingSec.style.display = 'none';
+  }
+}
+
+// ── URL compartilhável ────────────────────────────────────────────
+function atualizarURL() {
+  const p = new URLSearchParams();
+  if (termoAtual)  p.set('q', termoAtual);
+  if (classeAtual) p.set('classe', classeAtual);
+  if (situAtual)   p.set('situacao', situAtual);
+  history.pushState(null, '', `?${p.toString()}`);
+}
+
+function lerURLParams() {
+  const p = new URLSearchParams(location.search);
+  const q = p.get('q') || '';
+  const cl = p.get('classe') || '';
+  const sit = p.get('situacao') || '';
+
+  if (!q) return;
+
+  document.getElementById('bm-input').value = q;
+  if (cl) document.getElementById('bm-classe').value = cl;
+  if (sit) document.getElementById('bm-situacao').value = sit;
+
+  buscar();
+}
+
+// ── Enter dispara busca ───────────────────────────────────────────
+document.getElementById('bm-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') buscar();
+});
+
+// ── Init ──────────────────────────────────────────────────────────
+lerURLParams();
+</script>
+
+<script defer src="/assets/main.js"></script>
+</body>
+</html>

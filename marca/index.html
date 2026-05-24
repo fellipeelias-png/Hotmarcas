@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BL366L12GR"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-BL366L12GR');</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carregando processo… | HotMarcas</title>
+<meta name="description" content="Consulte dados completos de marcas registradas no INPI: titular, situação, histórico de despachos e classes de proteção.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css">
+
+<!-- Supabase JS via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" crossorigin></script>
+
+<style>
+/* ── Layout principal ── */
+.md-wrap {
+  max-width: var(--mw);
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 56px) var(--pp);
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .md-wrap { grid-template-columns: 1fr; }
+  .md-sticky { display: none; }
+  .md-mobile-cta { display: flex !important; }
+}
+
+/* ── Hero do processo ── */
+.md-hero {
+  background: var(--c);
+  border-bottom: 1px solid var(--b);
+  padding: clamp(32px, 5vw, 56px) var(--pp) 0;
+}
+.md-hero-inner {
+  max-width: var(--mw);
+  margin: 0 auto;
+  padding-bottom: clamp(24px, 4vw, 40px);
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+.md-hero-text { flex: 1; min-width: 0; }
+.md-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--n);
+  font-size: 13px;
+  color: var(--g);
+  text-decoration: none;
+  margin-bottom: 16px;
+  transition: color .15s;
+}
+.md-back:hover { color: var(--a); }
+.md-hero-processo {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--g);
+  background: var(--cd);
+  padding: 3px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.md-hero h1 {
+  font-family: var(--f);
+  font-size: clamp(24px, 4vw, 40px);
+  font-weight: 700;
+  color: var(--k);
+  line-height: 1.15;
+  margin-bottom: 12px;
+  word-break: break-word;
+}
+.md-hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.md-badge-sit {
+  font-family: var(--n);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 100px;
+  letter-spacing: .03em;
+}
+.md-badge-sit.verde   { color: #1a7a4a; background: #e8f5ee; }
+.md-badge-sit.amarelo { color: #7a5a1a; background: #f5f0e8; }
+.md-badge-sit.vermelho { color: #7a1a1a; background: #f5e8e8; }
+.md-badge-sit.cinza   { color: var(--g); background: var(--cd); }
+
+/* Imagem da marca */
+.md-hero-img {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--rm);
+  border: 1px solid var(--b);
+  object-fit: contain;
+  background: #fff;
+  padding: 8px;
+  flex-shrink: 0;
+}
+.md-hero-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--rm);
+  border: 1px solid var(--b);
+  background: var(--cd);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: var(--s);
+  flex-shrink: 0;
+  user-select: none;
+}
+@media (max-width: 600px) {
+  .md-hero-inner { flex-direction: column; gap: 16px; }
+  .md-hero-img, .md-hero-placeholder { width: 80px; height: 80px; font-size: 32px; }
+}
+
+/* ── Seções de conteúdo ── */
+.md-section {
+  background: #fff;
+  border: 1px solid var(--b);
+  border-radius: var(--rm);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.md-section-title {
+  font-family: var(--n);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--g);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--bs);
+}
+
+/* ── Grid de dados (2 colunas) ── */
+.md-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 480px) {
+  .md-grid { grid-template-columns: 1fr; }
+}
+.md-field {}
+.md-field-label {
+  font-family: var(--n);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--g);
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.md-field-value {
+  font-family: var(--n);
+  font-size: 14px;
+  color: var(--k);
+  font-weight: 500;
+}
+.md-field-value.mono {
+  font-family: monospace;
+  font-size: 13px;
+}
+.md-field-value.empty { color: var(--s); font-weight: 400; }
+
+/* ── Classes NCL ── */
+.md-ncl-list { display: flex; flex-direction: column; gap: 10px; }
+.md-ncl-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.md-ncl-num {
+  font-family: var(--n);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--navy);
+  background: rgba(26,52,84,.08);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.md-ncl-desc {
+  font-family: var(--n);
+  font-size: 14px;
+  color: var(--k);
+}
+.md-especificacao {
+  margin-top: 16px;
+  padding: 14px;
+  background: var(--cd);
+  border-radius: var(--r);
+  border-left: 3px solid var(--a);
+}
+.md-especificacao-label {
+  font-family: var(--n);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--g);
+  margin-bottom: 6px;
+}
+.md-especificacao-text {
+  font-family: var(--n);
+  font-size: 13px;
+  color: var(--m);
+  line-height: 1.55;
+}
+
+/* ── Tabela de despachos ── */
+.md-despachos-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--n);
+  font-size: 13px;
+}
+.md-despachos-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--g);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--b);
+}
+.md-despachos-table td {
+  padding: 10px 10px;
+  border-bottom: 1px solid var(--bs);
+  color: var(--k);
+  vertical-align: top;
+}
+.md-despachos-table tr:last-child td { border-bottom: none; }
+.md-despachos-table td:first-child { font-family: monospace; font-size: 12px; color: var(--g); }
+.md-despachos-table td:nth-child(3) {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--navy);
+  white-space: nowrap;
+}
+.md-despachos-hidden { display: none; }
+.md-expand-btn {
+  margin-top: 12px;
+  background: none;
+  border: 1.5px solid var(--b);
+  border-radius: 100px;
+  font-family: var(--n);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--k);
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+  display: none;
+}
+.md-expand-btn:hover { border-color: var(--a); color: var(--a); }
+
+/* ── CTA sticky lateral ── */
+.md-sticky {
+  position: sticky;
+  top: 100px;
+}
+.md-cta-box {
+  background: var(--navy);
+  border-radius: var(--rm);
+  padding: 24px;
+  color: var(--c);
+}
+.md-cta-box h3 {
+  font-family: var(--f);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.md-cta-box p {
+  font-family: var(--n);
+  font-size: 13px;
+  color: rgba(240,239,231,.7);
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+.md-cta-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #25D366;
+  color: #fff;
+  font-family: var(--n);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 16px;
+  border-radius: 100px;
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: background .2s;
+}
+.md-cta-wa:hover { background: #1da853; }
+.md-cta-ver {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--n);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(240,239,231,.7);
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(240,239,231,.2);
+  transition: background .2s, color .2s;
+}
+.md-cta-ver:hover { background: rgba(240,239,231,.08); color: var(--c); }
+
+/* ── CTA mobile fixo no rodapé ── */
+.md-mobile-cta {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--navy);
+  padding: 12px var(--pp);
+  z-index: 90;
+  gap: 10px;
+  align-items: center;
+  box-shadow: 0 -2px 16px rgba(15,14,11,.12);
+}
+.md-mobile-cta a {
+  flex: 1;
+  text-align: center;
+  font-family: var(--n);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px;
+  border-radius: 100px;
+  text-decoration: none;
+}
+.md-mobile-cta .wa  { background: #25D366; color: #fff; }
+.md-mobile-cta .ver { border: 1px solid rgba(240,239,231,.3); color: rgba(240,239,231,.85); }
+
+/* ── 404 ── */
+.md-404 {
+  max-width: 560px;
+  margin: 80px auto;
+  text-align: center;
+  padding: 0 var(--pp);
+}
+.md-404-icon { font-size: 48px; margin-bottom: 20px; }
+.md-404 h2 {
+  font-family: var(--f);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--k);
+  margin-bottom: 12px;
+}
+.md-404 p {
+  font-family: var(--n);
+  font-size: 15px;
+  color: var(--g);
+  margin-bottom: 24px;
+  line-height: 1.55;
+}
+.md-404-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+/* ── Loading skeleton ── */
+.md-skel-hero {
+  background: var(--c);
+  border-bottom: 1px solid var(--b);
+  padding: clamp(32px, 5vw, 56px) var(--pp) clamp(24px, 4vw, 40px);
+}
+.md-skel-hero-in { max-width: var(--mw); margin: 0 auto; }
+.md-skel {
+  background: linear-gradient(90deg, var(--cd) 25%, var(--cdd) 50%, var(--cd) 75%);
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: md-shimmer 1.4s infinite;
+  margin-bottom: 12px;
+}
+@keyframes md-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.md-skel-s { height: 14px; width: 120px; }
+.md-skel-h { height: 36px; width: 60%; }
+.md-skel-m { height: 16px; width: 40%; }
+</style>
+</head>
+<body data-lp="marca">
+
+<!-- Trust bar -->
+<div class="trust-bar" role="banner">
+  <div class="trust-bar-in">
+    <a href="https://solucoes.receita.fazenda.gov.br/Servicos/cnpjreva/cnpjreva_solicitacao.asp?cnpj=61405919000150" class="tb-link" target="_blank" rel="noopener"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> CNPJ 61.405.919/0001-50</a>
+    <span class="tb-sep">·</span><span class="tb-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Procurador Autorizado INPI</span>
+    <span class="tb-sep">·</span><span class="tb-item">+30 anos de atuação exclusiva</span>
+  </div>
+</div>
+
+<!-- Navbar -->
+<nav>
+  <a href="/" class="nav-logo">Hot<span>Marcas</span></a>
+  <ul class="nav-mid">
+    <li><a href="/verificar-marca">Verificar marca</a></li>
+    <li><a href="/buscar-marcas"><strong>Buscar no INPI</strong></a></li>
+    <li class="nav-dd">
+      <a href="#" class="nav-dd-trigger">Para quem é <svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,2 6,7 11,2"/></svg></a>
+      <div class="nav-dd-menu">
+        <a href="/lp/criadores"><span class="dd-emoji">🎥</span>Criadores de conteúdo</a>
+        <a href="/lp/criadores-espirituais"><span class="dd-emoji">✨</span>Criadores espirituais</a>
+        <a href="/lp/ecommerce"><span class="dd-emoji">🛒</span>E-commerce e sellers</a>
+        <a href="/lp/saas"><span class="dd-emoji">💻</span>SaaS e startups</a>
+        <a href="/lp/mei"><span class="dd-emoji">🏪</span>MEI e pequenos negócios</a>
+      </div>
+    </li>
+    <li><a href="/#preco">Preços</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" class="nav-wa" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> WhatsApp</a>
+    <a href="/verificar-marca" class="nav-cta">Registrar marca →</a>
+  </div>
+  <button class="hamburger" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="drawer" id="drawer">
+  <ul>
+    <li><a href="/verificar-marca" onclick="closeDrawer()"><strong>🔍 Verificar minha marca</strong></a></li>
+    <li><a href="/buscar-marcas" onclick="closeDrawer()">🔎 Buscar marcas no INPI</a></li>
+    <li><a href="/#preco" onclick="closeDrawer()">💰 Preços</a></li>
+    <li><a href="/" onclick="closeDrawer()">Voltar à home</a></li>
+  </ul>
+</div>
+
+<!-- Loading skeleton inicial -->
+<div id="md-loading">
+  <div class="md-skel-hero">
+    <div class="md-skel-hero-in">
+      <div class="md-skel md-skel-s"></div>
+      <div class="md-skel md-skel-h" style="margin-top:8px"></div>
+      <div class="md-skel md-skel-m" style="margin-top:12px;width:120px"></div>
+    </div>
+  </div>
+  <div style="max-width:var(--mw);margin:32px auto;padding:0 var(--pp)">
+    <div style="background:#fff;border:1px solid var(--b);border-radius:var(--rm);padding:24px">
+      <div class="md-skel" style="height:14px;width:40%;margin-bottom:16px"></div>
+      <div class="md-skel" style="height:14px;width:60%"></div>
+      <div class="md-skel" style="height:14px;width:50%;margin-top:10px"></div>
+      <div class="md-skel" style="height:14px;width:45%;margin-top:10px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Conteúdo principal (preenchido via JS) -->
+<div id="md-content" style="display:none">
+  <!-- Hero do processo -->
+  <div class="md-hero" id="md-hero"></div>
+
+  <!-- Layout de duas colunas -->
+  <div class="md-wrap">
+    <!-- Coluna principal -->
+    <div id="md-main"></div>
+
+    <!-- Coluna lateral sticky (desktop) -->
+    <div class="md-sticky" id="md-sidebar"></div>
+  </div>
+</div>
+
+<!-- 404 (oculto por padrão) -->
+<div id="md-404" style="display:none">
+  <div class="md-404">
+    <div class="md-404-icon">🔍</div>
+    <h2>Processo não encontrado na nossa base.</h2>
+    <p>Ainda não importamos esse processo ou o número informado não está correto. Nossa base é atualizada semanalmente.</p>
+    <div class="md-404-btns">
+      <a href="/buscar-marcas" class="bp" style="border-radius:100px;padding:12px 22px;font-family:var(--n);font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;">Buscar outra marca →</a>
+      <a href="https://wa.me/5548984283696?text=Quero%20consultar%20o%20processo" class="bm-wa-btn" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;font-family:var(--n);font-size:14px;font-weight:600;padding:12px 22px;border-radius:100px;text-decoration:none;"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Falar no WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<!-- CTA mobile fixo no rodapé -->
+<div class="md-mobile-cta" id="md-mobile-cta" style="display:none">
+  <a href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" class="wa" target="_blank" rel="noopener">💬 Registrar minha marca</a>
+  <a href="/verificar-marca" class="ver">Verificar →</a>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-in">
+    <span class="footer-logo">HotMarcas</span>
+    <div class="footer-meta">CNPJ: 61.405.919/0001-50 · Procurador Autorizado INPI · 30 anos de experiência</div>
+    <div class="footer-links" style="margin-bottom:8px;"><a href="/lp/criadores">Criadores</a><a href="/lp/criadores-espirituais">Espirituais</a><a href="/lp/ecommerce">E-commerce</a><a href="/lp/saas">SaaS</a><a href="/lp/mei">MEI</a></div>
+    <div class="footer-links"><a href="#" onclick="openModal('modal-termos');return false;">Termos</a><a href="#" onclick="openModal('modal-privacidade');return false;">Privacidade</a><a href="#" onclick="openModal('modal-cookies');return false;">Cookies</a></div>
+  </div>
+</footer>
+
+<!-- WhatsApp flutuante -->
+<div class="wa-float"><a class="wa-btn-f" href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a></div>
+
+<!-- Modais legais -->
+<div class="modal-overlay" id="modal-privacidade" onclick="closeModal(event,this)"><div class="modal-box"><div class="modal-head"><h4>Privacidade</h4><button class="modal-close" onclick="closeModalById('modal-privacidade')">✕</button></div><div class="modal-body"><h5>Quem somos</h5><p>HotMarcas (CNPJ 61.405.919/0001-50). Coletamos nome, WhatsApp e nome da marca via formulário. Não vendemos nem compartilhamos.</p><h5>Direitos</h5><p>Acesso/correção/exclusão via WhatsApp +55 48 98428-3696.</p><p class="modal-updated">Última atualização: Abril de 2026</p></div></div></div>
+<div class="modal-overlay" id="modal-termos" onclick="closeModal(event,this)"><div class="modal-box"><div class="modal-head"><h4>Termos</h4><button class="modal-close" onclick="closeModalById('modal-termos')">✕</button></div><div class="modal-body"><h5>Serviço</h5><p>Assessoria para registro de marcas no INPI. Procurador autorizado.</p><h5>Garantia</h5><p>Indeferimento dentro do nosso escopo = novo pedido sem honorários (cliente paga só a nova taxa INPI).</p><p class="modal-updated">Última atualização: Abril de 2026</p></div></div></div>
+<div class="modal-overlay" id="modal-cookies" onclick="closeModal(event,this)"><div class="modal-box"><div class="modal-head"><h4>Cookies</h4><button class="modal-close" onclick="closeModalById('modal-cookies')">✕</button></div><div class="modal-body"><p>Site sem cookies próprios. Usa Google Fonts e Google Analytics.</p><p class="modal-updated">Última atualização: Abril de 2026</p></div></div></div>
+
+<script>
+// ── Configuração Supabase ──────────────────────────────────────────
+// ATENÇÃO: substitua pelos valores reais do seu projeto Supabase
+const SUPABASE_URL  = 'https://SEU-PROJETO.supabase.co';
+const SUPABASE_ANON = 'sua-anon-key-aqui';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// ── Mapeamento de classes NCL ─────────────────────────────────────
+const NCL_NOMES = {
+  '1':'Produtos químicos para indústria e ciência','2':'Tintas, vernizes e lacas',
+  '3':'Cosméticos e higiene pessoal','4':'Lubrificantes e combustíveis',
+  '5':'Produtos farmacêuticos','6':'Metais comuns e ligas metálicas',
+  '7':'Máquinas e ferramentas mecânicas','8':'Ferramentas manuais e cutelaria',
+  '9':'Equipamentos eletrônicos e informática','10':'Aparelhos médicos e cirúrgicos',
+  '11':'Iluminação, aquecimento e refrigeração','12':'Veículos e transporte',
+  '13':'Armas e munições','14':'Metais preciosos e joias',
+  '15':'Instrumentos musicais','16':'Papel, papelaria e material impresso',
+  '17':'Borracha e plásticos','18':'Couro, malas e bolsas',
+  '19':'Materiais de construção não metálicos','20':'Móveis e artigos de madeira',
+  '21':'Utensílios domésticos e vidros','22':'Cordas, fios e redes',
+  '23':'Fios têxteis','24':'Tecidos e coberturas',
+  '25':'Vestuário, calçados e chapelaria','26':'Rendas, bordados e acessórios de costura',
+  '27':'Tapetes e revestimentos para pisos','28':'Jogos, brinquedos e esportes',
+  '29':'Alimentos de origem animal e laticínios','30':'Café, chá, farinhas e confeitaria',
+  '31':'Produtos agrícolas e animais vivos','32':'Cervejas e bebidas não alcoólicas',
+  '33':'Bebidas alcoólicas','34':'Tabaco e artigos para fumantes',
+  '35':'Publicidade e gestão de negócios','36':'Serviços financeiros e seguros',
+  '37':'Construção e reparação','38':'Telecomunicações',
+  '39':'Transporte e logística','40':'Tratamento de materiais',
+  '41':'Educação e entretenimento','42':'Tecnologia e pesquisa',
+  '43':'Alimentação e hospedagem','44':'Serviços médicos e beleza',
+  '45':'Serviços jurídicos e segurança',
+};
+
+// ── Helpers ───────────────────────────────────────────────────────
+function esc(str) {
+  return String(str || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function fmtData(d) {
+  if (!d) return '—';
+  const [y, m, dia] = d.split('-');
+  return `${dia}/${m}/${y}`;
+}
+
+function fmtCnpjCpf(doc) {
+  if (!doc) return '—';
+  const d = doc.replace(/\D/g, '');
+  if (d.length === 14) return d.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+  if (d.length === 11) return d.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  return doc;
+}
+
+function corSituacao(sit) {
+  const s = (sit || '').toLowerCase();
+  if (/concedid|vigent|registrad/.test(s))        return 'verde';
+  if (/exam|deposit|aguard|public|deferi/.test(s)) return 'amarelo';
+  if (/extint|arquivad|indeferi|cancelad|caducan|caducad/.test(s)) return 'vermelho';
+  return 'cinza';
+}
+
+function campo(label, valor, mono) {
+  const v = valor || '—';
+  const vazio = !valor ? ' empty' : '';
+  return `<div class="md-field">
+    <div class="md-field-label">${esc(label)}</div>
+    <div class="md-field-value${mono ? ' mono' : ''}${vazio}">${esc(v)}</div>
+  </div>`;
+}
+
+// ── Render do hero ────────────────────────────────────────────────
+function renderHero(m) {
+  const cor = corSituacao(m.situacao);
+  const imgHtml = m.tem_imagem && m.imagem_url_inpi
+    ? `<img src="${esc(m.imagem_url_inpi)}" alt="${esc(m.nome)}" class="md-hero-img" loading="lazy">`
+    : `<div class="md-hero-placeholder" aria-label="Sem logotipo">™</div>`;
+
+  return `
+    <div class="md-hero-inner">
+      <div class="md-hero-text">
+        <a href="/buscar-marcas" class="md-back">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+          Voltar à busca
+        </a>
+        <div class="md-hero-processo">${esc(m.processo)}</div>
+        <h1>${esc(m.nome)}</h1>
+        <div class="md-hero-badges">
+          <span class="md-badge-sit ${cor}">${esc(m.situacao || 'Desconhecida')}</span>
+          ${m.tipo ? `<span class="md-badge-sit cinza">${esc(m.tipo)}</span>` : ''}
+        </div>
+      </div>
+      ${imgHtml}
+    </div>`;
+}
+
+// ── Render seção dados ────────────────────────────────────────────
+function renderDados(m) {
+  return `
+    <div class="md-section">
+      <div class="md-section-title">Dados do processo</div>
+      <div class="md-grid">
+        ${campo('Número do processo', m.processo, true)}
+        ${campo('Situação', m.situacao)}
+        ${campo('Data de depósito', fmtData(m.data_deposito))}
+        ${campo('Data de concessão', fmtData(m.data_concessao))}
+        ${campo('Data de vencimento', fmtData(m.data_vencimento))}
+        ${campo('Apresentação', m.apresentacao)}
+        ${campo('Natureza', m.natureza)}
+        ${campo('Tipo', m.tipo)}
+      </div>
+    </div>`;
+}
+
+// ── Render seção titular ──────────────────────────────────────────
+function renderTitular(m) {
+  return `
+    <div class="md-section">
+      <div class="md-section-title">Titular</div>
+      <div class="md-grid">
+        ${campo('Nome / Razão social', m.titular)}
+        ${campo('CNPJ / CPF', fmtCnpjCpf(m.cnpj_cpf))}
+        ${m.procurador ? campo('Procurador', m.procurador) : ''}
+      </div>
+    </div>`;
+}
+
+// ── Render seção classes NCL ──────────────────────────────────────
+function renderClasses(m) {
+  const classes = m.classes_ncl || [];
+  if (!classes.length && !m.especificacao) return '';
+
+  const itens = classes.map(c => {
+    const desc = NCL_NOMES[c] || '';
+    return `<div class="md-ncl-item">
+      <span class="md-ncl-num">Classe ${esc(c)}</span>
+      <span class="md-ncl-desc">${esc(desc)}</span>
+    </div>`;
+  }).join('');
+
+  const espec = m.especificacao ? `
+    <div class="md-especificacao">
+      <div class="md-especificacao-label">Especificação de produtos/serviços</div>
+      <div class="md-especificacao-text">${esc(m.especificacao)}</div>
+    </div>` : '';
+
+  return `
+    <div class="md-section">
+      <div class="md-section-title">Proteção registrada</div>
+      <div class="md-ncl-list">${itens}</div>
+      ${espec}
+    </div>`;
+}
+
+// ── Render tabela de despachos ────────────────────────────────────
+function renderDespachos(despachos) {
+  if (!despachos || !despachos.length) return '';
+
+  const MOSTRA = 10;
+  const visiveis = despachos.slice(0, MOSTRA);
+  const ocultos  = despachos.slice(MOSTRA);
+
+  const linhaHtml = (d) => `
+    <tr>
+      <td>${esc(String(d.rpi_numero || '—'))}</td>
+      <td>${fmtData(d.rpi_data)}</td>
+      <td>${esc(d.codigo_despacho || '—')}</td>
+      <td>${esc(d.descricao_despacho || '—')}</td>
+    </tr>`;
+
+  const ocultoHtml = ocultos.length ? `
+    <tbody id="despachos-extra" class="md-despachos-hidden">
+      ${ocultos.map(linhaHtml).join('')}
+    </tbody>` : '';
+
+  const btnExpand = ocultos.length ? `
+    <button class="md-expand-btn" id="btn-expand" onclick="expandirDespachos()" style="display:inline-block">
+      Ver todos os ${despachos.length} despachos ↓
+    </button>` : '';
+
+  return `
+    <div class="md-section">
+      <div class="md-section-title">Histórico de despachos</div>
+      <div style="overflow-x:auto">
+        <table class="md-despachos-table">
+          <thead><tr><th>RPI nº</th><th>Data</th><th>Código</th><th>Descrição</th></tr></thead>
+          <tbody>${visiveis.map(linhaHtml).join('')}</tbody>
+          ${ocultoHtml}
+        </table>
+      </div>
+      ${btnExpand}
+    </div>`;
+}
+
+function expandirDespachos() {
+  document.getElementById('despachos-extra').classList.remove('md-despachos-hidden');
+  document.getElementById('btn-expand').style.display = 'none';
+}
+
+// ── Render CTA lateral ────────────────────────────────────────────
+function renderSidebar(m) {
+  return `
+    <div class="md-cta-box">
+      <h3>Essa marca te inspirou?</h3>
+      <p>Registre a sua antes que outra empresa o faça. Nosso especialista cuida de tudo em até 10 dias úteis.</p>
+      <a href="https://wa.me/5548984283696?text=Quero%20registrar%20minha%20marca%20inspirada%20em%20${encodeURIComponent(m.nome)}" class="md-cta-wa" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Registrar minha marca
+      </a>
+      <a href="/verificar-marca" class="md-cta-ver">Verificar minha marca →</a>
+    </div>`;
+}
+
+// ── Carrega dados e monta a página ────────────────────────────────
+async function carregarMarca() {
+  const p = new URLSearchParams(location.search).get('p');
+
+  if (!p) {
+    mostrar404();
+    return;
+  }
+
+  try {
+    const [{ data: marca, error: errM }, { data: despachos }] = await Promise.all([
+      sb.from('marcas').select('*').eq('processo', p).maybeSingle(),
+      sb.from('marcas_despachos').select('*').eq('processo', p).order('rpi_data', { ascending: false }),
+    ]);
+
+    if (errM) throw errM;
+
+    if (!marca) {
+      mostrar404();
+      return;
+    }
+
+    // Título dinâmico e meta
+    document.title = `${marca.nome} — Processo ${marca.processo} | HotMarcas`;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.content = `Dados do processo ${marca.processo}: ${marca.nome}. Titular: ${marca.titular || ''}. Situação: ${marca.situacao || ''}.`;
+
+    // Monta a página
+    document.getElementById('md-hero').innerHTML = renderHero(marca);
+    document.getElementById('md-main').innerHTML =
+      renderDados(marca) + renderTitular(marca) + renderClasses(marca) + renderDespachos(despachos || []);
+    document.getElementById('md-sidebar').innerHTML = renderSidebar(marca);
+
+    // Exibe conteúdo, esconde loading, ativa CTA mobile
+    document.getElementById('md-loading').style.display = 'none';
+    document.getElementById('md-content').style.display = 'block';
+    document.getElementById('md-mobile-cta').style.display = 'flex';
+  } catch (err) {
+    mostrar404();
+    console.error('Erro ao carregar marca:', err);
+  }
+}
+
+function mostrar404() {
+  document.getElementById('md-loading').style.display = 'none';
+  document.getElementById('md-404').style.display = 'block';
+  document.title = 'Processo não encontrado | HotMarcas';
+}
+
+// ── Init ──────────────────────────────────────────────────────────
+carregarMarca();
+</script>
+
+<script defer src="/assets/main.js"></script>
+</body>
+</html>
