@@ -14,22 +14,45 @@ jobs:
   ingerir:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
-      - name: Instalar dependências
-        run: npm install
-        working-directory: scripts
-
-      - name: Executar ingestão
-        run: node ingestao-rpi.mjs --inicio ${{ inputs.rpi_inicio }} --fim ${{ inputs.rpi_fim }}
-        working-directory: scripts
+      - name: Ingerir RPIs via Edge Function
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-        # Erros parciais de RPI são tratados no script e não cancelam o workflow
+          RPI_INICIO: ${{ inputs.rpi_inicio }}
+          RPI_FIM: ${{ inputs.rpi_fim }}
+        run: |
+          # Determina direção (mais recente → mais antigo)
+          if [ "$RPI_INICIO" -ge "$RPI_FIM" ]; then
+            STEP=-1
+          else
+            STEP=1
+          fi
+
+          TOTAL=0
+          ERROS=0
+
+          rpi=$RPI_INICIO
+          while true; do
+            echo "▶ Processando RPI $rpi..."
+            RESULT=$(curl -s --max-time 180 -X POST \
+              "${SUPABASE_URL}/functions/v1/ingestao-rpi" \
+              -H "Authorization: Bearer ${SUPABASE_SERVICE_ROLE_KEY}" \
+              -H "Content-Type: application/json" \
+              -d "{\"rpi_numero\": $rpi}")
+
+            echo "  $RESULT"
+
+            if echo "$RESULT" | grep -q '"error"'; then
+              echo "  ⚠ RPI $rpi falhou"
+              ERROS=$((ERROS + 1))
+            else
+              MARCAS=$(echo "$RESULT" | grep -o '"marcas":[0-9]*' | grep -o '[0-9]*$')
+              TOTAL=$((TOTAL + ${MARCAS:-0}))
+            fi
+
+            [ "$rpi" -eq "$RPI_FIM" ] && break
+            rpi=$((rpi + STEP))
+          done
+
+          echo ""
+          echo "✅ Concluído: $TOTAL marcas processadas | $ERROS erros"
