@@ -1,0 +1,39 @@
+name: Importação Dados Abertos INPI
+
+on:
+  workflow_dispatch:
+    inputs:
+      com_despachos:
+        description: "Importar despachos? (5.7 GB — pode demorar 3+ horas)"
+        type: boolean
+        default: false
+  schedule:
+    # Toda terça às 09:00 UTC (06:00 BRT) — INPI publica RPI às terças
+    - cron: '0 9 * * 2'
+
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependências
+        run: npm install
+        working-directory: scripts
+
+      - name: Importar Dados Abertos INPI
+        working-directory: scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          ARGS=""
+          if [ "${{ inputs.com_despachos }}" = "true" ]; then
+            ARGS="$ARGS --com-despachos"
+          fi
+          node importar-dados-abertos.mjs $ARGS
