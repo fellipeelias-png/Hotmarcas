@@ -34,7 +34,7 @@ Deno.serve(async (req: Request) => {
 
   // Valida token
   const token = req.headers.get("Authorization")?.replace("Bearer ", "");
-  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  const serviceKey = Deno.env.get("SERVICE_ROLE_KEY");
   if (!token || token !== serviceKey) {
     return json({ error: "Unauthorized" }, 401);
   }
@@ -53,7 +53,7 @@ Deno.serve(async (req: Request) => {
 
   const sb = createClient(
     Deno.env.get("SUPABASE_URL")!,
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+    Deno.env.get("SERVICE_ROLE_KEY")!,
   );
 
   const t0 = Date.now();
