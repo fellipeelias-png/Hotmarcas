@@ -31,7 +31,7 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
 
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 const BASE = "https://dadosabertos.inpi.gov.br/download/marcas";
-const LOTE = 1000;
+const LOTE = 300;
 
 const args = process.argv.slice(2);
 const comDespachos = args.includes("--com-despachos");
@@ -41,7 +41,7 @@ async function streamCSV(label, url, mapRow, onBatch) {
   console.log(`\n▶ ${label}`);
   const res = await fetch(url, {
     headers: { "User-Agent": "HotMarcas/1.0 (hotmarcas.com.br)" },
-    signal: AbortSignal.timeout(600_000),
+    signal: AbortSignal.timeout(7_200_000),
   });
   if (!res.ok) throw new Error(`HTTP ${res.status} em ${url}`);
 
