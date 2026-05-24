@@ -36,6 +36,14 @@ nav{position:fixed;inset:34px 0 auto;z-index:300;height:64px;display:grid;grid-t
 .nav-cta{display:inline-flex;align-items:center;gap:6px;background:var(--a)!important;color:#fff!important;padding:8px 18px!important;border-radius:100px!important;font-size:13px!important;font-weight:700!important;text-decoration:none;white-space:nowrap;transition:opacity .15s;}
 .nav-cta:hover{opacity:.85!important;}
 .nav-hl{color:var(--al)!important;font-weight:600!important;}
+.nav-dd{position:relative;}
+.nav-dd-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--navy-d);border:1px solid rgba(255,255,255,.10);border-radius:var(--rm);padding:6px;min-width:220px;z-index:400;box-shadow:0 8px 32px rgba(0,0,0,.25);}
+.nav-dd.open .nav-dd-menu{display:block;}
+.nav-dd-menu a{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);font-size:13px;color:rgba(240,239,231,.75);text-decoration:none;transition:background .15s,color .15s;white-space:nowrap;}
+.nav-dd-menu a:hover{background:rgba(255,255,255,.08);color:#fff;}
+.nav-dd-trigger svg{width:10px;height:8px;transition:transform .2s;}
+.nav-dd.open .nav-dd-trigger svg{transform:rotate(180deg);}
+.dd-emoji{font-size:14px;}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none;}
 .hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;transition:all .3s ease;}
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
