@@ -92,7 +92,7 @@ async function streamCSV(label, url, mapRow, onBatch) {
 async function streamCSVComRetry(label, url, mapRow, onBatch, maxRetries = 5) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      return await streamCSVComRetry(label, url, mapRow, onBatch);
+      return await streamCSV(label, url, mapRow, onBatch);
     } catch (e) {
       if (attempt === maxRetries) throw e;
       const espera = attempt * 15;
