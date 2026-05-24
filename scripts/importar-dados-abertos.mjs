@@ -45,32 +45,38 @@ async function streamCSV(label, url, mapRow, onBatch) {
   });
   if (!res.ok) throw new Error(`HTTP ${res.status} em ${url}`);
 
-  const parser = Readable.fromWeb(res.body).pipe(
-    parse({ columns: true, trim: true, skip_empty_lines: true, bom: true, relax_column_count: true })
-  );
+  const source = Readable.fromWeb(res.body);
+  const parser = parse({ columns: true, trim: true, skip_empty_lines: true, bom: true, relax_column_count: true });
+  // .pipe() não propaga erros — encaminhamos manualmente
+  source.on("error", (err) => parser.destroy(err));
+  source.pipe(parser);
 
   let batch = [], total = 0, erros = 0;
   const t0 = Date.now();
 
-  for await (const row of parser) {
-    const mapped = mapRow(row);
-    if (!mapped) continue;
-    batch.push(mapped);
+  try {
+    for await (const row of parser) {
+      const mapped = mapRow(row);
+      if (!mapped) continue;
+      batch.push(mapped);
 
-    if (batch.length >= LOTE) {
-      try {
-        await onBatch(batch);
-        total += batch.length;
-      } catch (e) {
-        console.error(`  ⚠ erro no lote ~${total}: ${e.message}`);
-        erros++;
-      }
-      batch = [];
-      if (total % 100_000 === 0) {
-        const s = Math.round((Date.now() - t0) / 1000);
-        console.log(`  ${total.toLocaleString()} linhas... (${s}s)`);
+      if (batch.length >= LOTE) {
+        try {
+          await onBatch(batch);
+          total += batch.length;
+        } catch (e) {
+          console.error(`  ⚠ erro no lote ~${total}: ${e.message}`);
+          erros++;
+        }
+        batch = [];
+        if (total % 100_000 === 0) {
+          const s = Math.round((Date.now() - t0) / 1000);
+          console.log(`  ${total.toLocaleString()} linhas... (${s}s)`);
+        }
       }
     }
+  } finally {
+    source.destroy();
   }
 
   if (batch.length > 0) {
@@ -81,6 +87,20 @@ async function streamCSV(label, url, mapRow, onBatch) {
   const s = Math.round((Date.now() - t0) / 1000);
   console.log(`  ✓ ${total.toLocaleString()} linhas | ${erros} erros | ${s}s`);
   return { total, erros };
+}
+
+async function streamCSVComRetry(label, url, mapRow, onBatch, maxRetries = 5) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await streamCSVComRetry(label, url, mapRow, onBatch);
+    } catch (e) {
+      if (attempt === maxRetries) throw e;
+      const espera = attempt * 15;
+      console.error(`  ↺ conexão perdida (tentativa ${attempt}/${maxRetries}): ${e.message}`);
+      console.error(`  aguardando ${espera}s antes de reconectar...`);
+      await new Promise(r => setTimeout(r, espera * 1000));
+    }
+  }
 }
 
 // ── Helper tipo ───────────────────────────────────────────────────
@@ -94,7 +114,7 @@ function resolverTipo(a) {
 }
 
 // ── Fase 1: Dados Bibliográficos → marcas ─────────────────────────
-await streamCSV(
+await streamCSVComRetry(
   "MARCAS_DADOS_BIBLIOGRAFICOS → marcas",
   `${BASE}/MARCAS_DADOS_BIBLIOGRAFICOS.csv`,
   (row) => {
@@ -123,7 +143,7 @@ await streamCSV(
 );
 
 // ── Fase 2: Depositantes → titular, cnpj, procurador ─────────────
-await streamCSV(
+await streamCSVComRetry(
   "MARCAS_DEPOSITANTES → titular",
   `${BASE}/MARCAS_DEPOSITANTES.csv`,
   (row) => {
@@ -143,7 +163,7 @@ await streamCSV(
 
 // ── Fase 3: Despachos (opcional) ──────────────────────────────────
 if (comDespachos) {
-  await streamCSV(
+  await streamCSVComRetry(
     "MARCAS_DESPACHOS → marcas_despachos",
     `${BASE}/MARCAS_DESPACHOS.csv`,
     (row) => {
