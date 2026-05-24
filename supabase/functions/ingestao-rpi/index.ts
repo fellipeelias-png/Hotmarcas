@@ -139,8 +139,20 @@ async function baixarZip(rpiNumero: number): Promise<Uint8Array> {
     },
     signal: AbortSignal.timeout(120_000),
   });
+  const contentType = res.headers.get("content-type") ?? "desconhecido";
+  const finalUrl = res.url;
+  console.log(`INPI HTTP ${res.status} | content-type: ${contentType} | url final: ${finalUrl}`);
   if (!res.ok) throw new Error(`HTTP ${res.status} ao baixar RPI ${rpiNumero}`);
   const buf = await res.arrayBuffer();
+  // Verifica assinatura ZIP (bytes PK = 0x50 0x4B)
+  const first4 = new Uint8Array(buf.slice(0, 4));
+  console.log(`Primeiros bytes: ${Array.from(first4).map(b => b.toString(16).padStart(2,'0')).join(' ')}`);
+  if (first4[0] !== 0x50 || first4[1] !== 0x4B) {
+    // Loga início do conteúdo para diagnóstico
+    const preview = new TextDecoder().decode(buf.slice(0, 300));
+    console.error(`Conteúdo não é ZIP. Preview: ${preview}`);
+    throw new Error(`Resposta não é um ZIP válido (HTTP ${res.status}, content-type: ${contentType}). Preview: ${preview.slice(0, 120)}`);
+  }
   return new Uint8Array(buf);
 }
 
