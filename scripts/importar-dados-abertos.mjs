@@ -36,11 +36,33 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
 
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 const BASE = "https://dadosabertos.inpi.gov.br/download/marcas";
-const LOTE = 300;
+const LOTE = 100;          // Nano free tier: lotes pequenos para não saturar CPU
+const PAUSA_MS = 200;      // Pausa entre lotes (ms) — dá respiro ao banco
 const CSV_DIR = process.env.INPI_CSV_DIR || null;
 
 const args = process.argv.slice(2);
 const comDespachos = args.includes("--com-despachos");
+
+// ── Upsert com split recursivo em caso de statement timeout ───────
+// Erros fatais do Supabase (schema cache, projeto pausado) são re-lançados
+// imediatamente para abortar o stream em vez de continuar sem inserir nada.
+const ERROS_FATAIS = ['schema cache', 'project is paused', 'connection refused', 'ECONNREFUSED'];
+
+async function upsertComSplit(tabela, batch, opts, depth = 0) {
+  const { error } = await sb.from(tabela).upsert(batch, opts);
+  if (!error) return;
+  const msg = error.message || '';
+  if (ERROS_FATAIS.some(e => msg.toLowerCase().includes(e.toLowerCase()))) {
+    throw Object.assign(new Error(msg), { fatal: true });
+  }
+  if (msg.includes('statement timeout') && batch.length > 1 && depth < 5) {
+    const mid = Math.floor(batch.length / 2);
+    await upsertComSplit(tabela, batch.slice(0, mid), opts, depth + 1);
+    await upsertComSplit(tabela, batch.slice(mid), opts, depth + 1);
+  } else {
+    throw new Error(msg);
+  }
+}
 
 // ── Fonte: arquivo local ou URL ───────────────────────────────────
 function abrirFonte(nomeArquivo, url) {
@@ -104,10 +126,12 @@ async function streamCSV(label, nomeArquivo, url, mapRow, onBatch) {
           await onBatch(batch);
           total += batch.length;
         } catch (e) {
+          if (e.fatal) throw e; // aborta imediatamente em erros fatais do Supabase
           console.error(`  ⚠ erro no lote ~${total}: ${e.message}`);
           erros++;
         }
         batch = [];
+        if (PAUSA_MS > 0) await new Promise(r => setTimeout(r, PAUSA_MS));
         if (total % 100_000 === 0) {
           const s = Math.round((Date.now() - t0) / 1000);
           console.log(`  ${total.toLocaleString()} linhas... (${s}s)`);
@@ -154,7 +178,7 @@ function resolverTipo(a) {
   return a || null;
 }
 
-// ── Fase 1: Dados Bibliográficos → marcas ─────────────────────────
+// ── Fase 1: Dados Bibliográficos → marcas ────────────────────────
 await streamCSVComRetry(
   "MARCAS_DADOS_BIBLIOGRAFICOS → marcas",
   "MARCAS_DADOS_BIBLIOGRAFICOS.csv",
@@ -179,8 +203,7 @@ await streamCSVComRetry(
     };
   },
   async (batch) => {
-    const { error } = await sb.from("marcas").upsert(batch, { onConflict: "processo" });
-    if (error) throw new Error(error.message);
+    await upsertComSplit("marcas", batch, { onConflict: "processo" });
   }
 );
 
@@ -199,8 +222,7 @@ await streamCSVComRetry(
     };
   },
   async (batch) => {
-    const { error } = await sb.from("marcas").upsert(batch, { onConflict: "processo" });
-    if (error) throw new Error(error.message);
+    await upsertComSplit("marcas", batch, { onConflict: "processo" });
   }
 );
 
@@ -225,7 +247,7 @@ if (comDespachos) {
       };
     },
     async (batch) => {
-      await sb.from("marcas_despachos").upsert(batch, {
+      await upsertComSplit("marcas_despachos", batch, {
         onConflict: "processo,rpi_numero,codigo_despacho",
         ignoreDuplicates: true,
       });
