@@ -738,12 +738,32 @@ function renderSidebar(m) {
     </div>`;
 }
 
+// ── Mock data para modo demo ──────────────────────────────────────
+const MOCK_MARCAS = {
+  '902273048': { processo:'902273048', nome:'NATURA', titular:'NATURA COSMÉTICOS S.A.', cnpj_cpf:'71.673.990/0001-77', procurador:'DANNEMANN SIEMSEN BIGLER & IPANEMA MOREIRA', situacao:'Registro Concedido', situacao_codigo:'312', tipo:'Nominativa', apresentacao:'Nominativa', natureza:'De Produto', data_deposito:'2015-03-15', data_concessao:'2019-08-06', data_vencimento:'2029-08-06', classes_ncl:['3','44'], tem_imagem:false, imagem_url_inpi:null },
+  '910284763': { processo:'910284763', nome:'NUBANK', titular:'NU PAGAMENTOS S.A.', cnpj_cpf:'18.236.120/0001-58', procurador:null, situacao:'Registro Concedido', situacao_codigo:'312', tipo:'Mista', apresentacao:'Mista', natureza:'De Serviço', data_deposito:'2018-06-10', data_concessao:'2022-01-18', data_vencimento:'2032-01-18', classes_ncl:['36'], tem_imagem:false, imagem_url_inpi:null },
+  '830192847': { processo:'830192847', nome:'IFOOD', titular:'IFD PARTICIPAÇÕES S.A.', cnpj_cpf:'14.380.200/0001-21', procurador:'VEIRANO ADVOGADOS', situacao:'Registro Concedido', situacao_codigo:'312', tipo:'Mista', apresentacao:'Mista', natureza:'De Serviço', data_deposito:'2014-09-22', data_concessao:'2018-04-10', data_vencimento:'2028-04-10', classes_ncl:['39','43'], tem_imagem:false, imagem_url_inpi:null },
+  '820374521': { processo:'820374521', nome:'HOTMARCAS', titular:'HOTMARCAS ASSESSORIA EM MARCAS LTDA', cnpj_cpf:'61.405.919/0001-50', procurador:null, situacao:'Em Exame', situacao_codigo:'230', tipo:'Nominativa', apresentacao:'Nominativa', natureza:'De Serviço', data_deposito:'2024-01-20', data_concessao:null, data_vencimento:null, classes_ncl:['45'], tem_imagem:false, imagem_url_inpi:null },
+};
+const MOCK_DESPACHOS = {
+  '902273048': [
+    { rpi_numero:2529, rpi_data:'2019-08-06', codigo_despacho:'CONC', descricao_despacho:'Registro Concedido', complemento:null },
+    { rpi_numero:2471, rpi_data:'2018-06-19', codigo_despacho:'DESO', descricao_despacho:'Deferido após Oposição', complemento:null },
+    { rpi_numero:2403, rpi_data:'2017-03-28', codigo_despacho:'6.1', descricao_despacho:'Publicado', complemento:'Prazo para Oposição: 60 dias' },
+    { rpi_numero:2347, rpi_data:'2016-03-08', codigo_despacho:'INIC', descricao_despacho:'Pedido de Registro Iniciado', complemento:null },
+  ],
+};
+
 // ── Carrega dados e monta a página ────────────────────────────────
 async function carregarMarca() {
-  const p = new URLSearchParams(location.search).get('p');
+  const params = new URLSearchParams(location.search);
+  const p = params.get('p');
+  const isDemo = params.has('demo') || (p && MOCK_MARCAS[p]);
 
-  if (!p) {
-    mostrar404();
+  if (!p) { mostrar404(); return; }
+
+  if (isDemo && MOCK_MARCAS[p]) {
+    montarPagina(MOCK_MARCAS[p], MOCK_DESPACHOS[p] || []);
     return;
   }
 
@@ -754,31 +774,28 @@ async function carregarMarca() {
     ]);
 
     if (errM) throw errM;
+    if (!marca) { mostrar404(); return; }
 
-    if (!marca) {
-      mostrar404();
-      return;
-    }
-
-    // Título dinâmico e meta
-    document.title = `${marca.nome} — Processo ${marca.processo} | HotMarcas`;
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.content = `Dados do processo ${marca.processo}: ${marca.nome}. Titular: ${marca.titular || ''}. Situação: ${marca.situacao || ''}.`;
-
-    // Monta a página
-    document.getElementById('md-hero').innerHTML = renderHero(marca);
-    document.getElementById('md-main').innerHTML =
-      renderDados(marca) + renderTitular(marca) + renderClasses(marca) + renderDespachos(despachos || []);
-    document.getElementById('md-sidebar').innerHTML = renderSidebar(marca);
-
-    // Exibe conteúdo, esconde loading, ativa CTA mobile
-    document.getElementById('md-loading').style.display = 'none';
-    document.getElementById('md-content').style.display = 'block';
-    document.getElementById('md-mobile-cta').style.display = 'flex';
+    montarPagina(marca, despachos || []);
   } catch (err) {
     mostrar404();
     console.error('Erro ao carregar marca:', err);
   }
+}
+
+function montarPagina(marca, despachos) {
+  document.title = `${marca.nome} — Processo ${marca.processo} | HotMarcas`;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.content = `Dados do processo ${marca.processo}: ${marca.nome}. Titular: ${marca.titular || ''}. Situação: ${marca.situacao || ''}.`;
+
+  document.getElementById('md-hero').innerHTML = renderHero(marca);
+  document.getElementById('md-main').innerHTML =
+    renderDados(marca) + renderTitular(marca) + renderClasses(marca) + renderDespachos(despachos);
+  document.getElementById('md-sidebar').innerHTML = renderSidebar(marca);
+
+  document.getElementById('md-loading').style.display = 'none';
+  document.getElementById('md-content').style.display = 'block';
+  document.getElementById('md-mobile-cta').style.display = 'flex';
 }
 
 function mostrar404() {

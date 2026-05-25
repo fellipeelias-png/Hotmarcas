@@ -26,11 +26,44 @@ jobs:
         run: npm install
         working-directory: scripts
 
+      - name: Download CSVs do INPI (com retry e resume)
+        run: |
+          BASE="https://dadosabertos.inpi.gov.br/download/marcas"
+          DEST="/tmp/inpi"
+          mkdir -p "$DEST"
+
+          download_com_retry() {
+            local arquivo="$1"
+            local destino="$DEST/$arquivo"
+            for tentativa in 1 2 3 4 5 6 7 8 9 10; do
+              echo "⬇ $arquivo (tentativa $tentativa/10)..."
+              # wget -c retoma download interrompido se o servidor suportar Range
+              wget -c --timeout=700 --tries=1 --waitretry=0 \
+                   -q --show-progress \
+                   -O "$destino" \
+                   "$BASE/$arquivo" && echo "✓ $arquivo baixado" && return 0
+              echo "  conexão perdida, aguardando 60s..."
+              sleep 60
+            done
+            echo "✗ Falha ao baixar $arquivo após 10 tentativas"
+            return 1
+          }
+
+          download_com_retry "MARCAS_DADOS_BIBLIOGRAFICOS.csv"
+          download_com_retry "MARCAS_DEPOSITANTES.csv"
+          if [ "${{ inputs.com_despachos }}" = "true" ]; then
+            download_com_retry "MARCAS_DESPACHOS.csv"
+          fi
+
+          echo "Tamanhos dos arquivos:"
+          ls -lh "$DEST"
+
       - name: Importar Dados Abertos INPI
         working-directory: scripts
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          INPI_CSV_DIR: /tmp/inpi
         run: |
           ARGS=""
           if [ "${{ inputs.com_despachos }}" = "true" ]; then
