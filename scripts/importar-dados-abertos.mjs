@@ -36,7 +36,8 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
 
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 const BASE = "https://dadosabertos.inpi.gov.br/download/marcas";
-const LOTE = 500;
+const LOTE = 100;          // Nano free tier: lotes pequenos para não saturar CPU
+const PAUSA_MS = 200;      // Pausa entre lotes (ms) — dá respiro ao banco
 const CSV_DIR = process.env.INPI_CSV_DIR || null;
 
 const args = process.argv.slice(2);
@@ -130,6 +131,7 @@ async function streamCSV(label, nomeArquivo, url, mapRow, onBatch) {
           erros++;
         }
         batch = [];
+        if (PAUSA_MS > 0) await new Promise(r => setTimeout(r, PAUSA_MS));
         if (total % 100_000 === 0) {
           const s = Math.round((Date.now() - t0) / 1000);
           console.log(`  ${total.toLocaleString()} linhas... (${s}s)`);
@@ -176,58 +178,53 @@ function resolverTipo(a) {
   return a || null;
 }
 
-// ── Fases 1 e 2 em paralelo (colunas disjuntas — sem risco de overwrite) ──
-await Promise.all([
+// ── Fase 1: Dados Bibliográficos → marcas ────────────────────────
+await streamCSVComRetry(
+  "MARCAS_DADOS_BIBLIOGRAFICOS → marcas",
+  "MARCAS_DADOS_BIBLIOGRAFICOS.csv",
+  `${BASE}/MARCAS_DADOS_BIBLIOGRAFICOS.csv`,
+  (row) => {
+    const nome = (row.elemento_nominativo ?? "").trim();
+    if (!nome || !row.numero_inpi) return null;
+    const ap = (row.descricao_apresentacao ?? "").trim();
+    return {
+      processo:        row.numero_inpi.trim(),
+      nome,
+      apresentacao:    ap || null,
+      natureza:        (row.descricao_natureza ?? "").trim() || null,
+      tipo:            resolverTipo(ap),
+      data_deposito:   row.data_deposito   || null,
+      data_concessao:  row.data_concessao  || null,
+      data_vencimento: row.data_vigencia   || null,
+      situacao:        (row.descricao_situacao ?? "").trim() || null,
+      situacao_codigo: (row.codigo_situacao ?? "").trim()    || null,
+      tem_imagem:      false,
+      imagem_url_inpi: null,
+    };
+  },
+  async (batch) => {
+    await upsertComSplit("marcas", batch, { onConflict: "processo" });
+  }
+);
 
-  // Fase 1: Dados Bibliográficos → marcas
-  streamCSVComRetry(
-    "MARCAS_DADOS_BIBLIOGRAFICOS → marcas",
-    "MARCAS_DADOS_BIBLIOGRAFICOS.csv",
-    `${BASE}/MARCAS_DADOS_BIBLIOGRAFICOS.csv`,
-    (row) => {
-      const nome = (row.elemento_nominativo ?? "").trim();
-      if (!nome || !row.numero_inpi) return null;
-      const ap = (row.descricao_apresentacao ?? "").trim();
-      return {
-        processo:        row.numero_inpi.trim(),
-        nome,
-        apresentacao:    ap || null,
-        natureza:        (row.descricao_natureza ?? "").trim() || null,
-        tipo:            resolverTipo(ap),
-        data_deposito:   row.data_deposito   || null,
-        data_concessao:  row.data_concessao  || null,
-        data_vencimento: row.data_vigencia   || null,
-        situacao:        (row.descricao_situacao ?? "").trim() || null,
-        situacao_codigo: (row.codigo_situacao ?? "").trim()    || null,
-        tem_imagem:      false,
-        imagem_url_inpi: null,
-      };
-    },
-    async (batch) => {
-      await upsertComSplit("marcas", batch, { onConflict: "processo" });
-    }
-  ),
-
-  // Fase 2: Depositantes → titular, cnpj, procurador
-  streamCSVComRetry(
-    "MARCAS_DEPOSITANTES → titular",
-    "MARCAS_DEPOSITANTES.csv",
-    `${BASE}/MARCAS_DEPOSITANTES.csv`,
-    (row) => {
-      if (!row.numero_inpi) return null;
-      return {
-        processo:   row.numero_inpi.trim(),
-        titular:    (row.nome ?? "").trim() || null,
-        cnpj_cpf:   (row.cnpj_cpf_titular ?? "").trim() || null,
-        procurador: (row.nome_representante_legal ?? "").trim() || null,
-      };
-    },
-    async (batch) => {
-      await upsertComSplit("marcas", batch, { onConflict: "processo" });
-    }
-  ),
-
-]);
+// ── Fase 2: Depositantes → titular, cnpj, procurador ─────────────
+await streamCSVComRetry(
+  "MARCAS_DEPOSITANTES → titular",
+  "MARCAS_DEPOSITANTES.csv",
+  `${BASE}/MARCAS_DEPOSITANTES.csv`,
+  (row) => {
+    if (!row.numero_inpi) return null;
+    return {
+      processo:   row.numero_inpi.trim(),
+      titular:    (row.nome ?? "").trim() || null,
+      cnpj_cpf:   (row.cnpj_cpf_titular ?? "").trim() || null,
+      procurador: (row.nome_representante_legal ?? "").trim() || null,
+    };
+  },
+  async (batch) => {
+    await upsertComSplit("marcas", batch, { onConflict: "processo" });
+  }
+);
 
 // ── Fase 3: Despachos (opcional) ──────────────────────────────────
 if (comDespachos) {
