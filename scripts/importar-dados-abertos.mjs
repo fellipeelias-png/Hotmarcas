@@ -44,14 +44,18 @@ const args = process.argv.slice(2);
 const comDespachos = args.includes("--com-despachos");
 
 // ── Upsert com split recursivo em caso de statement timeout ───────
-// Erros fatais do Supabase (schema cache, projeto pausado) são re-lançados
-// imediatamente para abortar o stream em vez de continuar sem inserir nada.
-const ERROS_FATAIS = ['schema cache', 'project is paused', 'connection refused', 'ECONNREFUSED'];
+// Erros fatais (projeto pausado, recusa de conexão) abortam imediatamente.
+// Schema cache é temporário (banco aquecendo) — recebe retry com backoff.
+const ERROS_FATAIS = ['project is paused', 'connection refused', 'ECONNREFUSED'];
 
 async function upsertComSplit(tabela, batch, opts, depth = 0) {
   const { error } = await sb.from(tabela).upsert(batch, opts);
   if (!error) return;
   const msg = error.message || '';
+  if (msg.toLowerCase().includes('schema cache') && depth < 3) {
+    await new Promise(r => setTimeout(r, 20_000));
+    return upsertComSplit(tabela, batch, opts, depth + 1);
+  }
   if (ERROS_FATAIS.some(e => msg.toLowerCase().includes(e.toLowerCase()))) {
     throw Object.assign(new Error(msg), { fatal: true });
   }
@@ -62,6 +66,21 @@ async function upsertComSplit(tabela, batch, opts, depth = 0) {
   } else {
     throw new Error(msg);
   }
+}
+
+// ── Warmup: aguarda Supabase responder antes de começar ──────────
+async function aguardarSupabase(maxTentativas = 10, intervaloMs = 30_000) {
+  for (let i = 1; i <= maxTentativas; i++) {
+    const { error } = await sb.from('marcas').select('processo').limit(1);
+    if (!error) { console.log('  ✓ Supabase pronto'); return; }
+    const msg = error.message || '';
+    if (ERROS_FATAIS.some(e => msg.toLowerCase().includes(e.toLowerCase()))) {
+      throw Object.assign(new Error(msg), { fatal: true });
+    }
+    console.log(`  ⏳ Supabase não pronto (tentativa ${i}/${maxTentativas}): ${msg}`);
+    if (i < maxTentativas) await new Promise(r => setTimeout(r, intervaloMs));
+  }
+  throw new Error('Supabase não respondeu após aguardar');
 }
 
 // ── Fonte: arquivo local ou URL ───────────────────────────────────
@@ -177,6 +196,10 @@ function resolverTipo(a) {
   if (l.includes("tridi"))   return "Tridimensional";
   return a || null;
 }
+
+// ── Warmup ────────────────────────────────────────────────────────
+console.log('\n⏳ Aguardando Supabase ficar pronto...');
+await aguardarSupabase();
 
 // ── Fase 1: Dados Bibliográficos → marcas ────────────────────────
 await streamCSVComRetry(
