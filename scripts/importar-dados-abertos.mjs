@@ -6,6 +6,9 @@
  *   node importar-dados-abertos.mjs                  # marcas + titular
  *   node importar-dados-abertos.mjs --com-despachos  # + despachos (5.7 GB, lento)
  *
+ * Quando INPI_CSV_DIR está definido, lê arquivos locais em vez de baixar da rede.
+ * O workflow baixa os CSVs via wget antes de chamar este script.
+ *
  * Mapeamento de colunas:
  *   MARCAS_DADOS_BIBLIOGRAFICOS → marcas (processo, nome, tipo, situação, datas)
  *   MARCAS_DEPOSITANTES         → marcas (titular, cnpj_cpf, procurador)
@@ -14,6 +17,7 @@
 
 import { createClient } from "@supabase/supabase-js";
 import { parse } from "csv-parse";
+import { createReadStream, existsSync } from "fs";
 import https from "https";
 import http from "http";
 import dotenv from "dotenv";
@@ -33,14 +37,23 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 const BASE = "https://dadosabertos.inpi.gov.br/download/marcas";
 const LOTE = 300;
+const CSV_DIR = process.env.INPI_CSV_DIR || null;
 
 const args = process.argv.slice(2);
 const comDespachos = args.includes("--com-despachos");
 
+// ── Fonte: arquivo local ou URL ───────────────────────────────────
+function abrirFonte(nomeArquivo, url) {
+  if (CSV_DIR) {
+    const caminho = resolve(CSV_DIR, nomeArquivo);
+    if (!existsSync(caminho)) throw new Error(`Arquivo não encontrado: ${caminho}`);
+    console.log(`  (lendo arquivo local: ${caminho})`);
+    return Promise.resolve(createReadStream(caminho));
+  }
+  return httpGetStream(url);
+}
+
 // ── HTTP GET com suporte a redirecionamentos ──────────────────────
-// Usa https/http nativos em vez de fetch/undici para evitar o bug
-// em que erros de socket TCP são lançados fora da cadeia de promises
-// causando TypeError: terminated não capturável.
 function httpGetStream(urlStr, redirects = 5) {
   return new Promise((resolve, reject) => {
     const parsed = new URL(urlStr);
@@ -57,25 +70,25 @@ function httpGetStream(urlStr, redirects = 5) {
       }
       resolve(res);
     });
-    // Inatividade de 30 min: captura hang sem dados (socket idle)
     req.setTimeout(1_800_000, () => req.destroy(new Error("timeout: sem dados por 30min")));
     req.on("error", reject);
   });
 }
 
 // ── Stream + upsert genérico ──────────────────────────────────────
-async function streamCSV(label, url, mapRow, onBatch) {
+async function streamCSV(label, nomeArquivo, url, mapRow, onBatch) {
   console.log(`\n▶ ${label}`);
-  const res = await httpGetStream(url);
-  if (res.statusCode !== 200) {
-    res.destroy();
-    throw new Error(`HTTP ${res.statusCode} em ${url}`);
+  const source = await abrirFonte(nomeArquivo, url);
+
+  // Verifica statusCode apenas para respostas HTTP (não para ReadStream local)
+  if (source.statusCode !== undefined && source.statusCode !== 200) {
+    source.destroy();
+    throw new Error(`HTTP ${source.statusCode} em ${url}`);
   }
 
   const parser = parse({ columns: true, trim: true, skip_empty_lines: true, bom: true, relax_column_count: true });
-  // Erros de socket chegam via res.on("error") — propagamos ao parser
-  res.on("error", (err) => { if (!parser.destroyed) parser.destroy(err); });
-  res.pipe(parser);
+  source.on("error", (err) => { if (!parser.destroyed) parser.destroy(err); });
+  source.pipe(parser);
 
   let batch = [], total = 0, erros = 0;
   const t0 = Date.now();
@@ -102,7 +115,7 @@ async function streamCSV(label, url, mapRow, onBatch) {
       }
     }
   } finally {
-    if (!res.destroyed) res.destroy();
+    if (!source.destroyed) source.destroy();
   }
 
   if (batch.length > 0) {
@@ -115,14 +128,16 @@ async function streamCSV(label, url, mapRow, onBatch) {
   return { total, erros };
 }
 
-async function streamCSVComRetry(label, url, mapRow, onBatch, maxRetries = 5) {
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+// Retry só faz sentido quando lendo da rede; com arquivo local, não é necessário
+async function streamCSVComRetry(label, nomeArquivo, url, mapRow, onBatch, maxRetries = 5) {
+  const tentativas = CSV_DIR ? 1 : maxRetries;
+  for (let attempt = 1; attempt <= tentativas; attempt++) {
     try {
-      return await streamCSV(label, url, mapRow, onBatch);
+      return await streamCSV(label, nomeArquivo, url, mapRow, onBatch);
     } catch (e) {
-      if (attempt === maxRetries) throw e;
+      if (attempt === tentativas) throw e;
       const espera = attempt * 15;
-      console.error(`  ↺ conexão perdida (tentativa ${attempt}/${maxRetries}): ${e.message}`);
+      console.error(`  ↺ conexão perdida (tentativa ${attempt}/${tentativas}): ${e.message}`);
       console.error(`  aguardando ${espera}s antes de reconectar...`);
       await new Promise(r => setTimeout(r, espera * 1000));
     }
@@ -142,6 +157,7 @@ function resolverTipo(a) {
 // ── Fase 1: Dados Bibliográficos → marcas ─────────────────────────
 await streamCSVComRetry(
   "MARCAS_DADOS_BIBLIOGRAFICOS → marcas",
+  "MARCAS_DADOS_BIBLIOGRAFICOS.csv",
   `${BASE}/MARCAS_DADOS_BIBLIOGRAFICOS.csv`,
   (row) => {
     const nome = (row.elemento_nominativo ?? "").trim();
@@ -171,6 +187,7 @@ await streamCSVComRetry(
 // ── Fase 2: Depositantes → titular, cnpj, procurador ─────────────
 await streamCSVComRetry(
   "MARCAS_DEPOSITANTES → titular",
+  "MARCAS_DEPOSITANTES.csv",
   `${BASE}/MARCAS_DEPOSITANTES.csv`,
   (row) => {
     if (!row.numero_inpi) return null;
@@ -191,6 +208,7 @@ await streamCSVComRetry(
 if (comDespachos) {
   await streamCSVComRetry(
     "MARCAS_DESPACHOS → marcas_despachos",
+    "MARCAS_DESPACHOS.csv",
     `${BASE}/MARCAS_DESPACHOS.csv`,
     (row) => {
       if (!row.numero_inpi || !row.numero_rpi) return null;
