@@ -10,6 +10,7 @@
     "csv-parse": "^5",
     "fast-xml-parser": "^4",
     "adm-zip": "^0.5",
-    "dotenv": "^16"
+    "dotenv": "^16",
+    "pg": "^8"
   }
 }

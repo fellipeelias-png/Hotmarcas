@@ -15,7 +15,7 @@
  *   MARCAS_DESPACHOS            → marcas_despachos
  */
 
-import { createClient } from "@supabase/supabase-js";
+import pg from "pg";
 import { parse } from "csv-parse";
 import { createReadStream, existsSync } from "fs";
 import https from "https";
@@ -24,63 +24,114 @@ import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
 
+const { Pool } = pg;
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 dotenv.config({ path: resolve(__dirname, "../.env") });
 
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-if (!SUPABASE_URL || !SUPABASE_KEY) {
-  console.error("SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY não definidos.");
+const DATABASE_URL = process.env.DATABASE_URL;
+if (!DATABASE_URL) {
+  console.error("DATABASE_URL não definido.");
   process.exit(1);
 }
 
-const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+const pool = new Pool({
+  connectionString: DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+  max: 1,
+});
+
 const BASE = "https://dadosabertos.inpi.gov.br/download/marcas";
-const LOTE = 100;          // Nano free tier: lotes pequenos para não saturar CPU
-const PAUSA_MS = 200;      // Pausa entre lotes (ms) — dá respiro ao banco
+const LOTE = 1000;    // pg direto — sem overhead HTTP, lotes maiores são seguros
+const PAUSA_MS = 100; // pausa leve entre lotes para dar respiro ao trigger
 const CSV_DIR = process.env.INPI_CSV_DIR || null;
 
 const args = process.argv.slice(2);
 const comDespachos = args.includes("--com-despachos");
 
-// ── Upsert com split recursivo em caso de statement timeout ───────
-// Erros fatais (projeto pausado, recusa de conexão) abortam imediatamente.
-// Schema cache é temporário (banco aquecendo) — recebe retry com backoff.
-const ERROS_FATAIS = ['project is paused', 'connection refused', 'ECONNREFUSED'];
-
-async function upsertComSplit(tabela, batch, opts, depth = 0) {
-  const { error } = await sb.from(tabela).upsert(batch, opts);
-  if (!error) return;
-  const msg = error.message || '';
-  if (msg.toLowerCase().includes('schema cache') && depth < 3) {
-    await new Promise(r => setTimeout(r, 20_000));
-    return upsertComSplit(tabela, batch, opts, depth + 1);
+// ── Warmup: aguarda o banco responder antes de começar ────────────
+async function aguardarBanco(maxTentativas = 10, intervaloMs = 30_000) {
+  for (let i = 1; i <= maxTentativas; i++) {
+    try {
+      await pool.query("SELECT 1");
+      console.log("  ✓ Banco pronto");
+      return;
+    } catch (e) {
+      console.log(`  ⏳ Banco não pronto (tentativa ${i}/${maxTentativas}): ${e.message}`);
+      if (i < maxTentativas) await new Promise(r => setTimeout(r, intervaloMs));
+    }
   }
-  if (ERROS_FATAIS.some(e => msg.toLowerCase().includes(e.toLowerCase()))) {
-    throw Object.assign(new Error(msg), { fatal: true });
-  }
-  if (msg.includes('statement timeout') && batch.length > 1 && depth < 5) {
-    const mid = Math.floor(batch.length / 2);
-    await upsertComSplit(tabela, batch.slice(0, mid), opts, depth + 1);
-    await upsertComSplit(tabela, batch.slice(mid), opts, depth + 1);
-  } else {
-    throw new Error(msg);
-  }
+  throw new Error("Banco não respondeu após aguardar");
 }
 
-// ── Warmup: aguarda Supabase responder antes de começar ──────────
-async function aguardarSupabase(maxTentativas = 10, intervaloMs = 30_000) {
-  for (let i = 1; i <= maxTentativas; i++) {
-    const { error } = await sb.from('marcas').select('processo').limit(1);
-    if (!error) { console.log('  ✓ Supabase pronto'); return; }
-    const msg = error.message || '';
-    if (ERROS_FATAIS.some(e => msg.toLowerCase().includes(e.toLowerCase()))) {
-      throw Object.assign(new Error(msg), { fatal: true });
-    }
-    console.log(`  ⏳ Supabase não pronto (tentativa ${i}/${maxTentativas}): ${msg}`);
-    if (i < maxTentativas) await new Promise(r => setTimeout(r, intervaloMs));
-  }
-  throw new Error('Supabase não respondeu após aguardar');
+// ── Fase 1: INSERT bibliográficos com ON CONFLICT DO UPDATE ───────
+async function upsertMarcasBiblio(batch) {
+  const cols = [
+    "processo", "nome", "apresentacao", "natureza", "tipo",
+    "data_deposito", "data_concessao", "data_vencimento",
+    "situacao", "situacao_codigo", "tem_imagem", "imagem_url_inpi",
+  ];
+  const n = cols.length;
+  const values = [];
+  const placeholders = batch.map((row, i) => {
+    cols.forEach(c => values.push(row[c] ?? null));
+    return "(" + cols.map((_, j) => `$${i * n + j + 1}`).join(",") + ")";
+  }).join(",");
+
+  await pool.query(`
+    INSERT INTO marcas (${cols.join(",")})
+    VALUES ${placeholders}
+    ON CONFLICT (processo) DO UPDATE SET
+      nome             = EXCLUDED.nome,
+      apresentacao     = EXCLUDED.apresentacao,
+      natureza         = EXCLUDED.natureza,
+      tipo             = EXCLUDED.tipo,
+      data_deposito    = EXCLUDED.data_deposito,
+      data_concessao   = EXCLUDED.data_concessao,
+      data_vencimento  = EXCLUDED.data_vencimento,
+      situacao         = EXCLUDED.situacao,
+      situacao_codigo  = EXCLUDED.situacao_codigo
+  `, values);
+}
+
+// ── Fase 2: UPDATE titular via VALUES (só atualiza existentes) ────
+async function upsertMarcasDepositantes(batch) {
+  if (!batch.length) return;
+  const values = [];
+  const rows = batch.map((row, i) => {
+    values.push(row.processo, row.titular ?? null, row.cnpj_cpf ?? null, row.procurador ?? null);
+    const b = i * 4;
+    return `($${b + 1}::text,$${b + 2},$${b + 3},$${b + 4})`;
+  }).join(",");
+
+  await pool.query(`
+    UPDATE marcas SET
+      titular    = v.titular,
+      cnpj_cpf   = v.cnpj_cpf,
+      procurador = v.procurador
+    FROM (VALUES ${rows}) AS v(processo, titular, cnpj_cpf, procurador)
+    WHERE marcas.processo = v.processo
+  `, values);
+}
+
+// ── Fase 3: INSERT despachos ON CONFLICT DO NOTHING ───────────────
+async function upsertDespachos(batch) {
+  const cols = [
+    "processo", "rpi_numero", "rpi_data", "codigo_despacho",
+    "descricao_despacho", "complemento", "payload",
+  ];
+  const n = cols.length;
+  const values = [];
+  const placeholders = batch.map((row, i) => {
+    cols.forEach(c => values.push(row[c] ?? null));
+    return "(" + cols.map((_, j) => `$${i * n + j + 1}`).join(",") + ")";
+  }).join(",");
+
+  await pool.query(`
+    INSERT INTO marcas_despachos (${cols.join(",")})
+    VALUES ${placeholders}
+    ON CONFLICT (processo, rpi_numero, codigo_despacho) DO NOTHING
+  `, values);
 }
 
 // ── Fonte: arquivo local ou URL ───────────────────────────────────
@@ -121,7 +172,6 @@ async function streamCSV(label, nomeArquivo, url, mapRow, onBatch) {
   console.log(`\n▶ ${label}`);
   const source = await abrirFonte(nomeArquivo, url);
 
-  // Verifica statusCode apenas para respostas HTTP (não para ReadStream local)
   if (source.statusCode !== undefined && source.statusCode !== 200) {
     source.destroy();
     throw new Error(`HTTP ${source.statusCode} em ${url}`);
@@ -145,7 +195,6 @@ async function streamCSV(label, nomeArquivo, url, mapRow, onBatch) {
           await onBatch(batch);
           total += batch.length;
         } catch (e) {
-          if (e.fatal) throw e; // aborta imediatamente em erros fatais do Supabase
           console.error(`  ⚠ erro no lote ~${total}: ${e.message}`);
           erros++;
         }
@@ -171,7 +220,6 @@ async function streamCSV(label, nomeArquivo, url, mapRow, onBatch) {
   return { total, erros };
 }
 
-// Retry só faz sentido quando lendo da rede; com arquivo local, não é necessário
 async function streamCSVComRetry(label, nomeArquivo, url, mapRow, onBatch, maxRetries = 5) {
   const tentativas = CSV_DIR ? 1 : maxRetries;
   for (let attempt = 1; attempt <= tentativas; attempt++) {
@@ -198,8 +246,8 @@ function resolverTipo(a) {
 }
 
 // ── Warmup ────────────────────────────────────────────────────────
-console.log('\n⏳ Aguardando Supabase ficar pronto...');
-await aguardarSupabase();
+console.log("\n⏳ Aguardando banco ficar pronto...");
+await aguardarBanco();
 
 // ── Fase 1: Dados Bibliográficos → marcas ────────────────────────
 await streamCSVComRetry(
@@ -225,9 +273,7 @@ await streamCSVComRetry(
       imagem_url_inpi: null,
     };
   },
-  async (batch) => {
-    await upsertComSplit("marcas", batch, { onConflict: "processo" });
-  }
+  async (batch) => { await upsertMarcasBiblio(batch); }
 );
 
 // ── Fase 2: Depositantes → titular, cnpj, procurador ─────────────
@@ -244,9 +290,7 @@ await streamCSVComRetry(
       procurador: (row.nome_representante_legal ?? "").trim() || null,
     };
   },
-  async (batch) => {
-    await upsertComSplit("marcas", batch, { onConflict: "processo" });
-  }
+  async (batch) => { await upsertMarcasDepositantes(batch); }
 );
 
 // ── Fase 3: Despachos (opcional) ──────────────────────────────────
@@ -269,13 +313,9 @@ if (comDespachos) {
         payload:            null,
       };
     },
-    async (batch) => {
-      await upsertComSplit("marcas_despachos", batch, {
-        onConflict: "processo,rpi_numero,codigo_despacho",
-        ignoreDuplicates: true,
-      });
-    }
+    async (batch) => { await upsertDespachos(batch); }
   );
 }
 
+await pool.end();
 console.log("\n=== Importação concluída ===");
