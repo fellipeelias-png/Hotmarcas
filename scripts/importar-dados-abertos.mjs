@@ -31,15 +31,31 @@ dotenv.config({ path: resolve(__dirname, "../.env") });
 
 const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) {
-  console.error("DATABASE_URL não definido.");
+  console.error("ERRO: DATABASE_URL não definido. Adicione o secret no GitHub.");
   process.exit(1);
 }
 
-const pool = new Pool({
-  connectionString: DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-  max: 1,
-});
+// Valida e extrai partes da URL para diagnóstico e para evitar problemas com
+// caracteres especiais na senha quando pg tenta parsear a connectionString.
+let pgConfig;
+try {
+  const u = new URL(DATABASE_URL);
+  console.log(`  → host: ${u.hostname}:${u.port || 5432} | db: ${u.pathname.slice(1)}`);
+  pgConfig = {
+    host:     u.hostname,
+    port:     parseInt(u.port) || 5432,
+    user:     decodeURIComponent(u.username),
+    password: decodeURIComponent(u.password),
+    database: u.pathname.slice(1),
+    ssl:      { rejectUnauthorized: false },
+  };
+} catch (e) {
+  console.error(`ERRO: DATABASE_URL inválido: ${e.message}`);
+  console.error("Formato esperado: postgresql://postgres:SENHA@db.REF.supabase.co:5432/postgres");
+  process.exit(1);
+}
+
+const pool = new Pool({ ...pgConfig, max: 1 });
 
 const BASE = "https://dadosabertos.inpi.gov.br/download/marcas";
 const LOTE = 1000;    // pg direto — sem overhead HTTP, lotes maiores são seguros
