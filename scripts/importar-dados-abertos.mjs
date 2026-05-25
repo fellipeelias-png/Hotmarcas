@@ -36,11 +36,24 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
 
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 const BASE = "https://dadosabertos.inpi.gov.br/download/marcas";
-const LOTE = 300;
+const LOTE = 500;
 const CSV_DIR = process.env.INPI_CSV_DIR || null;
 
 const args = process.argv.slice(2);
 const comDespachos = args.includes("--com-despachos");
+
+// ── Upsert com split recursivo em caso de statement timeout ───────
+async function upsertComSplit(tabela, batch, opts, depth = 0) {
+  const { error } = await sb.from(tabela).upsert(batch, opts);
+  if (!error) return;
+  if (error.message.includes('statement timeout') && batch.length > 1 && depth < 5) {
+    const mid = Math.floor(batch.length / 2);
+    await upsertComSplit(tabela, batch.slice(0, mid), opts, depth + 1);
+    await upsertComSplit(tabela, batch.slice(mid), opts, depth + 1);
+  } else {
+    throw new Error(error.message);
+  }
+}
 
 // ── Fonte: arquivo local ou URL ───────────────────────────────────
 function abrirFonte(nomeArquivo, url) {
@@ -154,55 +167,58 @@ function resolverTipo(a) {
   return a || null;
 }
 
-// ── Fase 1: Dados Bibliográficos → marcas ─────────────────────────
-await streamCSVComRetry(
-  "MARCAS_DADOS_BIBLIOGRAFICOS → marcas",
-  "MARCAS_DADOS_BIBLIOGRAFICOS.csv",
-  `${BASE}/MARCAS_DADOS_BIBLIOGRAFICOS.csv`,
-  (row) => {
-    const nome = (row.elemento_nominativo ?? "").trim();
-    if (!nome || !row.numero_inpi) return null;
-    const ap = (row.descricao_apresentacao ?? "").trim();
-    return {
-      processo:        row.numero_inpi.trim(),
-      nome,
-      apresentacao:    ap || null,
-      natureza:        (row.descricao_natureza ?? "").trim() || null,
-      tipo:            resolverTipo(ap),
-      data_deposito:   row.data_deposito   || null,
-      data_concessao:  row.data_concessao  || null,
-      data_vencimento: row.data_vigencia   || null,
-      situacao:        (row.descricao_situacao ?? "").trim() || null,
-      situacao_codigo: (row.codigo_situacao ?? "").trim()    || null,
-      tem_imagem:      false,
-      imagem_url_inpi: null,
-    };
-  },
-  async (batch) => {
-    const { error } = await sb.from("marcas").upsert(batch, { onConflict: "processo" });
-    if (error) throw new Error(error.message);
-  }
-);
+// ── Fases 1 e 2 em paralelo (colunas disjuntas — sem risco de overwrite) ──
+await Promise.all([
 
-// ── Fase 2: Depositantes → titular, cnpj, procurador ─────────────
-await streamCSVComRetry(
-  "MARCAS_DEPOSITANTES → titular",
-  "MARCAS_DEPOSITANTES.csv",
-  `${BASE}/MARCAS_DEPOSITANTES.csv`,
-  (row) => {
-    if (!row.numero_inpi) return null;
-    return {
-      processo:   row.numero_inpi.trim(),
-      titular:    (row.nome ?? "").trim() || null,
-      cnpj_cpf:   (row.cnpj_cpf_titular ?? "").trim() || null,
-      procurador: (row.nome_representante_legal ?? "").trim() || null,
-    };
-  },
-  async (batch) => {
-    const { error } = await sb.from("marcas").upsert(batch, { onConflict: "processo" });
-    if (error) throw new Error(error.message);
-  }
-);
+  // Fase 1: Dados Bibliográficos → marcas
+  streamCSVComRetry(
+    "MARCAS_DADOS_BIBLIOGRAFICOS → marcas",
+    "MARCAS_DADOS_BIBLIOGRAFICOS.csv",
+    `${BASE}/MARCAS_DADOS_BIBLIOGRAFICOS.csv`,
+    (row) => {
+      const nome = (row.elemento_nominativo ?? "").trim();
+      if (!nome || !row.numero_inpi) return null;
+      const ap = (row.descricao_apresentacao ?? "").trim();
+      return {
+        processo:        row.numero_inpi.trim(),
+        nome,
+        apresentacao:    ap || null,
+        natureza:        (row.descricao_natureza ?? "").trim() || null,
+        tipo:            resolverTipo(ap),
+        data_deposito:   row.data_deposito   || null,
+        data_concessao:  row.data_concessao  || null,
+        data_vencimento: row.data_vigencia   || null,
+        situacao:        (row.descricao_situacao ?? "").trim() || null,
+        situacao_codigo: (row.codigo_situacao ?? "").trim()    || null,
+        tem_imagem:      false,
+        imagem_url_inpi: null,
+      };
+    },
+    async (batch) => {
+      await upsertComSplit("marcas", batch, { onConflict: "processo" });
+    }
+  ),
+
+  // Fase 2: Depositantes → titular, cnpj, procurador
+  streamCSVComRetry(
+    "MARCAS_DEPOSITANTES → titular",
+    "MARCAS_DEPOSITANTES.csv",
+    `${BASE}/MARCAS_DEPOSITANTES.csv`,
+    (row) => {
+      if (!row.numero_inpi) return null;
+      return {
+        processo:   row.numero_inpi.trim(),
+        titular:    (row.nome ?? "").trim() || null,
+        cnpj_cpf:   (row.cnpj_cpf_titular ?? "").trim() || null,
+        procurador: (row.nome_representante_legal ?? "").trim() || null,
+      };
+    },
+    async (batch) => {
+      await upsertComSplit("marcas", batch, { onConflict: "processo" });
+    }
+  ),
+
+]);
 
 // ── Fase 3: Despachos (opcional) ──────────────────────────────────
 if (comDespachos) {
@@ -225,7 +241,7 @@ if (comDespachos) {
       };
     },
     async (batch) => {
-      await sb.from("marcas_despachos").upsert(batch, {
+      await upsertComSplit("marcas_despachos", batch, {
         onConflict: "processo,rpi_numero,codigo_despacho",
         ignoreDuplicates: true,
       });

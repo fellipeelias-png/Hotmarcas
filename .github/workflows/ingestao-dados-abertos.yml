@@ -26,7 +26,7 @@ jobs:
         run: npm install
         working-directory: scripts
 
-      - name: Download CSVs do INPI (com retry e resume)
+      - name: Download CSVs do INPI (paralelo, com retry e resume)
         run: |
           BASE="https://dadosabertos.inpi.gov.br/download/marcas"
           DEST="/tmp/inpi"
@@ -42,20 +42,31 @@ jobs:
                    -q --show-progress \
                    -O "$destino" \
                    "$BASE/$arquivo" && echo "✓ $arquivo baixado" && return 0
-              echo "  conexão perdida, aguardando 60s..."
-              sleep 60
+              echo "  conexão perdida em $arquivo, aguardando 30s..."
+              sleep 30
             done
             echo "✗ Falha ao baixar $arquivo após 10 tentativas"
             return 1
           }
 
-          download_com_retry "MARCAS_DADOS_BIBLIOGRAFICOS.csv"
-          download_com_retry "MARCAS_DEPOSITANTES.csv"
+          # Baixa BIBLIOGRAFICOS e DEPOSITANTES em paralelo
+          download_com_retry "MARCAS_DADOS_BIBLIOGRAFICOS.csv" &
+          PID_BIBLIO=$!
+          download_com_retry "MARCAS_DEPOSITANTES.csv" &
+          PID_DEP=$!
+
           if [ "${{ inputs.com_despachos }}" = "true" ]; then
-            download_com_retry "MARCAS_DESPACHOS.csv"
+            download_com_retry "MARCAS_DESPACHOS.csv" &
+            PID_DESP=$!
           fi
 
-          echo "Tamanhos dos arquivos:"
+          wait $PID_BIBLIO || { echo "✗ BIBLIOGRAFICOS falhou"; exit 1; }
+          wait $PID_DEP    || { echo "✗ DEPOSITANTES falhou";   exit 1; }
+          if [ -n "${PID_DESP:-}" ]; then
+            wait $PID_DESP || { echo "✗ DESPACHOS falhou"; exit 1; }
+          fi
+
+          echo "--- Tamanhos ---"
           ls -lh "$DEST"
 
       - name: Importar Dados Abertos INPI
