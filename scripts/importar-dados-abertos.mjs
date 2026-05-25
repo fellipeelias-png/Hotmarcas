@@ -43,15 +43,23 @@ const args = process.argv.slice(2);
 const comDespachos = args.includes("--com-despachos");
 
 // ── Upsert com split recursivo em caso de statement timeout ───────
+// Erros fatais do Supabase (schema cache, projeto pausado) são re-lançados
+// imediatamente para abortar o stream em vez de continuar sem inserir nada.
+const ERROS_FATAIS = ['schema cache', 'project is paused', 'connection refused', 'ECONNREFUSED'];
+
 async function upsertComSplit(tabela, batch, opts, depth = 0) {
   const { error } = await sb.from(tabela).upsert(batch, opts);
   if (!error) return;
-  if (error.message.includes('statement timeout') && batch.length > 1 && depth < 5) {
+  const msg = error.message || '';
+  if (ERROS_FATAIS.some(e => msg.toLowerCase().includes(e.toLowerCase()))) {
+    throw Object.assign(new Error(msg), { fatal: true });
+  }
+  if (msg.includes('statement timeout') && batch.length > 1 && depth < 5) {
     const mid = Math.floor(batch.length / 2);
     await upsertComSplit(tabela, batch.slice(0, mid), opts, depth + 1);
     await upsertComSplit(tabela, batch.slice(mid), opts, depth + 1);
   } else {
-    throw new Error(error.message);
+    throw new Error(msg);
   }
 }
 
@@ -117,6 +125,7 @@ async function streamCSV(label, nomeArquivo, url, mapRow, onBatch) {
           await onBatch(batch);
           total += batch.length;
         } catch (e) {
+          if (e.fatal) throw e; // aborta imediatamente em erros fatais do Supabase
           console.error(`  ⚠ erro no lote ~${total}: ${e.message}`);
           erros++;
         }
