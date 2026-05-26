@@ -20,9 +20,13 @@ import { parse } from "csv-parse";
 import { createReadStream, existsSync } from "fs";
 import https from "https";
 import http from "http";
+import { setDefaultResultOrder } from "dns";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
+
+// GitHub Actions runners resolvem para IPv6 mas não conseguem rotear até Supabase
+setDefaultResultOrder("ipv4first");
 
 const { Pool } = pg;
 
